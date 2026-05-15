@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Buku Harian Rohani</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   THEME SYSTEM
+═══════════════════════════════════ */
+[data-theme="dark-night"]{--bg:#0d0f14;--surface:#161a24;--surface2:#1e2333;--border:#2a3048;--accent:#7c9ef0;--accent2:#a78bfa;--accent3:#34d399;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;--glow:rgba(124,158,240,.15);--hbg:#161a24;--radius:14px;}
+[data-theme="dark-green"]{--bg:#071a0e;--surface:#0d2a18;--surface2:#153d24;--border:#1e5c34;--accent:#4ade80;--accent2:#86efac;--accent3:#fbbf24;--red:#f87171;--yellow:#fcd34d;--text:#dcfce7;--text2:#86efac;--text3:#4ade80;--glow:rgba(74,222,128,.15);--hbg:#0d2a18;--radius:14px;}
+[data-theme="dark-gold"]{--bg:#0c0900;--surface:#1a1400;--surface2:#2a2100;--border:#4a3800;--accent:#fcd34d;--accent2:#f59e0b;--accent3:#34d399;--red:#f87171;--yellow:#f59e0b;--text:#fefce8;--text2:#fde68a;--text3:#fbbf24;--glow:rgba(252,211,77,.15);--hbg:#1a1400;--radius:14px;}
+[data-theme="light-cream"]{--bg:#fdf6ee;--surface:#fffcf5;--surface2:#f5ede0;--border:#e8d5b7;--accent:#7c4a1e;--accent2:#a16207;--accent3:#166534;--red:#dc2626;--yellow:#92400e;--text:#1c1008;--text2:#44301a;--text3:#a16207;--glow:rgba(124,74,30,.1);--hbg:#fffcf5;--radius:14px;}
+[data-theme="light-sky"]{--bg:#f0f7ff;--surface:#ffffff;--surface2:#e8f2ff;--border:#bfdbfe;--accent:#1d4ed8;--accent2:#7c3aed;--accent3:#059669;--red:#dc2626;--yellow:#b45309;--text:#1e3a5f;--text2:#334155;--text3:#64748b;--glow:rgba(29,78,216,.1);--hbg:#ffffff;--radius:14px;}
+[data-theme="light-rose"]{--bg:#fff1f2;--surface:#ffffff;--surface2:#ffe4e6;--border:#fecdd3;--accent:#be185d;--accent2:#9333ea;--accent3:#059669;--red:#9f1239;--yellow:#b45309;--text:#4a0826;--text2:#831843;--text3:#be185d;--glow:rgba(190,24,93,.1);--hbg:#ffffff;--radius:14px;}
+
+:root{--bg:#0d0f14;--surface:#161a24;--surface2:#1e2333;--border:#2a3048;--accent:#7c9ef0;--accent2:#a78bfa;--accent3:#34d399;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;--glow:rgba(124,158,240,.15);--hbg:#161a24;--radius:14px;}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ═══════════ LOGIN ═══════════ */
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9000;padding:16px;background:radial-gradient(ellipse at 30% 20%, rgba(124,158,240,.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(167,139,250,.1) 0%, transparent 50%), var(--bg);}
+.login-deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.login-deco::before{content:'';position:absolute;top:-10%;right:-5%;width:340px;height:340px;border-radius:50%;border:1px solid rgba(124,158,240,.12);animation:spin1 20s linear infinite;}
+.login-deco::after{content:'';position:absolute;bottom:-10%;left:-5%;width:240px;height:240px;border-radius:50%;border:1px solid rgba(167,139,250,.1);animation:spin1 15s linear infinite reverse;}
+@keyframes spin1{to{transform:rotate(360deg);}}
+.login-card{position:relative;z-index:5;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:2.4rem 2rem;width:100%;max-width:380px;box-shadow:0 0 0 1px rgba(255,255,255,.04), 0 24px 64px rgba(0,0,0,.4);animation:slideUp .6s cubic-bezier(.34,1.56,.64,1);}
+@keyframes slideUp{from{opacity:0;transform:translateY(32px) scale(.96);}to{opacity:1;transform:none;}}
+.login-icon{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 1.2rem;box-shadow:0 8px 24px var(--glow);}
+.login-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:700;text-align:center;color:var(--text);margin-bottom:4px;}
+.login-sub{font-size:.78rem;text-align:center;color:var(--text3);margin-bottom:1.8rem;letter-spacing:.5px;}
+.lf-group{margin-bottom:14px;}
+.lf-label{display:block;font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;}
+.lf-wrap{position:relative;}
+.lf-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.9rem;pointer-events:none;}
+.lf-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 12px 11px 38px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.lf-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+.login-btn{width:100%;padding:13px;margin-top:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.3px;}
+.login-btn:active{transform:scale(.98);opacity:.9;}
+.login-err{display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:9px;padding:8px 12px;font-size:.78rem;text-align:center;margin-top:8px;}
+.login-footer{text-align:center;margin-top:1.2rem;font-size:.68rem;color:var(--text3);}
+
+/* ═══════════ MAIN APP ═══════════ */
+#main-app{display:none;flex-direction:column;height:100vh;height:-webkit-fill-available;}
+header{background:var(--hbg);border-bottom:1px solid var(--border);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-shrink:0;gap:8px;}
+.hdr-left{display:flex;align-items:center;gap:8px;min-width:0;}
+.hdr-pulse{width:7px;height:7px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hdr-title{font-family:'Lora',serif;font-size:.9rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
+.hdr-sub{font-size:.6rem;color:var(--text3);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.hdr-right{display:flex;gap:5px;align-items:center;flex-shrink:0;}
+.icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:all .2s;flex-shrink:0;}
+.icon-btn:hover{background:var(--border);color:var(--text);}
+.icon-btn.danger{color:var(--red);border-color:rgba(248,113,113,.3);}
+#live-clock{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--accent2);background:var(--surface2);padding:3px 7px;border-radius:6px;border:1px solid var(--border);white-space:nowrap;}
+
+/* ═══════════ THEME PANEL ═══════════ */
+#theme-panel{display:none;position:fixed;top:58px;right:10px;z-index:600;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.5);width:270px;}
+.tp-label{font-size:.62rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin:8px 0 6px;}
+.tp-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.tp-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:.72rem;font-weight:600;color:var(--text2);transition:all .2s;}
+.tp-chip:hover,.tp-chip.active{border-color:var(--accent);color:var(--accent);background:var(--glow);}
+.tp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* ═══════════ NAV ═══════════ */
+nav{display:flex;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;scrollbar-width:none;padding:0 8px;gap:2px;min-height:42px;}
+nav::-webkit-scrollbar{display:none;}
+nav button{padding:0 14px;height:42px;border:none;background:none;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;font-weight:600;font-size:.8rem;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
+nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
+nav button:hover:not(.active){color:var(--text2);}
+
+/* ═══════════ CONTENT ═══════════ */
+#app-content-wrapper{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.content-area{padding:14px 14px 90px;}
+
+/* ═══════════ CARDS ═══════════ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.card-title{font-family:'Lora',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);}
+.stat-label{font-size:.68rem;color:var(--text3);margin-top:2px;}
+
+/* ═══════════ FORM ═══════════ */
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+.form-title{font-family:'Lora',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.form-field{margin-bottom:12px;}
+.form-label{display:block;font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+.form-select option{background:var(--surface);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-char{font-size:.65rem;color:var(--text3);text-align:right;margin-top:3px;}
+.form-submit{width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;cursor:pointer;transition:opacity .2s,transform .15s;margin-top:4px;}
+.form-submit:active{transform:scale(.98);}
+
+/* ═══════════ FILTERS ═══════════ */
+.filter-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+.filter-input{flex:1;min-width:120px;padding:8px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.filter-input:focus{border-color:var(--accent);}
+.filter-input option{background:var(--surface);}
+.btn{padding:8px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.btn:hover{background:var(--border);}
+.btn.accent{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.green{background:var(--accent3);color:#fff;border-color:var(--accent3);}
+.btn.red{background:var(--red);color:#fff;border-color:var(--red);}
+
+/* ═══════════ ENTRY CARDS ═══════════ */
+.entry-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:9px;cursor:pointer;transition:border-color .2s,transform .15s;}
+.entry-card:hover{border-color:var(--accent);transform:translateY(-1px);}
+.entry-card-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.entry-card-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px;}
+.entry-card-meta{flex:1;min-width:0;}
+.entry-card-no{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text3);margin-bottom:2px;}
+.entry-card-title{font-family:'Lora',serif;font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.entry-card-date{font-size:.68rem;color:var(--text3);}
+.entry-card-body{font-size:.82rem;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.entry-card-footer{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.badge{display:inline-block;font-size:.63rem;font-weight:700;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;}
+.badge-answered{background:rgba(52,211,153,.2);color:var(--accent3);border:1px solid rgba(52,211,153,.3);}
+.badge-pending{background:rgba(251,191,36,.15);color:var(--yellow);border:1px solid rgba(251,191,36,.25);}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.entry-left-bar{width:3px;border-radius:3px;min-height:60px;flex-shrink:0;align-self:stretch;}
+
+/* ═══════════ DETAIL MODAL ═══════════ */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:800;overflow-y:auto;}
+.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 100px;}
+.modal-close-bar{position:fixed;bottom:0;left:0;width:100%;padding:12px 14px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:7px;z-index:810;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+.modal-close-btn{flex:1;padding:11px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;}
+.detail-field{background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border);margin-bottom:8px;}
+.detail-label{font-size:.63rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.detail-value{font-size:.88rem;color:var(--text);line-height:1.7;white-space:pre-wrap;word-wrap:break-word;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+
+/* ═══════════ FULLSCREEN ═══════════ */
+#fullscreen-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:9998;flex-direction:column;}
+.fs-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--hbg);border-bottom:1px solid var(--border);flex-shrink:0;gap:8px;flex-wrap:wrap;}
+.fs-title{font-family:'Lora',serif;font-size:.9rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fs-controls{display:flex;gap:4px;align-items:center;}
+.fs-btn{padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;}
+.fs-content{flex:1;overflow-y:auto;padding:24px 20px;font-family:'Lora',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;}
+
+/* ═══════════ TOAST ═══════════ */
+#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:9px 18px;font-size:.82rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══════════ UTILS ═══════════ */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
+.section-title{font-family:'Lora',serif;font-weight:700;font-size:.97rem;color:var(--text);}
+.section-count{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text3);background:var(--surface2);padding:3px 9px;border-radius:16px;}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3);}
+.empty-state .icon{font-size:2.8rem;margin-bottom:10px;}
+.empty-state p{font-size:.88rem;line-height:1.7;}
+.shimmer{background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px;height:80px;margin-bottom:9px;}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.action-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+
+/* ═══════════ DASHBOARD EXTRAS ═══════════ */
+.dash-welcome{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);border-radius:var(--radius);padding:20px;margin-bottom:12px;position:relative;overflow:hidden;}
+.dash-welcome::before{content:'📖';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:3rem;opacity:.2;}
+.dash-welcome h2{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.dash-welcome p{font-size:.78rem;color:rgba(255,255,255,.8);}
+.dash-clock{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--accent);text-align:center;margin:8px 0 4px;}
+.dash-date{font-size:.8rem;color:var(--text2);text-align:center;margin-bottom:12px;}
+.recent-entry{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:10px;margin-bottom:7px;cursor:pointer;border:1px solid var(--border);}
+.recent-entry:hover{border-color:var(--accent);}
+.re-icon{font-size:1.2rem;flex-shrink:0;}
+.re-body{flex:1;min-width:0;}
+.re-title{font-weight:700;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.re-sub{font-size:.68rem;color:var(--text3);}
+
+/* ═══════════ PAGINATION ═══════════ */
+.pagination{display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap;padding:14px 0;}
+.pg-btn{min-width:32px;height:32px;padding:0 8px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:.75rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.pg-btn:hover{background:var(--border);}
+.pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pg-btn:disabled{opacity:.4;cursor:default;}
+
+/* ═══════════ ALKITAB SPECIAL ═══════════ */
+.verse-highlight{background:linear-gradient(135deg,var(--glow),transparent);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 10px 10px 0;font-family:'Lora',serif;font-style:italic;font-size:.92rem;color:var(--text);margin:8px 0;}
+</style>
+</head>
+<body data-theme="dark-night">
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-deco"></div>
+  <div class="login-card">
+    <div class="login-icon">📖</div>
+    <h1 class="login-title">Buku Harian Rohani</h1>
+    <p class="login-sub">Catatan doa, kegelisahan & firman-Mu</p>
+    <div class="lf-group">
+      <label class="lf-label">Username</label>
+      <div class="lf-wrap"><span class="lf-icon">👤</span><input type="text" id="l-user" class="lf-input" placeholder="Masukkan username" autocomplete="off"></div>
+    </div>
+    <div class="lf-group">
+      <label class="lf-label">Password</label>
+      <div class="lf-wrap"><span class="lf-icon">🔒</span><input type="password" id="l-pass" class="lf-input" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    </div>
+    <button class="login-btn" onclick="doLogin()">✦ Masuk</button>
+    <div class="login-err" id="login-err">❌ Username atau password salah</div>
+    <div class="login-footer">Hubungi admin untuk pendaftaran akun<br><span style="opacity:.5;font-family:'JetBrains Mono',monospace;font-size:.6rem;">v1.0 · Buku Harian Rohani</span></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app">
+  <header>
+    <div class="hdr-left">
+      <div class="hdr-pulse"></div>
+      <div>
+        <div class="hdr-title" id="hdr-title">Buku Harian</div>
+        <div class="hdr-sub" id="hdr-sub">loading...</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div id="live-clock">--:--</div>
+      <button class="icon-btn" onclick="toggleThemePanel()" id="btn-theme" title="Tema">🎨</button>
+      <button class="icon-btn danger" onclick="doLogout()" title="Keluar">⏻</button>
+    </div>
+  </header>
+
+  <!-- THEME PANEL -->
+  <div id="theme-panel">
+    <div class="tp-label">🌙 Gelap</div>
+    <div class="tp-chips">
+      <div class="tp-chip active" data-t="dark-night" onclick="setTheme('dark-night',this)"><span class="tp-dot" style="background:#161a24;border:1px solid #2a3048;"></span>Malam</div>
+      <div class="tp-chip" data-t="dark-green" onclick="setTheme('dark-green',this)"><span class="tp-dot" style="background:#0d2a18;"></span>Hijau</div>
+      <div class="tp-chip" data-t="dark-gold" onclick="setTheme('dark-gold',this)"><span class="tp-dot" style="background:#1a1400;border:1px solid #fcd34d44;"></span>Emas</div>
+    </div>
+    <div class="tp-label">☀️ Terang</div>
+    <div class="tp-chips">
+      <div class="tp-chip" data-t="light-cream" onclick="setTheme('light-cream',this)"><span class="tp-dot" style="background:#fdf6ee;border:1px solid #e8d5b7;"></span>Krem</div>
+      <div class="tp-chip" data-t="light-sky" onclick="setTheme('light-sky',this)"><span class="tp-dot" style="background:#e8f2ff;border:1px solid #bfdbfe;"></span>Langit</div>
+      <div class="tp-chip" data-t="light-rose" onclick="setTheme('light-rose',this)"><span class="tp-dot" style="background:#ffe4e6;border:1px solid #fecdd3;"></span>Mawar</div>
+    </div>
+  </div>
+
+  <nav id="main-nav"></nav>
+
+  <div id="app-content-wrapper">
+    <div class="content-area" id="app-content"></div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="detail-modal" class="modal-overlay">
+  <div class="modal-panel" id="detail-body"></div>
+  <div class="modal-close-bar">
+    <button class="modal-close-btn" onclick="closeDetail()">← Kembali</button>
+    <button class="modal-close-btn" id="detail-fs-btn" onclick="openDetailFullscreen()" style="background:var(--accent);color:#fff;border-color:var(--accent);">⛶ Layar Penuh</button>
+  </div>
+</div>
+
+<!-- FULLSCREEN -->
+<div id="fullscreen-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title" id="fs-title">Detail</div>
+    <div class="fs-controls">
+      <button class="fs-btn" id="fs-a-minus" onpointerdown="fsFontDown(-1)" onpointerup="fsFontUp()" onpointerleave="fsFontUp()" style="user-select:none;">A−</button>
+      <span id="fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">16px</span>
+      <button class="fs-btn" id="fs-a-plus" onpointerdown="fsFontDown(1)" onpointerup="fsFontUp()" onpointerleave="fsFontUp()" style="user-select:none;">A+</button>
+      <button class="fs-btn" onclick="closeFullscreen()">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-content" id="fs-content"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG — Ganti URL ini setelah deploy Apps Script
+// ═══════════════════════════════════════════════════
+const CFG = {
+  AWAL    : 'GANTI_DENGAN_URL_APPSCRIPT_AWAL',
+  DOA     : 'GANTI_DENGAN_URL_APPSCRIPT_DOA',
+  GELISAH : 'GANTI_DENGAN_URL_APPSCRIPT_GELISAH',
+  ALKITAB : 'GANTI_DENGAN_URL_APPSCRIPT_ALKITAB',
+};
+
+// Warna aksen per modul
+const MODULE_COLOR = {
+  'Doa'     : 'var(--accent)',
+  'Gelisah' : 'var(--accent2)',
+  'Alkitab' : 'var(--accent3)',
+};
+const MODULE_ICON = {
+  'Doa'     : '🙏',
+  'Gelisah' : '💭',
+  'Alkitab' : '📖',
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let currentUser = null;
+let cache = {}; // {modul: [...data]}
+let fsCurrentText = '';
+let fsFontSize = 16;
+let _fontPressTimer = null, _fontPressInterval = null;
+const PER_PAGE = 12;
+let pageState = { Doa:1, Gelisah:1, Alkitab:1 };
+
+// ═══════════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════════
+setInterval(() => {
+  const n = new Date(), pad = x => String(x).padStart(2,'0');
+  const el = document.getElementById('live-clock');
+  if (el) el.textContent = `${pad(n.getDate())}/${pad(n.getMonth()+1)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;
+}, 1000);
+
+// ═══════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════
+function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg, dur=2600){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),dur); }
+function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
+function showDetail(html){ document.getElementById('detail-body').innerHTML=html; document.getElementById('detail-modal').style.display='block'; }
+
+function openDetailFullscreen(){
+  document.getElementById('fullscreen-overlay').style.display='flex';
+  if(document.getElementById('fullscreen-overlay').requestFullscreen)
+    document.getElementById('fullscreen-overlay').requestFullscreen().catch(()=>{});
+}
+function closeFullscreen(){
+  document.getElementById('fullscreen-overlay').style.display='none';
+  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+}
+function fsFontDown(d){
+  fsFontSize = Math.max(10, Math.min(40, fsFontSize + d));
+  const el = document.getElementById('fs-content');
+  const lbl = document.getElementById('fs-font-label');
+  if(el) el.style.fontSize = fsFontSize + 'px';
+  if(lbl) lbl.textContent = fsFontSize + 'px';
+}
+function fsFontUp(){
+  if(_fontPressTimer){ clearTimeout(_fontPressTimer); _fontPressTimer=null; }
+  if(_fontPressInterval){ clearInterval(_fontPressInterval); _fontPressInterval=null; }
+}
+document.getElementById('fs-a-minus').addEventListener('pointerdown', ()=>{
+  _fontPressTimer = setTimeout(()=>{ _fontPressInterval = setInterval(()=>fsFontDown(-1),80); },400);
+});
+document.getElementById('fs-a-plus').addEventListener('pointerdown', ()=>{
+  _fontPressTimer = setTimeout(()=>{ _fontPressInterval = setInterval(()=>fsFontDown(1),80); },400);
+});
+
+function openEntryFullscreen(title, text){
+  document.getElementById('fs-title').textContent = title;
+  document.getElementById('fs-content').textContent = text;
+  document.getElementById('fs-content').style.fontSize = fsFontSize + 'px';
+  document.getElementById('fullscreen-overlay').style.display = 'flex';
+  if(document.getElementById('fullscreen-overlay').requestFullscreen)
+    document.getElementById('fullscreen-overlay').requestFullscreen().catch(()=>{});
+}
+
+function formatDate(dateStr){
+  if(!dateStr) return '-';
+  const d = new Date(dateStr);
+  if(isNaN(d.getTime())) return dateStr;
+  const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function getTodayStr(){
+  const n=new Date(),pad=x=>String(x).padStart(2,'0');
+  return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
+}
+
+function renderPagination(containerId, current, total, onPage){
+  const el = document.getElementById(containerId); if(!el||total<=1){if(el)el.innerHTML='';return;}
+  let html = `<button class="pg-btn" ${current===1?'disabled':''} onclick="(${onPage.toString()})(${current-1})">‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(total>7&&Math.abs(i-current)>2&&i!==1&&i!==total){ if(i===2||i===total-1)html+=`<span style="color:var(--text3);padding:0 3px;">…</span>`; continue; }
+    html+=`<button class="pg-btn${i===current?' active':''}" onclick="(${onPage.toString()})(${i})">${i}</button>`;
+  }
+  html+=`<button class="pg-btn" ${current===total?'disabled':''} onclick="(${onPage.toString()})(${current+1})">›</button>`;
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════════════
+let themePanelOpen = false;
+function toggleThemePanel(){ const p=document.getElementById('theme-panel'); themePanelOpen=!themePanelOpen; p.style.display=themePanelOpen?'block':'none'; }
+function setTheme(t,chip){
+  document.body.setAttribute('data-theme',t);
+  document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));
+  if(chip) chip.classList.add('active');
+  localStorage.setItem('diary_theme',t);
+  themePanelOpen=false; document.getElementById('theme-panel').style.display='none';
+}
+(function(){
+  const t = localStorage.getItem('diary_theme')||'dark-night';
+  document.body.setAttribute('data-theme',t);
+  setTimeout(()=>{const chip=document.querySelector(`.tp-chip[data-t="${t}"]`);if(chip){document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');}},100);
+})();
+document.addEventListener('click', e=>{
+  if(themePanelOpen && !e.target.closest('#theme-panel') && !e.target.closest('#btn-theme')){
+    document.getElementById('theme-panel').style.display='none'; themePanelOpen=false;
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+async function doLogin(){
+  const errEl = document.getElementById('login-err'); errEl.style.display='none';
+  const user = document.getElementById('l-user').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  if(!user||!pass) return toast('⚠️ Isi username dan password');
+  toast('⏳ Memverifikasi...');
+  try {
+    const url = CFG.AWAL + '?action=cek_login&username=' + encodeURIComponent(user) + '&password=' + encodeURIComponent(pass);
+    const r = await fetch(url); const data = await r.json();
+    if(data.status==='ok'){
+      currentUser = data.user || {username:user};
+      currentUser.username = user;
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('main-app').style.display='flex';
+      document.getElementById('hdr-title').textContent = user;
+      document.getElementById('hdr-sub').textContent = data.user?.level || 'pengguna';
+      setupNav(); renderDashboard();
+    } else { errEl.style.display='block'; }
+  } catch(e) {
+    // Mode offline/demo: izinkan login dengan admin/admin
+    if(user==='admin'&&pass==='admin'){
+      currentUser={username:'admin',level:'Demo Mode'};
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('main-app').style.display='flex';
+      document.getElementById('hdr-title').textContent='admin';
+      document.getElementById('hdr-sub').textContent='demo';
+      setupNav(); renderDashboard();
+      toast('⚠️ Mode demo (offline)');
+    } else { errEl.style.display='block'; toast('⚠️ Gagal terhubung server'); }
+  }
+}
+
+function doLogout(){
+  if(!confirm('Yakin ingin keluar?')) return;
+  currentUser=null; cache={};
+  document.getElementById('main-app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('l-user').value='';
+  document.getElementById('l-pass').value='';
+  document.getElementById('login-err').style.display='none';
+  document.getElementById('main-nav').innerHTML='';
+  document.getElementById('app-content').innerHTML='';
+}
+
+// ═══════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════
+const MENUS = [
+  {id:'dashboard', label:'🏠 Beranda'},
+  {id:'doa',       label:'🙏 Doa'},
+  {id:'gelisah',   label:'💭 Kegelisahan'},
+  {id:'alkitab',   label:'📖 Alkitab'},
+];
+function setupNav(){
+  const nav = document.getElementById('main-nav'); nav.innerHTML='';
+  MENUS.forEach((m,idx)=>{
+    const btn = document.createElement('button');
+    btn.textContent = m.label; btn.dataset.id = m.id;
+    btn.onclick=()=>{ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); loadPage(m.id); };
+    nav.appendChild(btn);
+    if(idx===0) setTimeout(()=>btn.click(),50);
+  });
+}
+function loadPage(id){
+  const content = document.getElementById('app-content');
+  content.innerHTML='<div class="shimmer"></div><div class="shimmer" style="height:60px;opacity:.6;"></div>';
+  if(id==='dashboard') { renderDashboard(); return; }
+  const mod = {doa:'Doa', gelisah:'Gelisah', alkitab:'Alkitab'}[id];
+  if(mod) renderModule(mod);
+}
+
+// ═══════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════
+async function renderDashboard(){
+  const content = document.getElementById('app-content');
+  const now = new Date(), pad = x=>String(x).padStart(2,'0');
+  const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const dateStr = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  content.innerHTML=`
+    <div class="dash-welcome">
+      <h2>Selamat datang, ${escHtml(currentUser?.username||'Pengguna')} 🙏</h2>
+      <p>Catat perjalanan rohanimu hari ini</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;text-align:center;">
+      <div class="dash-clock" id="dash-clk">${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}</div>
+      <div class="dash-date">${dateStr}</div>
+    </div>
+    <div class="stat-grid" id="dash-stats">
+      <div class="stat-card"><div class="stat-num" id="s-doa">—</div><div class="stat-label">🙏 Catatan Doa</div></div>
+      <div class="stat-card"><div class="stat-num" id="s-gel">—</div><div class="stat-label">💭 Kegelisahan</div></div>
+      <div class="stat-card"><div class="stat-num" id="s-alk">—</div><div class="stat-label">📖 Alkitab</div></div>
+      <div class="stat-card"><div class="stat-num" id="s-terjawab">—</div><div class="stat-label">✅ Terjawab</div></div>
+    </div>
+    <div class="card" id="dash-recent">
+      <div class="card-title">📌 Catatan Terbaru</div>
+      <div class="shimmer" style="height:55px;"></div><div class="shimmer" style="height:55px;opacity:.6;"></div>
+    </div>`;
+
+  // Live clock
+  const clkEl = document.getElementById('dash-clk');
+  if(clkEl){ const t=setInterval(()=>{ if(!document.getElementById('dash-clk')){clearInterval(t);return;} const n=new Date(); document.getElementById('dash-clk').textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`; },1000); }
+
+  // Load stats
+  await Promise.allSettled([loadCache('Doa'),loadCache('Gelisah'),loadCache('Alkitab')]);
+  const doaData=(cache.Doa||[]);const gelData=(cache.Gelisah||[]);const alkData=(cache.Alkitab||[]);
+  const allTerjawab=[...doaData,...gelData,...alkData].filter(r=>(r.tanggal_jawaban||'').trim()).length;
+  document.getElementById('s-doa').textContent=doaData.length||'0';
+  document.getElementById('s-gel').textContent=gelData.length||'0';
+  document.getElementById('s-alk').textContent=alkData.length||'0';
+  document.getElementById('s-terjawab').textContent=allTerjawab||'0';
+
+  // Recent
+  const allRecent=[
+    ...doaData.slice(-3).map(r=>({...r,_mod:'Doa'})),
+    ...gelData.slice(-3).map(r=>({...r,_mod:'Gelisah'})),
+    ...alkData.slice(-3).map(r=>({...r,_mod:'Alkitab'})),
+  ].sort((a,b)=>new Date(b.tanggal||0)-new Date(a.tanggal||0)).slice(0,6);
+
+  const recentEl=document.getElementById('dash-recent');
+  if(recentEl){
+    recentEl.innerHTML=`<div class="card-title">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`
+      <div class="recent-entry" onclick="openEntryFromData(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+        <div class="re-icon">${MODULE_ICON[r._mod]||'📄'}</div>
+        <div class="re-body">
+          <div class="re-title">${escHtml((r.permintaan||r.nama_alkitab||r.judul||'Tanpa Judul').slice(0,50))}</div>
+          <div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}</div>
+        </div>
+      </div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.<br>Mulai tambahkan catatan pertamamu!</p></div>`);
+  }
+}
+
+function openEntryFromData(r){
+  const mod=r._mod;
+  if(mod==='Doa') openDoaDetail(r);
+  else if(mod==='Gelisah') openGelisahDetail(r);
+  else if(mod==='Alkitab') openAlkitabDetail(r);
+}
+
+// ═══════════════════════════════════════════════════
+// LOAD CACHE
+// ═══════════════════════════════════════════════════
+async function loadCache(mod){
+  const urlMap={Doa:CFG.DOA,Gelisah:CFG.GELISAH,Alkitab:CFG.ALKITAB};
+  const url=urlMap[mod]; if(!url||url.includes('GANTI')){ cache[mod]=cache[mod]||[]; return; }
+  try{
+    const r=await fetch(url+'?action=get_semua&user='+encodeURIComponent(currentUser?.username||''));
+    const data=await r.json();
+    if(data.status==='ok') cache[mod]=data.data||[];
+  }catch(e){ cache[mod]=cache[mod]||[]; }
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER MODULE (shared structure)
+// ═══════════════════════════════════════════════════
+function renderModule(mod){
+  const content = document.getElementById('app-content');
+  const icon=MODULE_ICON[mod]||'📄';
+  const modName={Doa:'Catatan Doa',Gelisah:'Catatan Kegelisahan',Alkitab:'Catatan Alkitab'}[mod]||mod;
+  content.innerHTML=`
+    ${mod==='Doa'?buildDoaForm():mod==='Gelisah'?buildGelisahForm():buildAlkitabForm()}
+    <div class="section-header" style="margin-top:16px;">
+      <span class="section-title">${icon} ${modName}</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="section-count" id="${mod.toLowerCase()}-count">0</span>
+        <button class="btn" onclick="refreshModule('${mod}')">🔄</button>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <input type="text" class="filter-input" id="${mod.toLowerCase()}-search" placeholder="🔍 Cari..." oninput="filterModule('${mod}')">
+      <input type="date" class="filter-input" id="${mod.toLowerCase()}-date-from" style="max-width:140px;" onchange="filterModule('${mod}')">
+      <input type="date" class="filter-input" id="${mod.toLowerCase()}-date-to" style="max-width:140px;" onchange="filterModule('${mod}')">
+      <select class="filter-input" id="${mod.toLowerCase()}-answered" style="max-width:130px;" onchange="filterModule('${mod}')">
+        <option value="">Semua Status</option><option value="answered">✅ Terjawab</option><option value="pending">⏳ Pending</option>
+      </select>
+    </div>
+    <div id="${mod.toLowerCase()}-list"></div>
+    <div id="${mod.toLowerCase()}-pagination" class="pagination"></div>`;
+  loadAndRenderList(mod);
+}
+
+async function loadAndRenderList(mod){
+  await loadCache(mod);
+  filterModule(mod);
+}
+
+async function refreshModule(mod){
+  delete cache[mod]; toast('⏳ Memuat ulang...');
+  await loadCache(mod); filterModule(mod); toast('✅ Data diperbarui');
+}
+
+function filterModule(mod){
+  const ml=mod.toLowerCase();
+  const search=(document.getElementById(ml+'-search')?.value||'').toLowerCase();
+  const dateFrom=document.getElementById(ml+'-date-from')?.value||'';
+  const dateTo=document.getElementById(ml+'-date-to')?.value||'';
+  const answered=document.getElementById(ml+'-answered')?.value||'';
+  let data=[...(cache[mod]||[])];
+  if(search) data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(dateFrom) data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
+  if(dateTo) data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
+  if(answered==='answered') data=data.filter(r=>(r.tanggal_jawaban||'').trim());
+  if(answered==='pending') data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
+  data.reverse(); // newest first
+  const cnt=document.getElementById(ml+'-count');
+  if(cnt) cnt.textContent=data.length+' entri';
+  const total=data.length, pp=PER_PAGE;
+  const totalPages=Math.max(1,Math.ceil(total/pp));
+  if(pageState[mod]>totalPages) pageState[mod]=1;
+  const start=(pageState[mod]-1)*pp;
+  const pageData=data.slice(start,start+pp);
+  renderList(mod,pageData);
+  renderPagination(ml+'-pagination',pageState[mod],totalPages,p=>{pageState[mod]=p;filterModule(mod);document.getElementById(ml+'-list')?.scrollIntoView({behavior:'smooth'});});
+}
+
+function renderList(mod,data){
+  const listEl=document.getElementById(mod.toLowerCase()+'-list');
+  if(!listEl) return;
+  if(!data.length){ listEl.innerHTML=`<div class="empty-state"><div class="icon">${MODULE_ICON[mod]}</div><p>Belum ada catatan.<br>Tambahkan catatan baru di atas!</p></div>`; return; }
+  if(mod==='Doa') listEl.innerHTML=data.map(r=>buildDoaCard(r)).join('');
+  else if(mod==='Gelisah') listEl.innerHTML=data.map(r=>buildGelisahCard(r)).join('');
+  else if(mod==='Alkitab') listEl.innerHTML=data.map(r=>buildAlkitabCard(r)).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// MODUL DOA
+// ═══════════════════════════════════════════════════
+function buildDoaForm(){
+  return `<div class="form-card">
+    <div class="form-title">🙏 Tambah Catatan Doa</div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="doa-tgl" value="${getTodayStr()}"></div>
+      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="doa-no" placeholder="Auto" min="1"></div>
+    </div>
+    <div class="form-field"><label class="form-label">Permintaan Doa</label><textarea class="form-textarea" id="doa-permintaan" rows="3" placeholder="Tulis permintaan doamu..."></textarea></div>
+    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="doa-terang" rows="2" placeholder="Wahyu / firman / perasaan saat berdoa..."></textarea></div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="doa-tgl-jwb"></div>
+      <div class="form-field"><label class="form-label">Status</label><select class="form-select" id="doa-status"><option value="Berdoa">Berdoa</option><option value="Terjawab">Terjawab</option><option value="Proses">Proses</option></select></div>
+    </div>
+    <div class="form-field"><label class="form-label">Catatan Jawaban Doa</label><textarea class="form-textarea" id="doa-catatan-jwb" rows="2" placeholder="Bagaimana doa ini dijawab? (opsional)..."></textarea></div>
+    <button class="form-submit" onclick="submitDoa()" id="doa-submit-btn">🙏 Simpan Catatan Doa</button>
+    <div id="doa-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
+  </div>`;
+}
+
+function buildDoaCard(r){
+  const hasAnswer=(r.tanggal_jawaban||'').trim();
+  return `<div class="entry-card" onclick="openDoaDetail(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+    <div class="entry-card-header">
+      <div class="entry-card-icon">🙏</div>
+      <div style="width:3px;border-radius:3px;background:var(--accent);align-self:stretch;flex-shrink:0;"></div>
+      <div class="entry-card-meta">
+        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}</div>
+        <div class="entry-card-title">${escHtml((r.permintaan||'Tanpa Judul').slice(0,60))}</div>
+        ${r.terang?`<div class="entry-card-body">✨ ${escHtml(r.terang.slice(0,80))}</div>`:''}
+      </div>
+    </div>
+    <div class="entry-card-footer">
+      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'⏳ Berdoa'}</span>
+      ${r.status?`<span style="font-size:.65rem;color:var(--text3);">${escHtml(r.status)}</span>`:''}
+      ${hasAnswer?`<span style="font-size:.65rem;color:var(--accent3);">📅 ${formatDate(r.tanggal_jawaban)}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function openDoaDetail(r){
+  const html=`
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:1.6rem;">🙏</span>
+        <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Doa</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}</div></div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
+      <div class="detail-field"><div class="detail-label">No. Urut</div><div class="detail-value">#${r.no_urut||'-'}</div></div>
+    </div>
+    <div class="detail-field"><div class="detail-label">🙏 Permintaan Doa</div><div class="detail-value">${escHtml(r.permintaan||'-')}</div></div>
+    ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${escHtml(r.terang)}</div></div>`:''}
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${escHtml(r.status||'-')}</div></div>
+      <div class="detail-field"><div class="detail-label">Tanggal Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
+    </div>
+    ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${escHtml(r.catatan_jawaban)}</div></div>`:''}
+    <div style="margin-top:10px;"><button class="btn accent" onclick="copyEntryText(${JSON.stringify(buildDoaText(r)).replace(/"/g,'&quot;')})">📋 Copy</button> <button class="btn" onclick="openEntryFullscreen('Catatan Doa #${r.no_urut||r.tanggal}',${JSON.stringify(buildDoaText(r)).replace(/"/g,'&quot;')})">⛶ Fullscreen</button></div>`;
+  showDetail(html);
+}
+
+function buildDoaText(r){
+  return `📖 CATATAN DOA\n${'─'.repeat(30)}\n📅 Tanggal    : ${formatDate(r.tanggal)}\n🔢 No. Urut   : #${r.no_urut||'-'}\n\n🙏 Permintaan Doa:\n${r.permintaan||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status     : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
+}
+
+async function submitDoa(){
+  const btn=document.getElementById('doa-submit-btn');
+  const msg=document.getElementById('doa-status-msg');
+  const tgl=document.getElementById('doa-tgl')?.value;
+  const permintaan=document.getElementById('doa-permintaan')?.value.trim();
+  if(!tgl||!permintaan){ toast('⚠️ Tanggal dan permintaan wajib diisi'); return; }
+  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
+  const no=document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1);
+  const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''});
+  try{
+    if(CFG.DOA.includes('GANTI')) throw new Error('URL belum diisi');
+    await fetch(CFG.DOA,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
+    toast('✅ Catatan doa tersimpan!');
+    if(msg) msg.textContent='✅ Tersimpan! Memuat ulang...';
+    ['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('doa-tgl').value=getTodayStr();
+    document.getElementById('doa-status').value='Berdoa';
+    setTimeout(async()=>{ await refreshModule('Doa'); if(msg)msg.textContent=''; },1500);
+  }catch(e){ toast('⚠️ URL Apps Script belum dikonfigurasi'); if(msg)msg.textContent='⚠️ Konfigurasi URL dulu'; }
+  finally{ btn.disabled=false; btn.textContent='🙏 Simpan Catatan Doa'; }
+}
+
+// ═══════════════════════════════════════════════════
+// MODUL GELISAH
+// ═══════════════════════════════════════════════════
+function buildGelisahForm(){
+  return `<div class="form-card">
+    <div class="form-title">💭 Tambah Catatan Kegelisahan</div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="gel-tgl" value="${getTodayStr()}"></div>
+      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="gel-no" placeholder="Auto" min="1"></div>
+    </div>
+    <div class="form-field"><label class="form-label">Kegelisahan / Masalah</label><textarea class="form-textarea" id="gel-masalah" rows="3" placeholder="Apa yang membuatmu gelisah atau resah hari ini?..."></textarea></div>
+    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="gel-terang" rows="2" placeholder="Jawaban / firman / kedamaian yang kamu terima..."></textarea></div>
+    <div class="form-field"><label class="form-label">Kategori</label><select class="form-select" id="gel-kategori"><option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option><option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option><option>Iman</option><option>Lainnya</option></select></div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="gel-tgl-jwb"></div>
+      <div class="form-field"><label class="form-label">Status</label><select class="form-select" id="gel-status"><option value="Gelisah">Gelisah</option><option value="Proses">Proses</option><option value="Damai">Damai</option></select></div>
+    </div>
+    <div class="form-field"><label class="form-label">Catatan Jawaban / Penyelesaian</label><textarea class="form-textarea" id="gel-catatan-jwb" rows="2" placeholder="Bagaimana kegelisahan ini diselesaikan?..."></textarea></div>
+    <button class="form-submit" style="background:linear-gradient(135deg,var(--accent2),var(--accent));" onclick="submitGelisah()" id="gel-submit-btn">💭 Simpan Catatan Kegelisahan</button>
+    <div id="gel-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
+  </div>`;
+}
+
+function buildGelisahCard(r){
+  const hasAnswer=(r.tanggal_jawaban||'').trim();
+  const katColors={Keluarga:'#f97316',Pekerjaan:'#3b82f6',Kesehatan:'#10b981',Hubungan:'#ec4899',Keuangan:'#f59e0b',Iman:'#a78bfa',default:'var(--text3)'};
+  const katColor=katColors[r.kategori]||katColors.default;
+  return `<div class="entry-card" onclick="openGelisahDetail(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+    <div class="entry-card-header">
+      <div class="entry-card-icon">💭</div>
+      <div style="width:3px;border-radius:3px;background:var(--accent2);align-self:stretch;flex-shrink:0;"></div>
+      <div class="entry-card-meta">
+        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}</div>
+        <div class="entry-card-title">${escHtml((r.masalah||'Tanpa Judul').slice(0,60))}</div>
+        ${r.terang?`<div class="entry-card-body">✨ ${escHtml(r.terang.slice(0,80))}</div>`:''}
+      </div>
+    </div>
+    <div class="entry-card-footer">
+      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Damai':'💭 Proses'}</span>
+      ${r.kategori?`<span style="font-size:.65rem;font-weight:700;color:${katColor};">${escHtml(r.kategori)}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function openGelisahDetail(r){
+  const html=`
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:1.6rem;">💭</span>
+        <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Kegelisahan</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}</div></div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
+      <div class="detail-field"><div class="detail-label">Kategori</div><div class="detail-value">${escHtml(r.kategori||'-')}</div></div>
+    </div>
+    <div class="detail-field"><div class="detail-label">💭 Kegelisahan / Masalah</div><div class="detail-value">${escHtml(r.masalah||'-')}</div></div>
+    ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${escHtml(r.terang)}</div></div>`:''}
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${escHtml(r.status||'-')}</div></div>
+      <div class="detail-field"><div class="detail-label">Tanggal Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
+    </div>
+    ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${escHtml(r.catatan_jawaban)}</div></div>`:''}
+    <div style="margin-top:10px;"><button class="btn accent" onclick="copyEntryText(${JSON.stringify(buildGelisahText(r)).replace(/"/g,'&quot;')})">📋 Copy</button> <button class="btn" onclick="openEntryFullscreen('Kegelisahan #${r.no_urut||r.tanggal}',${JSON.stringify(buildGelisahText(r)).replace(/"/g,'&quot;')})">⛶ Fullscreen</button></div>`;
+  showDetail(html);
+}
+
+function buildGelisahText(r){
+  return `💭 CATATAN KEGELISAHAN\n${'─'.repeat(30)}\n📅 Tanggal   : ${formatDate(r.tanggal)}\n🔢 No. Urut  : #${r.no_urut||'-'}\n🏷 Kategori  : ${r.kategori||'-'}\n\n💭 Kegelisahan:\n${r.masalah||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status    : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Penyelesaian:\n${r.catatan_jawaban||'-'}`;
+}
+
+async function submitGelisah(){
+  const btn=document.getElementById('gel-submit-btn');
+  const msg=document.getElementById('gel-status-msg');
+  const tgl=document.getElementById('gel-tgl')?.value;
+  const masalah=document.getElementById('gel-masalah')?.value.trim();
+  if(!tgl||!masalah){ toast('⚠️ Tanggal dan kegelisahan wajib diisi'); return; }
+  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
+  const no=document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1);
+  const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''});
+  try{
+    if(CFG.GELISAH.includes('GANTI')) throw new Error('URL belum diisi');
+    await fetch(CFG.GELISAH,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
+    toast('✅ Catatan kegelisahan tersimpan!');
+    if(msg) msg.textContent='✅ Tersimpan!';
+    ['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('gel-tgl').value=getTodayStr();
+    setTimeout(async()=>{ await refreshModule('Gelisah'); if(msg)msg.textContent=''; },1500);
+  }catch(e){ toast('⚠️ URL Apps Script belum dikonfigurasi'); }
+  finally{ btn.disabled=false; btn.textContent='💭 Simpan Catatan Kegelisahan'; }
+}
+
+// ═══════════════════════════════════════════════════
+// MODUL ALKITAB
+// ═══════════════════════════════════════════════════
+function buildAlkitabForm(){
+  return `<div class="form-card">
+    <div class="form-title" style="color:var(--accent3);">📖 Tambah Catatan Alkitab</div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="alk-tgl" value="${getTodayStr()}"></div>
+      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="alk-no" placeholder="Auto" min="1"></div>
+    </div>
+    <div class="form-field"><label class="form-label">Nama / Referensi Alkitab</label><input type="text" class="form-input" id="alk-nama" placeholder="cth: Yohanes 3:16, Mazmur 23..."></div>
+    <div class="form-field"><label class="form-label">Ayat / Bacaan</label><textarea class="form-textarea" id="alk-ayat" rows="3" placeholder="Tulis atau tempel ayat yang dibaca..."></textarea></div>
+    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="alk-terang" rows="3" placeholder="Wahyu, pemahaman, atau pesan dari firman ini..."></textarea></div>
+    <div class="form-field"><label class="form-label">Catatan / Aplikasi</label><textarea class="form-textarea" id="alk-catatan" rows="2" placeholder="Bagaimana menerapkan firman ini dalam hidupmu?..."></textarea></div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Tanggal Terjawab</label><input type="date" class="form-input" id="alk-tgl-jwb"></div>
+      <div class="form-field"><label class="form-label">Tema</label><select class="form-select" id="alk-tema"><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select></div>
+    </div>
+    <div class="form-field"><label class="form-label">Catatan Jawaban Alkitab</label><textarea class="form-textarea" id="alk-catatan-jwb" rows="2" placeholder="Bagaimana firman ini terbukti dalam hidupmu?..."></textarea></div>
+    <button class="form-submit" style="background:linear-gradient(135deg,var(--accent3),#059669);" onclick="submitAlkitab()" id="alk-submit-btn">📖 Simpan Catatan Alkitab</button>
+    <div id="alk-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
+  </div>`;
+}
+
+function buildAlkitabCard(r){
+  const hasAnswer=(r.tanggal_jawaban||'').trim();
+  return `<div class="entry-card" onclick="openAlkitabDetail(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+    <div class="entry-card-header">
+      <div class="entry-card-icon">📖</div>
+      <div style="width:3px;border-radius:3px;background:var(--accent3);align-self:stretch;flex-shrink:0;"></div>
+      <div class="entry-card-meta">
+        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}</div>
+        <div class="entry-card-title">${escHtml((r.nama_alkitab||'Tanpa Judul').slice(0,60))}</div>
+        ${r.ayat?`<div class="entry-card-body" style="font-style:italic;">"${escHtml(r.ayat.slice(0,80))}"</div>`:''}
+      </div>
+    </div>
+    <div class="entry-card-footer">
+      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'📖 Berlanjut'}</span>
+      ${r.tema?`<span style="font-size:.65rem;color:var(--accent3);font-weight:700;">#${escHtml(r.tema)}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function openAlkitabDetail(r){
+  const html=`
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:1.6rem;">📖</span>
+        <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">${escHtml(r.nama_alkitab||'Catatan Alkitab')}</div><div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}</div></div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
+      <div class="detail-field"><div class="detail-label">Tema</div><div class="detail-value">${escHtml(r.tema||'-')}</div></div>
+    </div>
+    ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${escHtml(r.ayat)}</div></div>`:''}
+    ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${escHtml(r.terang)}</div></div>`:''}
+    ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${escHtml(r.catatan)}</div></div>`:''}
+    <div class="detail-grid">
+      <div class="detail-field"><div class="detail-label">Tanggal Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
+    </div>
+    ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${escHtml(r.catatan_jawaban)}</div></div>`:''}
+    <div style="margin-top:10px;"><button class="btn accent" onclick="copyEntryText(${JSON.stringify(buildAlkitabText(r)).replace(/"/g,'&quot;')})">📋 Copy</button> <button class="btn" onclick="openEntryFullscreen('${escHtml(r.nama_alkitab||'Alkitab')}',${JSON.stringify(buildAlkitabText(r)).replace(/"/g,'&quot;')})">⛶ Fullscreen</button></div>`;
+  showDetail(html);
+}
+
+function buildAlkitabText(r){
+  return `📖 CATATAN ALKITAB\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No. Urut: #${r.no_urut||'-'}\n📌 Referensi: ${r.nama_alkitab||'-'}\n🏷 Tema    : ${r.tema||'-'}\n\n📜 Ayat / Bacaan:\n${r.ayat||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📝 Catatan / Aplikasi:\n${r.catatan||'-'}\n\n📅 Tgl Terjawab: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
+}
+
+async function submitAlkitab(){
+  const btn=document.getElementById('alk-submit-btn');
+  const msg=document.getElementById('alk-status-msg');
+  const tgl=document.getElementById('alk-tgl')?.value;
+  const nama=document.getElementById('alk-nama')?.value.trim();
+  if(!tgl||!nama){ toast('⚠️ Tanggal dan referensi alkitab wajib diisi'); return; }
+  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
+  const no=document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1);
+  const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''});
+  try{
+    if(CFG.ALKITAB.includes('GANTI')) throw new Error('URL belum diisi');
+    await fetch(CFG.ALKITAB,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
+    toast('✅ Catatan alkitab tersimpan!');
+    if(msg) msg.textContent='✅ Tersimpan!';
+    ['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('alk-tgl').value=getTodayStr();
+    setTimeout(async()=>{ await refreshModule('Alkitab'); if(msg)msg.textContent=''; },1500);
+  }catch(e){ toast('⚠️ URL Apps Script belum dikonfigurasi'); }
+  finally{ btn.disabled=false; btn.textContent='📖 Simpan Catatan Alkitab'; }
+}
+
+// ═══════════════════════════════════════════════════
+// SHARED
+// ═══════════════════════════════════════════════════
+function copyEntryText(text){
+  navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin'));
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('fullscreen-overlay').style.display==='flex') closeFullscreen();
+    else if(document.getElementById('detail-modal').style.display==='block') closeDetail();
+  }
+});
+</script>
+</body>
+</html>
