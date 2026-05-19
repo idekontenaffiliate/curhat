@@ -14,12 +14,11 @@
 [data-theme="light-sky"]{--bg:#f0f7ff;--surface:#ffffff;--surface2:#e8f2ff;--border:#bfdbfe;--accent:#1d4ed8;--accent2:#7c3aed;--accent3:#059669;--red:#dc2626;--yellow:#b45309;--text:#1e3a5f;--text2:#334155;--text3:#64748b;--glow:rgba(29,78,216,.1);--hbg:#ffffff;--radius:14px;}
 [data-theme="light-rose"]{--bg:#fff1f2;--surface:#ffffff;--surface2:#ffe4e6;--border:#fecdd3;--accent:#be185d;--accent2:#9333ea;--accent3:#059669;--red:#9f1239;--yellow:#b45309;--text:#4a0826;--text2:#831843;--text3:#be185d;--glow:rgba(190,24,93,.1);--hbg:#ffffff;--radius:14px;}
 :root{--bg:#0d0f14;--surface:#161a24;--surface2:#1e2333;--border:#2a3048;--accent:#7c9ef0;--accent2:#a78bfa;--accent3:#34d399;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;--glow:rgba(124,158,240,.15);--hbg:#161a24;--radius:14px;}
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased;}
 
 /* ═══ LOGIN ═══ */
-#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9000;padding:16px;background:radial-gradient(ellipse at 30% 20%,rgba(124,158,240,.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(167,139,250,.1) 0%,transparent 50%),var(--bg);}
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9000;padding:16px;background:radial-gradient(ellipse at 30% 20%,rgba(124,158,240,.12),transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(167,139,250,.1),transparent 50%),var(--bg);}
 .login-deco{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
 .login-deco::before{content:'';position:absolute;top:-10%;right:-5%;width:340px;height:340px;border-radius:50%;border:1px solid rgba(124,158,240,.12);animation:spin1 20s linear infinite;}
 .login-deco::after{content:'';position:absolute;bottom:-10%;left:-5%;width:240px;height:240px;border-radius:50%;border:1px solid rgba(167,139,250,.1);animation:spin1 15s linear infinite reverse;}
@@ -28,20 +27,20 @@ html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color
 @keyframes slideUp{from{opacity:0;transform:translateY(32px) scale(.96);}to{opacity:1;transform:none;}}
 .login-icon{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 1.2rem;box-shadow:0 8px 24px var(--glow);}
 .login-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:700;text-align:center;color:var(--text);margin-bottom:4px;}
-.login-sub{font-size:.78rem;text-align:center;color:var(--text3);margin-bottom:1.8rem;letter-spacing:.5px;}
+.login-sub{font-size:.78rem;text-align:center;color:var(--text3);margin-bottom:1.8rem;}
 .lf-group{margin-bottom:14px;}
 .lf-label{display:block;font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;}
 .lf-wrap{position:relative;}
 .lf-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.9rem;pointer-events:none;}
 .lf-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 12px 11px 38px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s;}
 .lf-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
-.login-btn{width:100%;padding:13px;margin-top:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.3px;}
-.login-btn:active{transform:scale(.98);opacity:.9;}
+.login-btn{width:100%;padding:13px;margin-top:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s,transform .15s;}
+.login-btn:active{transform:scale(.98);}
 .login-btn:disabled{opacity:.6;cursor:not-allowed;}
 .login-err{display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:9px;padding:8px 12px;font-size:.78rem;text-align:center;margin-top:8px;}
 .login-hint{background:rgba(124,158,240,.08);border:1px solid rgba(124,158,240,.2);border-radius:9px;padding:8px 12px;font-size:.72rem;text-align:center;margin-top:10px;color:var(--text3);line-height:1.6;}
 .login-hint b{color:var(--accent);}
-.login-footer{text-align:center;margin-top:1.2rem;font-size:.68rem;color:var(--text3);}
+.login-footer{text-align:center;margin-top:1rem;font-size:.65rem;color:var(--text3);}
 
 /* ═══ MAIN APP ═══ */
 #main-app{display:none;flex-direction:column;height:100vh;height:-webkit-fill-available;}
@@ -49,8 +48,8 @@ header{background:var(--hbg);border-bottom:1px solid var(--border);height:54px;d
 .hdr-left{display:flex;align-items:center;gap:8px;min-width:0;}
 .hdr-pulse{width:7px;height:7px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);animation:pulse 2s infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.hdr-title{font-family:'Lora',serif;font-size:.9rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
-.hdr-sub{font-size:.6rem;color:var(--text3);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.hdr-title{font-family:'Lora',serif;font-size:.9rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;}
+.hdr-sub{font-size:.6rem;color:var(--text3);font-family:'JetBrains Mono',monospace;}
 .hdr-right{display:flex;gap:5px;align-items:center;flex-shrink:0;}
 .icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:all .2s;flex-shrink:0;}
 .icon-btn:hover{background:var(--border);color:var(--text);}
@@ -58,7 +57,7 @@ header{background:var(--hbg);border-bottom:1px solid var(--border);height:54px;d
 #live-clock{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--accent2);background:var(--surface2);padding:3px 7px;border-radius:6px;border:1px solid var(--border);white-space:nowrap;}
 
 /* ═══ THEME PANEL ═══ */
-#theme-panel{display:none;position:fixed;top:58px;right:10px;z-index:600;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.5);width:270px;}
+#theme-panel{display:none;position:fixed;top:58px;right:10px;z-index:600;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.5);width:260px;}
 .tp-label{font-size:.62rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin:8px 0 6px;}
 .tp-chips{display:flex;flex-wrap:wrap;gap:5px;}
 .tp-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:.72rem;font-weight:600;color:var(--text2);transition:all .2s;}
@@ -68,17 +67,15 @@ header{background:var(--hbg);border-bottom:1px solid var(--border);height:54px;d
 /* ═══ NAV ═══ */
 nav{display:flex;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;scrollbar-width:none;padding:0 8px;gap:2px;min-height:42px;}
 nav::-webkit-scrollbar{display:none;}
-nav button{padding:0 14px;height:42px;border:none;background:none;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;font-weight:600;font-size:.8rem;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
+nav button{padding:0 12px;height:42px;border:none;background:none;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;font-weight:600;font-size:.78rem;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
 nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
-nav button:hover:not(.active){color:var(--text2);}
 
 /* ═══ CONTENT ═══ */
 #app-content-wrapper{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.content-area{padding:14px 14px 90px;}
+.content-area{padding:14px 14px 100px;}
 
 /* ═══ CARDS ═══ */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
-.card-title{font-family:'Lora',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
 .stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
 .stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);}
@@ -86,7 +83,7 @@ nav button:hover:not(.active){color:var(--text2);}
 
 /* ═══ FORM ═══ */
 .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
-.form-title{font-family:'Lora',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.form-title{font-family:'Lora',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
 .form-field{margin-bottom:12px;}
 .form-label{display:block;font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
 .form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,box-shadow .2s;}
@@ -100,7 +97,7 @@ nav button:hover:not(.active){color:var(--text2);}
 
 /* ═══ FILTERS ═══ */
 .filter-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
-.filter-input{flex:1;min-width:120px;padding:8px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.filter-input{flex:1;min-width:110px;padding:8px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
 .filter-input:focus{border-color:var(--accent);}
 .filter-input option{background:var(--surface);}
 .btn{padding:8px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;}
@@ -130,6 +127,7 @@ nav button:hover:not(.active){color:var(--text2);}
 .detail-label{font-size:.63rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .detail-value{font-size:.88rem;color:var(--text);line-height:1.7;white-space:pre-wrap;word-wrap:break-word;}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.verse-highlight{background:linear-gradient(135deg,var(--glow),transparent);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 10px 10px 0;font-family:'Lora',serif;font-style:italic;font-size:.92rem;color:var(--text);margin:8px 0;}
 
 /* ═══ FULLSCREEN ═══ */
 #fullscreen-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:9998;flex-direction:column;}
@@ -149,15 +147,13 @@ nav button:hover:not(.active){color:var(--text2);}
 .section-count{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text3);background:var(--surface2);padding:3px 9px;border-radius:16px;}
 .empty-state{text-align:center;padding:40px 20px;color:var(--text3);}
 .empty-state .icon{font-size:2.8rem;margin-bottom:10px;}
-.empty-state p{font-size:.88rem;line-height:1.7;}
 .shimmer{background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px;height:80px;margin-bottom:9px;}
 @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
 ::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
-/* ═══ DASHBOARD EXTRAS ═══ */
-.dash-welcome{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);border-radius:var(--radius);padding:20px;margin-bottom:12px;position:relative;overflow:hidden;}
+/* ═══ DASHBOARD ═══ */
+.dash-welcome{background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:var(--radius);padding:20px;margin-bottom:12px;position:relative;overflow:hidden;}
 .dash-welcome::before{content:'📖';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:3rem;opacity:.2;}
 .dash-welcome h2{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px;}
 .dash-welcome p{font-size:.78rem;color:rgba(255,255,255,.8);}
@@ -177,43 +173,33 @@ nav button:hover:not(.active){color:var(--text2);}
 .pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .pg-btn:disabled{opacity:.4;cursor:default;}
 
-/* ═══ ALKITAB SPECIAL ═══ */
-.verse-highlight{background:linear-gradient(135deg,var(--glow),transparent);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 10px 10px 0;font-family:'Lora',serif;font-style:italic;font-size:.92rem;color:var(--text);margin:8px 0;}
-
-/* ═══ DEMO BANNER ═══ */
-.demo-banner{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;}
-
 /* ═══ PERTANYAAN ═══ */
-.ptny-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;position:relative;}
-.ptny-card-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.ptny-card-meta{flex:1;}
-.ptny-card-nama{font-size:.8rem;font-weight:700;color:var(--text);}
-.ptny-card-waktu{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text3);}
-.ptny-card-topik{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px;color:var(--accent2);}
+.ptny-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
 .ptny-urgensi{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;}
 .ptny-urgensi.Critical{background:rgba(239,68,68,.2);color:#ef4444;border:1px solid rgba(239,68,68,.3);}
 .ptny-urgensi.High{background:rgba(245,158,11,.2);color:#f59e0b;border:1px solid rgba(245,158,11,.3);}
 .ptny-urgensi.Medium{background:rgba(59,130,246,.2);color:#3b82f6;border:1px solid rgba(59,130,246,.3);}
 .ptny-urgensi.Low{background:rgba(16,185,129,.2);color:#10b981;border:1px solid rgba(16,185,129,.3);}
 .ptny-urgensi.Intermesso{background:rgba(139,92,246,.2);color:#8b5cf6;border:1px solid rgba(139,92,246,.3);}
-.ptny-question-text{font-size:.9rem;color:var(--text);line-height:1.5;margin:8px 0;padding:10px;background:var(--surface2);border-radius:8px;}
-.ptny-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.ptny-answer-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:8px;font-size:.82rem;color:var(--text2);}
+.ptny-answer-label{font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:4px;}
+.ptny-stats-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
 .ptny-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;}
 .ptny-stat-num{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--accent);}
 .ptny-stat-label{font-size:.6rem;color:var(--text3);margin-top:2px;}
-.ptny-answer-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:8px;font-size:.82rem;color:var(--text2);}
-.ptny-answer-label{font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:4px;}
-.ptny-rating{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
-.ptny-stars{font-size:1rem;letter-spacing:1px;}
+.ptny-jawab-row{background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px;margin-top:8px;}
+.ptny-jawab-row input,.ptny-jawab-row select,.ptny-jawab-row textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;margin-bottom:6px;}
+.ptny-jawab-row textarea{resize:vertical;min-height:60px;}
 
 /* ═══ INFO BOX ═══ */
 .info-box{background:rgba(124,158,240,.08);border:1px solid rgba(124,158,240,.2);border-radius:10px;padding:12px;font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:12px;}
 .info-box b{color:var(--accent);}
-
-/* ═══ LOADING STATE ═══ */
 .loading-state{text-align:center;padding:30px 20px;color:var(--text3);}
 .spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ═══ KEPUTUSAN ═══ */
+.kep-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:5px;text-transform:uppercase;margin-top:4px;}
 </style>
 </head>
 <body data-theme="dark-night">
@@ -223,8 +209,8 @@ nav button:hover:not(.active){color:var(--text2);}
   <div class="login-deco"></div>
   <div class="login-card">
     <div class="login-icon">📖</div>
-    <h1 class="login-title">Catatan Harian Pribadi</h1>
-    <p class="login-sub">Catatan doa, kegelisahan &amp; firman-Mu</p>
+    <h1 class="login-title">Buku Harian Rohani</h1>
+    <p class="login-sub">Catatan doa, kegelisahan &amp; firman Tuhan</p>
     <div class="lf-group">
       <label class="lf-label">Username</label>
       <div class="lf-wrap">
@@ -242,12 +228,10 @@ nav button:hover:not(.active){color:var(--text2);}
     <button class="login-btn" id="login-btn" onclick="doLogin()">✦ Masuk</button>
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-hint">
-      💡 Login menggunakan akun yang terdaftar di Google Spreadsheet.<br>
-      <span style="opacity:.7;">Demo: <b>admin</b> / <b>admin</b> jika koneksi gagal</span>
+      💡 Login melalui akun Google Spreadsheet.<br>
+      Demo lokal: <b>admin</b> / <b>admin</b>
     </div>
-    <div class="login-footer">
-      <span style="opacity:.5;font-family:'JetBrains Mono',monospace;font-size:.6rem;">v2.1 · Buku Harian Rohani</span>
-    </div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v1.0 · Buku Harian Rohani</div>
   </div>
 </div>
 
@@ -296,7 +280,7 @@ nav button:hover:not(.active){color:var(--text2);}
   <div class="modal-panel" id="detail-body"></div>
   <div class="modal-close-bar">
     <button class="modal-close-btn" onclick="closeDetail()">← Kembali</button>
-    <button class="modal-close-btn" id="detail-fs-btn" onclick="openDetailFullscreen()" style="background:var(--accent);color:#fff;border-color:var(--accent);">⛶ Layar Penuh</button>
+    <button class="modal-close-btn" id="detail-fs-btn" onclick="openDetailFullscreen()" style="background:var(--accent);color:#fff;border-color:var(--accent);">⛶ Fullscreen</button>
   </div>
 </div>
 
@@ -318,262 +302,139 @@ nav button:hover:not(.active){color:var(--text2);}
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// CONFIG — Pola URL seperti aplikasi gereja
-// ═══════════════════════════════════════════════════
-const URLS = {
-  Awal: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSplYP8o_2Nfu8H3TLlrodFzARIM2fjpTMZq6mbF2bL9cDer_ktFOGPClbqAwLhDJVeq_F7SI_AYVnP/pub?output=csv",
-  Pertanyaan: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNlkzeC1qTvHxfCcut_PKzEYGqYruH1ns9FbmF2Kuju3K0FodjsOcvIwzk6MAvuzJZewjwASu_wRlZ/pub?output=csv",
-  // Tambahkan URL CSV lain di sini sesuai kebutuhan
-  // Doa: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUP9PHhlxDoXbccBBp_Br6VhVpAGwJbg-0ltcsSNbqMKaolpI97LIckaSp706PYcdJIII0I73Ebo8n/pub?output=csv",
-  // Gelisah: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8BQMI5Xyx5KpatFPzJffYa6HtZSDKq3bZ3M4xUvO1g3x_zW_X2wnvLDR5nA13dYeVNBAG9JcRApaU/pub?output=csv",
-  // Alkitab: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuzb1kU_nRifBhB32ANIJmjsXbXWVciIw-iJqP14GakkZVipQfAhyfURG7EMRprHZcu2aBg7XJzdnF/pub?output=csv",
-};
+// ══════════════════════════════════════════════════
+// CONFIG — Ganti URL ini dengan Apps Script Anda
+// ══════════════════════════════════════════════════
+const APPS_SCRIPT_LOGIN    = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
+const APPS_SCRIPT_DOA      = "https://script.google.com/macros/s/AKfycbx3ui_qwcIi_gO-eqaGMRIIg6qO5NJeg5X7NsTctWRo7lIvTzSw0CdXLZPuvpCnM0hXOw/exec";
+const APPS_SCRIPT_GELISAH  = "https://script.google.com/macros/s/AKfycbxt8glgHa0L1Fqaybe1zgkI9rpnM085lgCQv6jB_B1qHXXk2mUl44hL0wZXCGnmXGpmVA/exec";
 
-// Apps Script URLs
-const APPS_SCRIPT_AWAL = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
-const APPS_SCRIPT_PERTANYAAN = "https://script.google.com/macros/s/AKfycbwznGaXSnUWYdm7zc01KzVZ8ZobQrNoJRGxbjO-bKdozMJMwmODrMPzRvuYs3I3F-s/exec";
-// Tambahkan Apps Script lain sesuai kebutuhan:
-const APPS_SCRIPT_DOA = "https://script.google.com/macros/s/AKfycbx3ui_qwcIi_gO-eqaGMRIIg6qO5NJeg5X7NsTctWRo7lIvTzSw0CdXLZPuvpCnM0hXOw/exec";
-const APPS_SCRIPT_GELISAH = "https://script.google.com/macros/s/AKfycbxt8glgHa0L1Fqaybe1zgkI9rpnM085lgCQv6jB_B1qHXXk2mUl44hL0wZXCGnmXGpmVA/exec";
-const APPS_SCRIPT_ALKITAB = "https://script.google.com/macros/s/AKfycbwEqj2gij0Cp3AivYvrcnAsYU1W2tE6-JhJhxcWnHN5cqyj-em5acHv0bYZk2OciRIBRQ/exec";
+const APPS_SCRIPT_ALKITAB  = "https://script.google.com/macros/s/AKfycbwEqj2gij0Cp3AivYvrcnAsYU1W2tE6-JhJhxcWnHN5cqyj-em5acHv0bYZk2OciRIBRQ/exec";
+const APPS_SCRIPT_PTNY     = "https://script.google.com/macros/s/AKfycbwznGaXSnUWYdm7zc01KzVZ8ZobQrNoJRGxbjO-bKdozMJMwmODrMPzRvuYs3I3F-s/exec";
 
-// ═══════════════════════════════════════════════════
-// MODULE CONFIG
-// ═══════════════════════════════════════════════════
-const MODULE_COLOR = { Doa:'var(--accent)', Gelisah:'var(--accent2)', Alkitab:'var(--accent3)', Pertanyaan:'var(--accent2)' };
-const MODULE_ICON  = { Doa:'🙏', Gelisah:'💭', Alkitab:'📖',Pertanyaan:'📖' };
 
-// ═══════════════════════════════════════════════════
+// CSV Google Sheet (opsional, sebagai fallback read-only)
+const CSV_DOA     = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUP9PHhlxDoXbccBBp_Br6VhVpAGwJbg-0ltcsSNbqMKaolpI97LIckaSp706PYcdJIII0I73Ebo8n/pub?output=csv";
+const CSV_GELISAH = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8BQMI5Xyx5KpatFPzJffYa6HtZSDKq3bZ3M4xUvO1g3x_zW_X2wnvLDR5nA13dYeVNBAG9JcRApaU/pub?output=csv";
+const CSV_ALKITAB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuzb1kU_nRifBhB32ANIJmjsXbXWVciIw-iJqP14GakkZVipQfAhyfURG7EMRprHZcu2aBg7XJzdnF/pub?output=csv";
+const CSV_PTNY    = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNlkzeC1qTvHxfCcut_PKzEYGqYruH1ns9FbmF2Kuju3K0FodjsOcvIwzk6MAvuzJZewjwASu_wRlZ/pub?output=csv";
+
+// ══════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 let currentUser = null;
 let cache = {};
 let fsFontSize = 16;
-let _fontPressTimer = null, _fontPressInterval = null;
-const PER_PAGE = 12;
-let pageState = { Doa:1, Gelisah:1, Alkitab:1, Pertanyaan:1 };
 let isDemoMode = false;
+const PER_PAGE = 10;
+let pageState = { Doa:1, Gelisah:1, Alkitab:1, Pertanyaan:1 };
+let _fontPressTimer = null, _fontPressInterval = null;
 
-// ═══════════════════════════════════════════════════
-// CLOCK
-// ═══════════════════════════════════════════════════
-setInterval(() => {
-  const n=new Date(), pad=x=>String(x).padStart(2,'0');
-  const el=document.getElementById('live-clock');
-  if(el) el.textContent=`${pad(n.getDate())}/${pad(n.getMonth()+1)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;
-}, 1000);
+// ══════════════════════════════════════════════════
+// DEMO DATA
+// ══════════════════════════════════════════════════
+const DEMO = {
+  Doa:[
+    {no_urut:1,tanggal:'2025-01-10',permintaan:'Doa untuk kesehatan keluarga agar selalu diberkati.',terang:'Yesaya 41:10 — Jangan takut, sebab Aku menyertai engkau.',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh, Tuhan sungguh baik.'},
+    {no_urut:2,tanggal:'2025-02-14',permintaan:'Doa untuk pekerjaan dan karir yang Tuhan siapkan.',terang:'Yeremia 29:11 — Aku tahu rancangan-Ku tentang kamu.',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:''},
+    {no_urut:3,tanggal:'2025-03-01',permintaan:'Doa agar diberikan hikmat dalam setiap keputusan.',terang:'Yakobus 1:5 — Mintalah hikmat kepada Allah.',tanggal_jawaban:'2025-03-20',status:'Terjawab',catatan_jawaban:'Mendapat kejelasan arah hidup.'},
+  ],
+  Gelisah:[
+    {no_urut:1,tanggal:'2025-01-15',masalah:'Gelisah tentang masa depan pekerjaan yang belum pasti.',terang:'Filipi 4:6-7 — Nyatakanlah keinginanmu kepada Allah.',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai yang melampaui segala akal.'},
+    {no_urut:2,tanggal:'2025-02-20',masalah:'Kecemasan tentang hubungan yang sedang dalam proses pemulihan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:''},
+  ],
+  Alkitab:[
+    {no_urut:1,tanggal:'2025-01-05',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku, takkan kekurangan aku.',terang:'Tuhan memimpin dan memelihara hidupku.',catatan:'Percayakan setiap langkah kepada Tuhan.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:''},
+    {no_urut:2,tanggal:'2025-01-20',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah akan dunia ini...',terang:'Kasih Allah begitu besar sehingga Ia mengorbankan Anak-Nya.',catatan:'Hidup dalam kasih dan syukur.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Sungguh merasakan kasih Tuhan.'},
+  ],
+  Pertanyaan:[]
+};
 
-// ═══════════════════════════════════════════════════
-// CSV PARSER
-// ═══════════════════════════════════════════════════
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  if (lines.length < 2) return [];
-  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g,'_'));
-  return lines.slice(1).map(line => {
-    // Handle quoted fields with commas
-    const cols = [];
-    let cur = '', inQ = false;
-    for (let c of line) {
-      if (c === '"') inQ = !inQ;
-      else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-      else cur += c;
-    }
-    cols.push(cur.trim());
-    const obj = {};
-    headers.forEach((h, i) => { obj[h] = (cols[i] || '').replace(/^"|"$/g,'').trim(); });
-    return obj;
-  }).filter(r => Object.values(r).some(v => v));
-}
-
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // UTILS
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function toast(msg,dur=2600){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),dur); }
 function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
 function showDetail(html){ document.getElementById('detail-body').innerHTML=html; document.getElementById('detail-modal').style.display='block'; }
+function getTodayStr(){ const n=new Date(),pad=x=>String(x).padStart(2,'0'); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; }
+function formatDate(s){ if(!s)return'-'; const d=new Date(s); if(isNaN(d.getTime()))return s; const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; }
+function parseCSV(txt){ const lines=txt.trim().split('\n'); if(lines.length<2)return []; const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase().replace(/\s+/g,'_')); return lines.slice(1).map(line=>{ const cols=[]; let cur='',inQ=false; for(let c of line){ if(c==='"')inQ=!inQ; else if(c===','&&!inQ){cols.push(cur.trim());cur='';} else cur+=c; } cols.push(cur.trim()); const obj={}; headers.forEach((h,i)=>{obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();}); return obj; }).filter(r=>Object.values(r).some(v=>v)); }
 
+// ══════════════════════════════════════════════════
+// FULLSCREEN
+// ══════════════════════════════════════════════════
 function openDetailFullscreen(){
   document.getElementById('fullscreen-overlay').style.display='flex';
   document.getElementById('fullscreen-overlay').requestFullscreen?.().catch(()=>{});
 }
-function closeFullscreen(){
-  document.getElementById('fullscreen-overlay').style.display='none';
-  if(document.fullscreenElement) document.exitFullscreen?.().catch(()=>{});
-}
-function fsFontChange(d){
-  fsFontSize=Math.max(10,Math.min(40,fsFontSize+d));
-  const el=document.getElementById('fs-content');
-  const lbl=document.getElementById('fs-font-label');
-  if(el) el.style.fontSize=fsFontSize+'px';
-  if(lbl) lbl.textContent=fsFontSize+'px';
-}
+function closeFullscreen(){ document.getElementById('fullscreen-overlay').style.display='none'; if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{}); }
+function fsFontChange(d){ fsFontSize=Math.max(10,Math.min(40,fsFontSize+d)); const el=document.getElementById('fs-content'),lbl=document.getElementById('fs-font-label'); if(el)el.style.fontSize=fsFontSize+'px'; if(lbl)lbl.textContent=fsFontSize+'px'; }
 document.getElementById('fs-a-minus').addEventListener('click',()=>fsFontChange(-1));
 document.getElementById('fs-a-plus').addEventListener('click',()=>fsFontChange(1));
 document.getElementById('fs-a-minus').addEventListener('pointerdown',()=>{_fontPressTimer=setTimeout(()=>{_fontPressInterval=setInterval(()=>fsFontChange(-1),80);},400);});
 document.getElementById('fs-a-plus').addEventListener('pointerdown',()=>{_fontPressTimer=setTimeout(()=>{_fontPressInterval=setInterval(()=>fsFontChange(1),80);},400);});
-['pointerup','pointerleave'].forEach(ev=>{
-  document.getElementById('fs-a-minus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);});
-  document.getElementById('fs-a-plus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);});
-});
+['pointerup','pointerleave'].forEach(ev=>{ document.getElementById('fs-a-minus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);}); document.getElementById('fs-a-plus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);}); });
+function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title; document.getElementById('fs-content').textContent=text; document.getElementById('fs-content').style.fontSize=fsFontSize+'px'; document.getElementById('fullscreen-overlay').style.display='flex'; document.getElementById('fullscreen-overlay').requestFullscreen?.().catch(()=>{}); }
+function copyText(text){ navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin')); }
 
-function openEntryFullscreen(title,text){
-  document.getElementById('fs-title').textContent=title;
-  document.getElementById('fs-content').textContent=text;
-  document.getElementById('fs-content').style.fontSize=fsFontSize+'px';
-  document.getElementById('fullscreen-overlay').style.display='flex';
-  document.getElementById('fullscreen-overlay').requestFullscreen?.().catch(()=>{});
-}
+// ══════════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════════
+setInterval(()=>{ const n=new Date(),pad=x=>String(x).padStart(2,'0'); const el=document.getElementById('live-clock'); if(el)el.textContent=`${pad(n.getDate())}/${pad(n.getMonth()+1)} ${pad(n.getHours())}:${pad(n.getMinutes())}`; },1000);
 
-function formatDate(dateStr){
-  if(!dateStr) return '-';
-  const d=new Date(dateStr);
-  if(isNaN(d.getTime())) return dateStr;
-  const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-}
-function getTodayStr(){
-  const n=new Date(),pad=x=>String(x).padStart(2,'0');
-  return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
-}
-
-function renderPagination(containerId,current,total,onPageFn){
-  const el=document.getElementById(containerId);
-  if(!el||total<=1){if(el)el.innerHTML='';return;}
-  let html=`<button class="pg-btn" ${current===1?'disabled':''} onclick="(${onPageFn.toString()})(${current-1})">‹</button>`;
-  for(let i=1;i<=total;i++){
-    if(total>7&&Math.abs(i-current)>2&&i!==1&&i!==total){if(i===2||i===total-1)html+=`<span style="color:var(--text3);padding:0 3px;">…</span>`;continue;}
-    html+=`<button class="pg-btn${i===current?' active':''}" onclick="(${onPageFn.toString()})(${i})">${i}</button>`;
-  }
-  html+=`<button class="pg-btn" ${current===total?'disabled':''} onclick="(${onPageFn.toString()})(${current+1})">›</button>`;
-  el.innerHTML=html;
-}
-
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // THEME
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 let themePanelOpen=false;
-function toggleThemePanel(){
-  const p=document.getElementById('theme-panel');
-  themePanelOpen=!themePanelOpen;
-  p.style.display=themePanelOpen?'block':'none';
-}
-function setTheme(t,chip){
-  document.body.setAttribute('data-theme',t);
-  document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));
-  if(chip) chip.classList.add('active');
-  localStorage.setItem('diary_theme',t);
-  themePanelOpen=false; document.getElementById('theme-panel').style.display='none';
-}
-(function(){
-  const t=localStorage.getItem('diary_theme')||'dark-night';
-  document.body.setAttribute('data-theme',t);
-  setTimeout(()=>{const chip=document.querySelector(`.tp-chip[data-t="${t}"]`);if(chip){document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');}},100);
-})();
-document.addEventListener('click',e=>{
-  if(themePanelOpen&&!e.target.closest('#theme-panel')&&!e.target.closest('#btn-theme')){
-    document.getElementById('theme-panel').style.display='none';themePanelOpen=false;
-  }
-});
+function toggleThemePanel(){ const p=document.getElementById('theme-panel'); themePanelOpen=!themePanelOpen; p.style.display=themePanelOpen?'block':'none'; }
+function setTheme(t,chip){ document.body.setAttribute('data-theme',t); document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active')); if(chip)chip.classList.add('active'); localStorage.setItem('bhr_theme',t); themePanelOpen=false; document.getElementById('theme-panel').style.display='none'; }
+(function(){ const t=localStorage.getItem('bhr_theme')||'dark-night'; document.body.setAttribute('data-theme',t); setTimeout(()=>{ const chip=document.querySelector(`.tp-chip[data-t="${t}"]`); if(chip){document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');} },100); })();
+document.addEventListener('click',e=>{ if(themePanelOpen&&!e.target.closest('#theme-panel')&&!e.target.closest('#btn-theme')){ document.getElementById('theme-panel').style.display='none'; themePanelOpen=false; } });
 
-// ═══════════════════════════════════════════════════
-// AUTH — Login via CSV Google Sheet Awal
-// ═══════════════════════════════════════════════════
-function handleLoginKey(e){ if(e.key==='Enter') doLogin(); }
-document.getElementById('l-user').addEventListener('keydown', handleLoginKey);
-document.getElementById('l-pass').addEventListener('keydown', handleLoginKey);
+// ══════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════
+document.getElementById('l-user').addEventListener('keydown',e=>{ if(e.key==='Enter')doLogin(); });
+document.getElementById('l-pass').addEventListener('keydown',e=>{ if(e.key==='Enter')doLogin(); });
 
 async function doLogin(){
-  const btn=document.getElementById('login-btn');
-  const errEl=document.getElementById('login-err');
+  const btn=document.getElementById('login-btn'),errEl=document.getElementById('login-err');
   errEl.style.display='none';
   const user=document.getElementById('l-user').value.trim();
   const pass=document.getElementById('l-pass').value.trim();
   if(!user||!pass){ toast('⚠️ Isi username dan password'); return; }
-
   btn.disabled=true; btn.textContent='⏳ Memverifikasi...';
 
-  // ── Coba login via Apps Script dulu (lebih aman) ──
-  const isAppsScriptOK = APPS_SCRIPT_AWAL && !APPS_SCRIPT_AWAL.includes('GANTI') && APPS_SCRIPT_AWAL.startsWith('https://');
-  if(isAppsScriptOK){
+  // Coba Apps Script login
+  const asOK = APPS_SCRIPT_LOGIN && !APPS_SCRIPT_LOGIN.includes('GANTI');
+  if(asOK){
     try{
-      const url=`${APPS_SCRIPT_AWAL}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
+      const url=`${APPS_SCRIPT_LOGIN}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
       const r=await fetch(url);
       const data=await r.json();
-      if(data.status==='ok'){
-        isDemoMode=false;
-        currentUser=data.user||{};
-        currentUser.username=user;
-        masukApp(user, data.user?.level||'Pengguna');
-        return;
-      } else {
-        errEl.style.display='block';
-        btn.disabled=false; btn.textContent='✦ Masuk';
-        return;
-      }
-    }catch(e){
-      console.warn('Apps Script gagal, coba CSV...', e);
-    }
+      if(data.status==='ok'){ isDemoMode=false; currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})}; masukApp(user,currentUser.level); return; }
+      else { errEl.style.display='block'; btn.disabled=false; btn.textContent='✦ Masuk'; return; }
+    }catch(e){ console.warn('Login AS gagal, fallback demo'); }
   }
 
-  // ── Fallback: Login via CSV Google Sheet Awal ──
-  const isCsvOK = URLS.Awal && URLS.Awal.startsWith('https://');
-  if(isCsvOK){
-    try{
-      const r = await fetch(URLS.Awal);
-      const text = await r.text();
-      const rows = parseCSV(text);
-      // Cari kolom username dan password (case-insensitive)
-      const found = rows.find(row => {
-        const u = row['username'] || row['Username'] || row['USER'] || Object.values(row)[0] || '';
-        const p = row['password'] || row['Password'] || row['PASSWORD'] || Object.values(row)[1] || '';
-        return u.toLowerCase()===user.toLowerCase() && p===pass;
-      });
-      if(found){
-        isDemoMode=false;
-        const level = found['level'] || found['Level'] || found['tipe'] || found['Tipe'] || 'Pengguna';
-        currentUser = { username:user, level, ...found };
-        masukApp(user, level);
-        return;
-      } else {
-        errEl.style.display='block';
-        btn.disabled=false; btn.textContent='✦ Masuk';
-        toast('❌ Username atau password salah');
-        return;
-      }
-    }catch(e){
-      console.warn('CSV login gagal:', e);
-    }
-  }
-
-  // ── Demo mode fallback ──
-  if(user==='admin'&&pass==='admin'){
-    isDemoMode=true;
-    currentUser={username:'admin',level:'Demo Mode'};
-    masukApp('admin','Demo Mode');
-    toast('⚠️ Mode demo — data tidak tersimpan ke Spreadsheet');
-  } else {
-    errEl.style.display='block';
-    btn.disabled=false; btn.textContent='✦ Masuk';
-    toast('❌ Login gagal. Periksa koneksi atau username/password.');
-  }
+  // Demo fallback
+  if(user==='admin'&&pass==='admin'){ isDemoMode=true; currentUser={username:'admin',level:'Demo Mode'}; masukApp('admin','Demo Mode'); toast('⚠️ Mode demo aktif'); }
+  else { errEl.style.display='block'; btn.disabled=false; btn.textContent='✦ Masuk'; }
 }
 
-function masukApp(username, level){
+function masukApp(username,level){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-app').style.display='flex';
   document.getElementById('hdr-title').textContent=username;
   document.getElementById('hdr-sub').textContent=level;
   document.getElementById('login-btn').disabled=false;
   document.getElementById('login-btn').textContent='✦ Masuk';
-  setupNav(); renderDashboard();
+  setupNav(); loadPage('dashboard');
 }
 
 function doLogout(){
-  if(!confirm('Yakin ingin keluar?')) return;
+  if(!confirm('Yakin ingin keluar?'))return;
   currentUser=null; cache={}; isDemoMode=false;
   document.getElementById('main-app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
@@ -584,88 +445,60 @@ function doLogout(){
   document.getElementById('app-content').innerHTML='';
 }
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // NAV
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 const MENUS=[
-  {id:'dashboard',  label:'🏠 Beranda'},
-  {id:'doa',        label:'🙏 Doa'},
-  {id:'gelisah',    label:'💭 Kegelisahan'},
-  {id:'alkitab',    label:'📖 Alkitab'},
-  {id:'pertanyaan', label:'❓ Pertanyaan'},
+  {id:'dashboard',label:'🏠 Beranda'},
+  {id:'doa',label:'🙏 Catatan Doa'},
+  {id:'gelisah',label:'💭 Kegelisahan'},
+  {id:'alkitab',label:'📖 Alkitab'},
+  {id:'pertanyaan',label:'❓ Pertanyaan'},
+  {id:'hasil',label:'📋 Hasil Pertanyaan'},
 ];
 function setupNav(){
   const nav=document.getElementById('main-nav'); nav.innerHTML='';
-  MENUS.forEach((m,idx)=>{
-    const btn=document.createElement('button');
-    btn.textContent=m.label; btn.dataset.id=m.id;
-    btn.onclick=()=>{
-      document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active'); loadPage(m.id);
-    };
+  MENUS.forEach(m=>{
+    const btn=document.createElement('button'); btn.textContent=m.label; btn.dataset.id=m.id;
+    btn.onclick=()=>{ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); loadPage(m.id); };
     nav.appendChild(btn);
-    if(idx===0) setTimeout(()=>btn.click(),50);
   });
 }
 function loadPage(id){
-  if(id==='dashboard'){renderDashboard();return;}
-  if(id==='pertanyaan'){renderPertanyaan();return;}
-  const mod={doa:'Doa',gelisah:'Gelisah',alkitab:'Alkitab'}[id];
-  if(mod) renderModule(mod);
+  if(id==='dashboard') renderDashboard();
+  else if(id==='doa') renderModule('Doa');
+  else if(id==='gelisah') renderModule('Gelisah');
+  else if(id==='alkitab') renderModule('Alkitab');
+  else if(id==='pertanyaan') renderPertanyaan();
+  else if(id==='hasil') renderHasilPertanyaan();
+  document.querySelectorAll('nav button').forEach(b=>{ if(b.dataset.id===id)b.classList.add('active'); });
 }
 
-// ═══════════════════════════════════════════════════
-// DEMO DATA
-// ═══════════════════════════════════════════════════
-const DEMO = {
-  Doa:[
-    {no_urut:1,tanggal:'2025-01-10',permintaan:'Doa untuk kesehatan keluarga agar selalu diberkati dan dilindungi Tuhan.',terang:'Yesaya 41:10 — Jangan takut, sebab Aku menyertai engkau.',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh dari sakit, Tuhan sungguh baik.'},
-    {no_urut:2,tanggal:'2025-02-14',permintaan:'Doa untuk pekerjaan dan karir yang Tuhan siapkan.',terang:'Yeremia 29:11 — Aku tahu rancangan-rancangan yang ada pada-Ku tentang kamu.',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:''},
-    {no_urut:3,tanggal:'2025-03-01',permintaan:'Doa agar diberikan hikmat dalam setiap keputusan hidup.',terang:'Yakobus 1:5 — Jika di antara kamu ada yang kekurangan hikmat, mintalah kepada Allah.',tanggal_jawaban:'2025-03-20',status:'Terjawab',catatan_jawaban:'Mendapat kejelasan arah dalam keputusan penting.'},
-  ],
-  Gelisah:[
-    {no_urut:1,tanggal:'2025-01-15',masalah:'Gelisah tentang masa depan pekerjaan yang belum pasti.',terang:'Filipi 4:6-7 — Jangan khawatir tentang apapun, nyatakanlah keinginanmu kepada Allah.',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai yang melampaui segala akal.'},
-    {no_urut:2,tanggal:'2025-02-20',masalah:'Kecemasan tentang hubungan yang sedang dalam proses pemulihan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:''},
-  ],
-  Alkitab:[
-    {no_urut:1,tanggal:'2025-01-05',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku, takkan kekurangan aku.',terang:'Tuhan memimpin dan memelihara hidupku seperti gembala yang baik.',catatan:'Percayakan setiap langkah kepada Tuhan.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:''},
-    {no_urut:2,tanggal:'2025-01-20',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah akan dunia ini...',terang:'Kasih Allah begitu besar sehingga Ia mengorbankan Anak-Nya yang tunggal.',catatan:'Hidup dalam kasih dan syukur atas anugerah keselamatan.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Sungguh merasakan kasih Tuhan dalam keseharian.'},
-  ]
-};
-
-// ═══════════════════════════════════════════════════
-// LOAD CACHE — menggunakan Apps Script atau CSV
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// LOAD CACHE
+// ══════════════════════════════════════════════════
 async function loadCache(mod){
-  if(isDemoMode){ cache[mod]=cache[mod]||DEMO[mod]||[]; return; }
-  // Map modul ke Apps Script URL dan CSV URL
-  const asMap={Doa:APPS_SCRIPT_DOA,Gelisah:APPS_SCRIPT_GELISAH,Alkitab:APPS_SCRIPT_ALKITAB};
-  const csvMap={Pertanyaan:URLS.Pertanyaan};
-  // Coba Apps Script dulu
+  if(isDemoMode){ cache[mod]=cache[mod]||JSON.parse(JSON.stringify(DEMO[mod]||[])); return; }
+  const asMap={Doa:APPS_SCRIPT_DOA,Gelisah:APPS_SCRIPT_GELISAH,Alkitab:APPS_SCRIPT_ALKITAB,Pertanyaan:APPS_SCRIPT_PTNY};
+  const csvMap={Doa:CSV_DOA,Gelisah:CSV_GELISAH,Alkitab:CSV_ALKITAB,Pertanyaan:CSV_PTNY};
   const asUrl=asMap[mod];
   if(asUrl&&!asUrl.includes('GANTI')){
     try{
       const r=await fetch(`${asUrl}?action=get_semua&user=${encodeURIComponent(currentUser?.username||'')}`);
       const data=await r.json();
       if(data.status==='ok'){ cache[mod]=data.data||[]; return; }
-    }catch(e){ console.warn('Apps Script gagal untuk',mod); }
+    }catch(e){ console.warn('AS gagal untuk',mod); }
   }
-  // Coba CSV
-  const csvUrl=csvMap[mod]||URLS[mod];
-  if(csvUrl&&csvUrl.startsWith('https://')){
-    try{
-      const r=await fetch(csvUrl);
-      const text=await r.text();
-      cache[mod]=parseCSV(text);
-      return;
-    }catch(e){ console.warn('CSV gagal untuk',mod); }
+  const csvUrl=csvMap[mod];
+  if(csvUrl&&csvUrl.startsWith('https')){
+    try{ const r=await fetch(csvUrl); const txt=await r.text(); cache[mod]=parseCSV(txt); return; }catch(e){}
   }
   cache[mod]=cache[mod]||[];
 }
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // DASHBOARD
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 async function renderDashboard(){
   const content=document.getElementById('app-content');
   const now=new Date(),pad=x=>String(x).padStart(2,'0');
@@ -674,7 +507,7 @@ async function renderDashboard(){
   const dateStr=`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
 
   content.innerHTML=`
-    ${isDemoMode?'<div class="demo-banner">⚠️ Mode Demo — data ini hanya contoh dan tidak tersimpan ke Google Spreadsheet.</div>':''}
+    ${isDemoMode?'<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;">⚠️ Mode Demo — data tidak tersimpan ke Spreadsheet</div>':''}
     <div class="dash-welcome">
       <h2>Selamat datang, ${esc(currentUser?.username||'Pengguna')} 🙏</h2>
       <p>Catat perjalanan rohanimu hari ini</p>
@@ -690,62 +523,34 @@ async function renderDashboard(){
       <div class="stat-card"><div class="stat-num" id="s-jwb">—</div><div class="stat-label">✅ Terjawab</div></div>
     </div>
     <div class="card" id="dash-recent">
-      <div class="card-title">📌 Catatan Terbaru</div>
+      <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>
       <div class="shimmer"></div><div class="shimmer" style="height:55px;opacity:.6;"></div>
     </div>`;
 
-  const clkTimer=setInterval(()=>{
-    const el=document.getElementById('dash-clk');
-    if(!el){clearInterval(clkTimer);return;}
-    const n=new Date();
-    el.textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
-  },1000);
-
+  const clkTimer=setInterval(()=>{ const el=document.getElementById('dash-clk'); if(!el){clearInterval(clkTimer);return;} const n=new Date(); el.textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`; },1000);
   await Promise.allSettled([loadCache('Doa'),loadCache('Gelisah'),loadCache('Alkitab')]);
-  const doaData=cache.Doa||[], gelData=cache.Gelisah||[], alkData=cache.Alkitab||[];
+  const doaData=cache.Doa||[],gelData=cache.Gelisah||[],alkData=cache.Alkitab||[];
   const allTerjawab=[...doaData,...gelData,...alkData].filter(r=>(r.tanggal_jawaban||'').trim()).length;
-  const sD=document.getElementById('s-doa');if(sD)sD.textContent=doaData.length;
-  const sG=document.getElementById('s-gel');if(sG)sG.textContent=gelData.length;
-  const sA=document.getElementById('s-alk');if(sA)sA.textContent=alkData.length;
-  const sJ=document.getElementById('s-jwb');if(sJ)sJ.textContent=allTerjawab;
-
-  const allRecent=[
-    ...doaData.slice(-3).map(r=>({...r,_mod:'Doa'})),
-    ...gelData.slice(-3).map(r=>({...r,_mod:'Gelisah'})),
-    ...alkData.slice(-3).map(r=>({...r,_mod:'Alkitab'})),
-  ].sort((a,b)=>new Date(b.tanggal||0)-new Date(a.tanggal||0)).slice(0,6);
-
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
+  set('s-doa',doaData.length); set('s-gel',gelData.length); set('s-alk',alkData.length); set('s-jwb',allTerjawab);
+  const allRecent=[...doaData.slice(-3).map(r=>({...r,_mod:'Doa'})),...gelData.slice(-3).map(r=>({...r,_mod:'Gelisah'})),...alkData.slice(-3).map(r=>({...r,_mod:'Alkitab'}))].sort((a,b)=>new Date(b.tanggal||0)-new Date(a.tanggal||0)).slice(0,6);
+  const icons={Doa:'🙏',Gelisah:'💭',Alkitab:'📖'};
   const recentEl=document.getElementById('dash-recent');
-  if(recentEl){
-    recentEl.innerHTML=`<div class="card-title">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`
-      <div class="recent-entry" onclick='openEntryFromData(${JSON.stringify(r)})'>
-        <div class="re-icon">${MODULE_ICON[r._mod]||'📄'}</div>
-        <div class="re-body">
-          <div class="re-title">${esc((r.permintaan||r.nama_alkitab||r.masalah||'Tanpa Judul').slice(0,50))}</div>
-          <div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}</div>
-        </div>
-      </div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.</p></div>`);
-  }
+  if(recentEl){ recentEl.innerHTML=`<div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`<div class="recent-entry" onclick='openFromDash(${JSON.stringify(r)})'><div class="re-icon">${icons[r._mod]||'📄'}</div><div class="re-body"><div class="re-title">${esc((r.permintaan||r.nama_alkitab||r.masalah||'Tanpa Judul').slice(0,50))}</div><div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}</div></div></div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.</p></div>`); }
 }
+function openFromDash(r){ const mod=r._mod; if(mod==='Doa')openDoaDetail(r); else if(mod==='Gelisah')openGelisahDetail(r); else if(mod==='Alkitab')openAlkitabDetail(r); }
 
-function openEntryFromData(r){
-  const mod=r._mod;
-  if(mod==='Doa') openDoaDetail(r);
-  else if(mod==='Gelisah') openGelisahDetail(r);
-  else if(mod==='Alkitab') openAlkitabDetail(r);
-}
-
-// ═══════════════════════════════════════════════════
-// RENDER MODULE (Doa / Gelisah / Alkitab)
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// RENDER MODULE GENERIC
+// ══════════════════════════════════════════════════
 function renderModule(mod){
-  const icon=MODULE_ICON[mod]||'📄';
-  const modName={Doa:'Catatan Doa',Gelisah:'Catatan Kegelisahan',Alkitab:'Catatan Alkitab'}[mod];
+  const icon={Doa:'🙏',Gelisah:'💭',Alkitab:'📖'}[mod];
+  const label={Doa:'Catatan Doa',Gelisah:'Catatan Kegelisahan',Alkitab:'Catatan Alkitab'}[mod];
   document.getElementById('app-content').innerHTML=`
-    ${isDemoMode?'<div class="demo-banner">⚠️ Mode Demo — data tidak tersimpan ke Spreadsheet</div>':''}
+    ${isDemoMode?'<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;">⚠️ Mode Demo</div>':''}
     ${mod==='Doa'?buildDoaForm():mod==='Gelisah'?buildGelisahForm():buildAlkitabForm()}
     <div class="section-header" style="margin-top:16px;">
-      <span class="section-title">${icon} ${modName}</span>
+      <span class="section-title">${icon} ${label}</span>
       <div style="display:flex;gap:6px;align-items:center;">
         <span class="section-count" id="${mod.toLowerCase()}-count">—</span>
         <button class="btn" onclick="refreshModule('${mod}')">🔄</button>
@@ -764,18 +569,8 @@ function renderModule(mod){
   loadAndRenderList(mod);
 }
 
-async function loadAndRenderList(mod){
-  await loadCache(mod);
-  filterModule(mod);
-}
-
-async function refreshModule(mod){
-  delete cache[mod];
-  toast('⏳ Memuat ulang...');
-  await loadCache(mod);
-  filterModule(mod);
-  toast('✅ Data diperbarui');
-}
+async function loadAndRenderList(mod){ await loadCache(mod); filterModule(mod); }
+async function refreshModule(mod){ delete cache[mod]; toast('⏳ Memuat ulang...'); await loadCache(mod); filterModule(mod); toast('✅ Data diperbarui'); }
 
 function filterModule(mod){
   const ml=mod.toLowerCase();
@@ -784,16 +579,15 @@ function filterModule(mod){
   const dateTo=document.getElementById(ml+'-date-to')?.value||'';
   const answered=document.getElementById(ml+'-answered')?.value||'';
   let data=[...(cache[mod]||[])];
-  if(search) data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
-  if(dateFrom) data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
-  if(dateTo) data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
-  if(answered==='answered') data=data.filter(r=>(r.tanggal_jawaban||'').trim());
-  if(answered==='pending') data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(dateFrom)data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
+  if(dateTo)data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
+  if(answered==='answered')data=data.filter(r=>(r.tanggal_jawaban||'').trim());
+  if(answered==='pending')data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
   data.reverse();
-  const cnt=document.getElementById(ml+'-count');
-  if(cnt) cnt.textContent=data.length+' entri';
+  const cnt=document.getElementById(ml+'-count'); if(cnt)cnt.textContent=data.length+' entri';
   const totalPages=Math.max(1,Math.ceil(data.length/PER_PAGE));
-  if(pageState[mod]>totalPages) pageState[mod]=1;
+  if(pageState[mod]>totalPages)pageState[mod]=1;
   const start=(pageState[mod]-1)*PER_PAGE;
   renderList(mod,data.slice(start,start+PER_PAGE));
   renderPagination(ml+'-pagination',pageState[mod],totalPages,p=>{pageState[mod]=p;filterModule(mod);document.getElementById(ml+'-list')?.scrollIntoView({behavior:'smooth'});});
@@ -801,16 +595,27 @@ function filterModule(mod){
 
 function renderList(mod,data){
   const listEl=document.getElementById(mod.toLowerCase()+'-list');
-  if(!listEl) return;
-  if(!data.length){listEl.innerHTML=`<div class="empty-state"><div class="icon">${MODULE_ICON[mod]}</div><p>Belum ada catatan.<br>Tambahkan catatan baru di atas!</p></div>`;return;}
-  if(mod==='Doa') listEl.innerHTML=data.map(buildDoaCard).join('');
-  else if(mod==='Gelisah') listEl.innerHTML=data.map(buildGelisahCard).join('');
-  else if(mod==='Alkitab') listEl.innerHTML=data.map(buildAlkitabCard).join('');
+  if(!listEl)return;
+  if(!data.length){listEl.innerHTML=`<div class="empty-state"><div class="icon">${{Doa:'🙏',Gelisah:'💭',Alkitab:'📖'}[mod]}</div><p>Belum ada catatan.<br>Tambahkan di atas!</p></div>`;return;}
+  if(mod==='Doa')listEl.innerHTML=data.map(buildDoaCard).join('');
+  else if(mod==='Gelisah')listEl.innerHTML=data.map(buildGelisahCard).join('');
+  else if(mod==='Alkitab')listEl.innerHTML=data.map(buildAlkitabCard).join('');
 }
 
-// ═══════════════════════════════════════════════════
+function renderPagination(containerId,current,total,onPageFn){
+  const el=document.getElementById(containerId); if(!el||total<=1){if(el)el.innerHTML='';return;}
+  let html=`<button class="pg-btn" ${current===1?'disabled':''} onclick="(${onPageFn.toString()})(${current-1})">‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(total>7&&Math.abs(i-current)>2&&i!==1&&i!==total){if(i===2||i===total-1)html+=`<span style="color:var(--text3);padding:0 3px;">…</span>`;continue;}
+    html+=`<button class="pg-btn${i===current?' active':''}" onclick="(${onPageFn.toString()})(${i})">${i}</button>`;
+  }
+  html+=`<button class="pg-btn" ${current===total?'disabled':''} onclick="(${onPageFn.toString()})(${current+1})">›</button>`;
+  el.innerHTML=html;
+}
+
+// ══════════════════════════════════════════════════
 // MODUL DOA
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function buildDoaForm(){
   return `<div class="form-card">
     <div class="form-title">🙏 Tambah Catatan Doa</div>
@@ -819,7 +624,7 @@ function buildDoaForm(){
       <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="doa-no" placeholder="Auto" min="1"></div>
     </div>
     <div class="form-field"><label class="form-label">Permintaan Doa</label><textarea class="form-textarea" id="doa-permintaan" rows="3" placeholder="Tulis permintaan doamu..."></textarea></div>
-    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="doa-terang" rows="2" placeholder="Wahyu / firman / perasaan saat berdoa..."></textarea></div>
+    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="doa-terang" rows="2" placeholder="Firman / wahyu / perasaan saat berdoa..."></textarea></div>
     <div class="form-row">
       <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="doa-tgl-jwb"></div>
       <div class="form-field"><label class="form-label">Status</label><select class="form-select" id="doa-status"><option>Berdoa</option><option>Terjawab</option><option>Proses</option></select></div>
@@ -851,73 +656,57 @@ function buildDoaCard(r){
 }
 
 function openDoaDetail(r){
-  const txt=buildDoaText(r);
+  const txt=`📖 CATATAN DOA\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n\n🙏 Permintaan Doa:\n${r.permintaan||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status   : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
   showDetail(`
-    <div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">🙏</span>
       <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Doa</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}</div></div>
-    </div></div>
+    </div>
     <div class="detail-grid">
       <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
-      <div class="detail-field"><div class="detail-label">No. Urut</div><div class="detail-value">#${r.no_urut||'-'}</div></div>
+      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div>
     </div>
     <div class="detail-field"><div class="detail-label">🙏 Permintaan Doa</div><div class="detail-value">${esc(r.permintaan||'-')}</div></div>
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${esc(r.terang)}</div></div>`:''}
     <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div>
       <div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
     </div>
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
-      <button class="btn accent" onclick="copyEntryText(${JSON.stringify(txt)})">📋 Copy</button>
+      <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
       <button class="btn" onclick="openEntryFullscreen('Catatan Doa #${esc(String(r.no_urut||r.tanggal))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
-function buildDoaText(r){
-  return `📖 CATATAN DOA\n${'─'.repeat(30)}\n📅 Tanggal    : ${formatDate(r.tanggal)}\n🔢 No. Urut   : #${r.no_urut||'-'}\n\n🙏 Permintaan Doa:\n${r.permintaan||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status     : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
-}
-
 async function submitDoa(){
-  const btn=document.getElementById('doa-submit-btn');
-  const msg=document.getElementById('doa-status-msg');
+  const btn=document.getElementById('doa-submit-btn'),msg=document.getElementById('doa-status-msg');
   const tgl=document.getElementById('doa-tgl')?.value;
   const permintaan=document.getElementById('doa-permintaan')?.value.trim();
   if(!tgl||!permintaan){toast('⚠️ Tanggal dan permintaan wajib diisi');return;}
-
   if(isDemoMode){
-    const newEntry={no_urut:(cache.Doa||[]).length+1,tanggal:tgl,permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''};
-    if(!cache.Doa) cache.Doa=[];
-    cache.Doa.push(newEntry);
-    toast('✅ Tersimpan (demo)');
-    if(msg) msg.textContent='✅ Tersimpan (mode demo)';
+    if(!cache.Doa)cache.Doa=[];
+    cache.Doa.push({no_urut:cache.Doa.length+1,tanggal:tgl,permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
     ['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-    filterModule('Doa');
-    setTimeout(()=>{if(msg)msg.textContent='';},3000);
-    return;
+    filterModule('Doa'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
   }
-
   btn.disabled=true; btn.textContent='⏳ Menyimpan...';
   const no=document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1);
   const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''});
   try{
-    if(APPS_SCRIPT_DOA.includes('GANTI')) throw new Error('URL belum diisi');
+    if(APPS_SCRIPT_DOA.includes('GANTI'))throw new Error('URL belum diisi');
     await fetch(APPS_SCRIPT_DOA,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
-    toast('✅ Catatan doa tersimpan!');
-    if(msg) msg.textContent='✅ Tersimpan!';
+    toast('✅ Catatan doa tersimpan!'); if(msg)msg.textContent='✅ Tersimpan!';
     ['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     document.getElementById('doa-tgl').value=getTodayStr();
-    document.getElementById('doa-status').value='Berdoa';
     setTimeout(async()=>{await refreshModule('Doa');if(msg)msg.textContent='';},1500);
-  }catch(e){
-    toast('⚠️ URL Apps Script DOA belum dikonfigurasi di APPS_SCRIPT_DOA');
-    if(msg) msg.textContent='⚠️ Isi APPS_SCRIPT_DOA dengan URL Apps Script';
-  }finally{btn.disabled=false;btn.textContent='🙏 Simpan Catatan Doa';}
+  }catch(e){ toast('⚠️ Isi APPS_SCRIPT_DOA dengan URL Apps Script'); if(msg)msg.textContent='⚠️ URL belum dikonfigurasi'; }
+  finally{ btn.disabled=false; btn.textContent='🙏 Simpan Catatan Doa'; }
 }
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // MODUL GELISAH
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function buildGelisahForm(){
   return `<div class="form-card">
     <div class="form-title">💭 Tambah Catatan Kegelisahan</div>
@@ -926,7 +715,7 @@ function buildGelisahForm(){
       <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="gel-no" placeholder="Auto" min="1"></div>
     </div>
     <div class="form-field"><label class="form-label">Kegelisahan / Masalah</label><textarea class="form-textarea" id="gel-masalah" rows="3" placeholder="Apa yang membuatmu gelisah hari ini?..."></textarea></div>
-    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="gel-terang" rows="2" placeholder="Jawaban / firman / kedamaian yang kamu terima..."></textarea></div>
+    <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="gel-terang" rows="2" placeholder="Jawaban / firman / kedamaian yang diterima..."></textarea></div>
     <div class="form-field"><label class="form-label">Kategori</label>
       <select class="form-select" id="gel-kategori">
         <option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option>
@@ -967,12 +756,12 @@ function buildGelisahCard(r){
 }
 
 function openGelisahDetail(r){
-  const txt=buildGelisahText(r);
+  const txt=`💭 CATATAN KEGELISAHAN\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n🏷 Kategori: ${r.kategori||'-'}\n\n💭 Kegelisahan:\n${r.masalah||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status   : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Penyelesaian:\n${r.catatan_jawaban||'-'}`;
   showDetail(`
-    <div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">💭</span>
       <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Kegelisahan</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}</div></div>
-    </div></div>
+    </div>
     <div class="detail-grid">
       <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
       <div class="detail-field"><div class="detail-label">Kategori</div><div class="detail-value">${esc(r.kategori||'-')}</div></div>
@@ -985,54 +774,40 @@ function openGelisahDetail(r){
     </div>
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Penyelesaian</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
-      <button class="btn accent" onclick="copyEntryText(${JSON.stringify(txt)})">📋 Copy</button>
+      <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
       <button class="btn" onclick="openEntryFullscreen('Kegelisahan #${esc(String(r.no_urut||r.tanggal))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
-function buildGelisahText(r){
-  return `💭 CATATAN KEGELISAHAN\n${'─'.repeat(30)}\n📅 Tanggal   : ${formatDate(r.tanggal)}\n🔢 No. Urut  : #${r.no_urut||'-'}\n🏷 Kategori  : ${r.kategori||'-'}\n\n💭 Kegelisahan:\n${r.masalah||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status    : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Penyelesaian:\n${r.catatan_jawaban||'-'}`;
-}
-
 async function submitGelisah(){
-  const btn=document.getElementById('gel-submit-btn');
-  const msg=document.getElementById('gel-status-msg');
+  const btn=document.getElementById('gel-submit-btn'),msg=document.getElementById('gel-status-msg');
   const tgl=document.getElementById('gel-tgl')?.value;
   const masalah=document.getElementById('gel-masalah')?.value.trim();
   if(!tgl||!masalah){toast('⚠️ Tanggal dan kegelisahan wajib diisi');return;}
-
   if(isDemoMode){
-    const newEntry={no_urut:(cache.Gelisah||[]).length+1,tanggal:tgl,masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''};
-    if(!cache.Gelisah) cache.Gelisah=[];
-    cache.Gelisah.push(newEntry);
-    toast('✅ Tersimpan (demo)');
-    if(msg) msg.textContent='✅ Tersimpan (mode demo)';
+    if(!cache.Gelisah)cache.Gelisah=[];
+    cache.Gelisah.push({no_urut:cache.Gelisah.length+1,tanggal:tgl,masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
     ['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-    filterModule('Gelisah');
-    setTimeout(()=>{if(msg)msg.textContent='';},3000);
-    return;
+    filterModule('Gelisah'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
   }
-
   btn.disabled=true; btn.textContent='⏳ Menyimpan...';
   const no=document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1);
   const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''});
   try{
-    if(APPS_SCRIPT_GELISAH.includes('GANTI')) throw new Error('URL belum diisi');
+    if(APPS_SCRIPT_GELISAH.includes('GANTI'))throw new Error('URL belum diisi');
     await fetch(APPS_SCRIPT_GELISAH,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
-    toast('✅ Catatan kegelisahan tersimpan!');
-    if(msg) msg.textContent='✅ Tersimpan!';
+    toast('✅ Catatan kegelisahan tersimpan!'); if(msg)msg.textContent='✅ Tersimpan!';
     ['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     document.getElementById('gel-tgl').value=getTodayStr();
     setTimeout(async()=>{await refreshModule('Gelisah');if(msg)msg.textContent='';},1500);
-  }catch(e){
-    toast('⚠️ URL Apps Script GELISAH belum dikonfigurasi');
-    if(msg) msg.textContent='⚠️ Isi APPS_SCRIPT_GELISAH dengan URL Apps Script';
-  }finally{btn.disabled=false;btn.textContent='💭 Simpan Catatan Kegelisahan';}
+  }catch(e){ toast('⚠️ Isi APPS_SCRIPT_GELISAH dengan URL Apps Script'); if(msg)msg.textContent='⚠️ URL belum dikonfigurasi'; }
+  finally{ btn.disabled=false; btn.textContent='💭 Simpan Catatan Kegelisahan'; }
 }
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // MODUL ALKITAB
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function buildAlkitabForm(){
   return `<div class="form-card">
     <div class="form-title" style="color:var(--accent3);">📖 Tambah Catatan Alkitab</div>
@@ -1081,12 +856,12 @@ function buildAlkitabCard(r){
 }
 
 function openAlkitabDetail(r){
-  const txt=buildAlkitabText(r);
+  const txt=`📖 CATATAN ALKITAB\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n📌 Referensi: ${r.nama_alkitab||'-'}\n🏷 Tema    : ${r.tema||'-'}\n\n📜 Ayat / Bacaan:\n${r.ayat||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📝 Catatan / Aplikasi:\n${r.catatan||'-'}\n\n📅 Tgl Terjawab: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
   showDetail(`
-    <div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">📖</span>
       <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">${esc(r.nama_alkitab||'Catatan Alkitab')}</div><div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}</div></div>
-    </div></div>
+    </div>
     <div class="detail-grid">
       <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
       <div class="detail-field"><div class="detail-label">Tema</div><div class="detail-value">${esc(r.tema||'-')}</div></div>
@@ -1094,375 +869,473 @@ function openAlkitabDetail(r){
     ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${esc(r.ayat)}</div></div>`:''}
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${esc(r.terang)}</div></div>`:''}
     ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${esc(r.catatan)}</div></div>`:''}
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
-    </div>
+    ${r.tanggal_jawaban?`<div class="detail-grid"><div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)}</div></div></div>`:''}
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
-      <button class="btn accent" onclick="copyEntryText(${JSON.stringify(txt)})">📋 Copy</button>
+      <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
       <button class="btn" onclick="openEntryFullscreen('${esc(r.nama_alkitab||'Alkitab')}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
-function buildAlkitabText(r){
-  return `📖 CATATAN ALKITAB\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No. Urut: #${r.no_urut||'-'}\n📌 Referensi: ${r.nama_alkitab||'-'}\n🏷 Tema    : ${r.tema||'-'}\n\n📜 Ayat / Bacaan:\n${r.ayat||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📝 Catatan / Aplikasi:\n${r.catatan||'-'}\n\n📅 Tgl Terjawab: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
-}
-
 async function submitAlkitab(){
-  const btn=document.getElementById('alk-submit-btn');
-  const msg=document.getElementById('alk-status-msg');
+  const btn=document.getElementById('alk-submit-btn'),msg=document.getElementById('alk-status-msg');
   const tgl=document.getElementById('alk-tgl')?.value;
   const nama=document.getElementById('alk-nama')?.value.trim();
   if(!tgl||!nama){toast('⚠️ Tanggal dan referensi alkitab wajib diisi');return;}
-
   if(isDemoMode){
-    const newEntry={no_urut:(cache.Alkitab||[]).length+1,tanggal:tgl,nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''};
-    if(!cache.Alkitab) cache.Alkitab=[];
-    cache.Alkitab.push(newEntry);
-    toast('✅ Tersimpan (demo)');
-    if(msg) msg.textContent='✅ Tersimpan (mode demo)';
+    if(!cache.Alkitab)cache.Alkitab=[];
+    cache.Alkitab.push({no_urut:cache.Alkitab.length+1,tanggal:tgl,nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
     ['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-    filterModule('Alkitab');
-    setTimeout(()=>{if(msg)msg.textContent='';},3000);
-    return;
+    filterModule('Alkitab'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
   }
-
   btn.disabled=true; btn.textContent='⏳ Menyimpan...';
   const no=document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1);
   const params=new URLSearchParams({action:'tambah',user:currentUser?.username||'',tanggal:tgl,no_urut:no,nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''});
   try{
-    if(APPS_SCRIPT_ALKITAB.includes('GANTI')) throw new Error('URL belum diisi');
+    if(APPS_SCRIPT_ALKITAB.includes('GANTI'))throw new Error('URL belum diisi');
     await fetch(APPS_SCRIPT_ALKITAB,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
-    toast('✅ Catatan alkitab tersimpan!');
-    if(msg) msg.textContent='✅ Tersimpan!';
+    toast('✅ Catatan alkitab tersimpan!'); if(msg)msg.textContent='✅ Tersimpan!';
     ['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     document.getElementById('alk-tgl').value=getTodayStr();
     setTimeout(async()=>{await refreshModule('Alkitab');if(msg)msg.textContent='';},1500);
-  }catch(e){
-    toast('⚠️ URL Apps Script ALKITAB belum dikonfigurasi');
-    if(msg) msg.textContent='⚠️ Isi APPS_SCRIPT_ALKITAB dengan URL Apps Script';
-  }finally{btn.disabled=false;btn.textContent='📖 Simpan Catatan Alkitab';}
+  }catch(e){ toast('⚠️ Isi APPS_SCRIPT_ALKITAB dengan URL Apps Script'); if(msg)msg.textContent='⚠️ URL belum dikonfigurasi'; }
+  finally{ btn.disabled=false; btn.textContent='📖 Simpan Catatan Alkitab'; }
 }
 
-// ═══════════════════════════════════════════════════
-// MODUL PERTANYAAN — form kirim + lihat daftar dari CSV
-// ═══════════════════════════════════════════════════
-async function renderPertanyaan(){
+// ══════════════════════════════════════════════════
+// PERTANYAAN
+// ══════════════════════════════════════════════════
+const TOPIK_OPTIONS=['Iman & Doktrin','Kehidupan Rohani','Alkitab','Doa','Pelayanan','Keluarga & Pernikahan','Masalah Pribadi','Lainnya'];
+const URGENSI_OPTIONS=['Low','Medium','High','Critical','Intermesso'];
+let ptnyAllData=[], ptnyFilteredData=[], ptnyCurrentPage=1;
+
+function renderPertanyaan(){
   const content=document.getElementById('app-content');
   content.innerHTML=`
-    <div class="info-box">
-      ❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan atau kesulitan rohanimu. Pertanyaan akan dijawab oleh pengurus dan kamu bisa melihat daftar pertanyaan yang sudah ada.
-    </div>
-    <!-- Form Kirim Pertanyaan -->
+    <div class="info-box">❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan rohanimu. Pertanyaan akan dijawab dan bisa dilihat di Hasil Pertanyaan.</div>
     <div class="form-card">
       <div class="form-title" style="color:var(--accent2);">❓ Ajukan Pertanyaan</div>
-      <div class="form-field">
-        <label class="form-label">Nama (opsional)</label>
-        <input type="text" class="form-input" id="ptny-nama" placeholder="Nama kamu atau anonim..." value="${esc(currentUser?.username||'')}">
-      </div>
+      <div class="form-field"><label class="form-label">Nama (opsional)</label><input type="text" class="form-input" id="ptny-nama" placeholder="Nama kamu atau anonim..." value="${esc(currentUser?.username||'')}"></div>
       <div class="form-row">
-        <div class="form-field">
-          <label class="form-label">Topik</label>
-          <select class="form-select" id="ptny-topik">
-            <option>Iman & Doktrin</option>
-            <option>Kehidupan Rohani</option>
-            <option>Alkitab</option>
-            <option>Doa</option>
-            <option>Pelayanan</option>
-            <option>Keluarga & Pernikahan</option>
-            <option>Masalah Pribadi</option>
-            <option>Lainnya</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label class="form-label">Urgensi</label>
-          <select class="form-select" id="ptny-urgensi">
-            <option value="Low">🟢 Santai</option>
-            <option value="Medium" selected>🔵 Normal</option>
-            <option value="High">🟡 Penting</option>
-            <option value="Critical">🔴 Mendesak</option>
-            <option value="Intermesso">🟣 Intermesso</option>
-          </select>
-        </div>
+        <div class="form-field"><label class="form-label">Topik</label><select class="form-select" id="ptny-topik">${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select></div>
+        <div class="form-field"><label class="form-label">Urgensi</label><select class="form-select" id="ptny-urgensi"><option value="Low">🟢 Santai</option><option value="Medium" selected>🔵 Normal</option><option value="High">🟡 Penting</option><option value="Critical">🔴 Mendesak</option><option value="Intermesso">🟣 Intermesso</option></select></div>
       </div>
-      <div class="form-field">
-        <label class="form-label">Pertanyaan / Kesulitan</label>
-        <textarea class="form-textarea" id="ptny-isi" rows="4" placeholder="Tulis pertanyaan atau kesulitanmu di sini..."></textarea>
-        <div id="ptny-char" style="font-size:.68rem;color:var(--text3);text-align:right;margin-top:3px;">0 karakter</div>
-      </div>
+      <div class="form-field"><label class="form-label">Pertanyaan / Kesulitan</label><textarea class="form-textarea" id="ptny-isi" rows="4" placeholder="Tulis pertanyaan atau kesulitanmu di sini..."></textarea><div id="ptny-char" style="font-size:.68rem;color:var(--text3);text-align:right;margin-top:3px;">0 karakter</div></div>
       <button class="form-submit" style="background:linear-gradient(135deg,var(--accent2),var(--accent3));" onclick="submitPertanyaan()" id="ptny-submit-btn">❓ Kirim Pertanyaan</button>
       <div id="ptny-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
     </div>
 
-    <!-- Daftar Pertanyaan -->
-    <div class="section-header" style="margin-top:16px;">
+    <div class="ptny-stats-bar" id="ptny-stats"></div>
+    <div class="section-header">
       <span class="section-title">❓ Daftar Pertanyaan</span>
       <div style="display:flex;gap:6px;align-items:center;">
         <span class="section-count" id="ptny-count">—</span>
-        <button class="btn" onclick="refreshPertanyaan()">🔄</button>
+        <button class="btn" onclick="loadPertanyaanList()">🔄</button>
       </div>
     </div>
     <div class="filter-bar">
-      <input type="text" class="filter-input" id="ptny-search" placeholder="🔍 Cari pertanyaan..." oninput="filterPertanyaan()">
-      <select class="filter-input" id="ptny-filter-topik" style="max-width:150px;" onchange="filterPertanyaan()">
-        <option value="">Semua Topik</option>
-        <option>Iman & Doktrin</option>
-        <option>Kehidupan Rohani</option>
-        <option>Alkitab</option>
-        <option>Doa</option>
-        <option>Pelayanan</option>
-        <option>Keluarga & Pernikahan</option>
-        <option>Masalah Pribadi</option>
-        <option>Lainnya</option>
-      </select>
-      <select class="filter-input" id="ptny-filter-urgensi" style="max-width:130px;" onchange="filterPertanyaan()">
-        <option value="">Semua Urgensi</option>
-        <option value="Critical">🔴 Mendesak</option>
-        <option value="High">🟡 Penting</option>
-        <option value="Medium">🔵 Normal</option>
-        <option value="Low">🟢 Santai</option>
-        <option value="Intermesso">🟣 Intermesso</option>
-      </select>
+      <input type="text" class="filter-input" id="ptny-search" placeholder="🔍 Cari pertanyaan..." oninput="applyPtnyFilter()">
+      <select class="filter-input" id="ptny-f-topik" onchange="applyPtnyFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
+      <select class="filter-input" id="ptny-f-urgensi" onchange="applyPtnyFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
     </div>
-    <div id="ptny-stats" class="ptny-stats-bar"></div>
     <div id="ptny-list"></div>
     <div id="ptny-pagination" class="pagination"></div>`;
-
-  // Char counter
-  document.getElementById('ptny-isi').addEventListener('input',function(){
-    document.getElementById('ptny-char').textContent=this.value.length+' karakter';
-  });
-
-  await loadAndRenderPertanyaan();
+  document.getElementById('ptny-isi').addEventListener('input',function(){ document.getElementById('ptny-char').textContent=this.value.length+' karakter'; });
+  loadPertanyaanList();
 }
 
-async function loadAndRenderPertanyaan(){
-  const listEl=document.getElementById('ptny-list');
-  if(listEl) listEl.innerHTML=`<div class="loading-state"><div class="spinner"></div><br>Memuat pertanyaan...</div>`;
-  await loadCache('Pertanyaan');
-  renderPertanyaanStats();
-  filterPertanyaan();
-}
-
-async function refreshPertanyaan(){
-  delete cache['Pertanyaan'];
-  toast('⏳ Memuat ulang...');
-  await loadAndRenderPertanyaan();
-  toast('✅ Data diperbarui');
-}
-
-function renderPertanyaanStats(){
-  const statsEl=document.getElementById('ptny-stats');
-  if(!statsEl) return;
-  const data=cache.Pertanyaan||[];
-  const total=data.length;
-  const dijawab=data.filter(r=>(r.jawaban||r['jawaban']||'').trim()).length;
-  const mendesak=data.filter(r=>(r.urgensi||'').toLowerCase()==='critical').length;
-  const belumDijawab=total-dijawab;
-  statsEl.innerHTML=`
-    <div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div>
-    <div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div>
-    <div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${belumDijawab}</div><div class="ptny-stat-label">Pending</div></div>
-    <div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
-}
-
-function filterPertanyaan(){
-  const search=(document.getElementById('ptny-search')?.value||'').toLowerCase();
-  const filterTopik=document.getElementById('ptny-filter-topik')?.value||'';
-  const filterUrgensi=document.getElementById('ptny-filter-urgensi')?.value||'';
-  let data=[...(cache.Pertanyaan||[])];
-  if(search) data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
-  if(filterTopik) data=data.filter(r=>(r.topik||r['topik']||'')===filterTopik);
-  if(filterUrgensi) data=data.filter(r=>(r.urgensi||r['urgensi']||'').toLowerCase()===filterUrgensi.toLowerCase());
-  // Sort: Critical dulu, lalu belum dijawab, lalu terbaru
-  const urgOrder={'critical':0,'high':1,'medium':2,'low':3,'intermesso':4};
-  data.sort((a,b)=>{
-    const uA=urgOrder[(a.urgensi||'').toLowerCase()]??2;
-    const uB=urgOrder[(b.urgensi||'').toLowerCase()]??2;
-    if(uA!==uB) return uA-uB;
-    const aAns=(a.jawaban||'').trim();
-    const bAns=(b.jawaban||'').trim();
-    if(!!aAns!==!!bAns) return aAns?1:-1;
-    return 0;
-  });
-  const cnt=document.getElementById('ptny-count');
-  if(cnt) cnt.textContent=data.length+' pertanyaan';
-  const totalPages=Math.max(1,Math.ceil(data.length/PER_PAGE));
-  if(pageState.Pertanyaan>totalPages) pageState.Pertanyaan=1;
-  const start=(pageState.Pertanyaan-1)*PER_PAGE;
-  renderPertanyaanList(data.slice(start,start+PER_PAGE));
-  renderPagination('ptny-pagination',pageState.Pertanyaan,totalPages,p=>{pageState.Pertanyaan=p;filterPertanyaan();document.getElementById('ptny-list')?.scrollIntoView({behavior:'smooth'});});
-}
-
-function renderPertanyaanList(data){
-  const listEl=document.getElementById('ptny-list');
-  if(!listEl) return;
-  if(!data.length){
-    listEl.innerHTML=`<div class="empty-state"><div class="icon">❓</div><p>Belum ada pertanyaan.<br>Jadilah yang pertama bertanya!</p></div>`;
-    return;
+function loadPertanyaanList(){
+  const listEl=document.getElementById('ptny-list'); if(!listEl)return;
+  listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat pertanyaan...</div>';
+  if(isDemoMode||!APPS_SCRIPT_PTNY||APPS_SCRIPT_PTNY.includes('GANTI')){
+    ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));
+    renderPtnyStats(); applyPtnyFilter(); return;
   }
-  listEl.innerHTML=data.map(buildPertanyaanCard).join('');
+  const csvUrl=CSV_PTNY;
+  if(csvUrl&&csvUrl.startsWith('https')){
+    fetch(csvUrl+'&t='+Date.now()).then(r=>r.text()).then(txt=>{ ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim()); renderPtnyStats(); applyPtnyFilter(); }).catch(()=>{ listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+  } else {
+    fetch(`${APPS_SCRIPT_PTNY}?action=get_semua&t=${Date.now()}`).then(r=>r.json()).then(data=>{ if(data.status==='ok')ptnyAllData=data.data||[]; renderPtnyStats(); applyPtnyFilter(); }).catch(()=>{ listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+  }
 }
 
-function buildPertanyaanCard(r){
-  // Coba berbagai kemungkinan nama kolom dari CSV
-  const nama = r.nama || r['nama'] || r.name || 'Anonim';
-  const topik = r.topik || r['topik'] || r.topic || 'Lainnya';
-  const urgensi = r.urgensi || r['urgensi'] || r.urgency || 'Medium';
-  const isi = r.isi || r['isi'] || r.pertanyaan || r['pertanyaan'] || r.question || '';
-  const jawaban = r.jawaban || r['jawaban'] || r.answer || '';
-  const waktu = r.waktu || r['waktu'] || r.tanggal || r['tanggal'] || r.timestamp || '';
-  const penjawab = r.penjawab || r['penjawab'] || r.answerer || '';
-  const rating = r.rating || r['rating'] || '';
-  const hasAnswer = jawaban.trim() !== '';
+function renderPtnyStats(){
+  const el=document.getElementById('ptny-stats'); if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length;
+  const mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
+}
 
-  const stars = rating ? '⭐'.repeat(Math.min(5,Math.max(1,parseInt(rating)||0))) : '';
+function applyPtnyFilter(){
+  const search=(document.getElementById('ptny-search')?.value||'').toLowerCase();
+  const filterTopik=document.getElementById('ptny-f-topik')?.value||'';
+  const filterUrgensi=document.getElementById('ptny-f-urgensi')?.value||'';
+  let data=[...ptnyAllData];
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(filterTopik)data=data.filter(r=>(r.topik||'')===filterTopik);
+  if(filterUrgensi)data=data.filter(r=>(r.urgensi||'').toLowerCase()===filterUrgensi.toLowerCase());
+  const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
+  data.sort((a,b)=>{ const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2; if(ua!==ub)return ua-ub; const aa=(a.isi_jawaban||a.jawaban||'').trim(),ba=(b.isi_jawaban||b.jawaban||'').trim(); if(!!aa!==!!ba)return aa?1:-1; return 0; });
+  ptnyFilteredData=data;
+  const cnt=document.getElementById('ptny-count'); if(cnt)cnt.textContent=data.length+' pertanyaan';
+  renderPtnyPage();
+}
 
-  const json=JSON.stringify(r).replace(/'/g,'&#39;');
-  return `<div class="ptny-card" onclick='openPertanyaanDetail(${json})' style="cursor:pointer;">
-    <div class="ptny-card-header">
-      <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;">
-          <span class="ptny-card-topik">${esc(topik)}</span>
-          <span class="ptny-urgensi ${esc(urgensi)}">${esc(urgensi)}</span>
-          ${hasAnswer?'<span style="font-size:.65rem;font-weight:700;color:var(--accent3);">✅ Terjawab</span>':'<span style="font-size:.65rem;font-weight:700;color:var(--yellow);">⏳ Menunggu</span>'}
+function renderPtnyPage(){
+  const total=ptnyFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(ptnyCurrentPage>totalPages)ptnyCurrentPage=1;
+  const start=(ptnyCurrentPage-1)*PER_PAGE;
+  renderPertanyaanCards(ptnyFilteredData.slice(start,start+PER_PAGE),'ptny-list',false);
+  renderPagination('ptny-pagination',ptnyCurrentPage,totalPages,p=>{ptnyCurrentPage=p;renderPtnyPage();document.getElementById('ptny-list')?.scrollIntoView({behavior:'smooth'});});
+}
+
+function renderPertanyaanCards(data,containerId,isAdmin){
+  const container=document.getElementById(containerId); if(!container)return;
+  if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan.</p></div>';return;}
+  const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
+  container.innerHTML=data.map((item,i)=>{
+    const origIdx=ptnyAllData.indexOf(item);
+    const nama=item.nama||item.name||'Anonim';
+    const topik=item.topik||item.topic||'Lainnya';
+    const urgensi=item.urgensi||item.urgency||'Medium';
+    const isi=item.pertanyaan||item.isi||item.question||'';
+    const jawaban=item.isi_jawaban||item.jawaban||item.answer||'';
+    const waktu=item.waktu||item.tanggal||item.timestamp||'';
+    const penjawab=item.nama_penjawab||item.penjawab||'';
+    const keputusan=item.keputusan||'';
+    const hasAnswer=jawaban.trim()!=='';
+    const uc=urgColor[urgensi]||'var(--text3)';
+    return `<div class="ptny-card" style="border-left:4px solid ${uc};">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
+        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
+        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Terjawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
+      </div>
+      <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
+      <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi.slice(0,200))}${isi.length>200?'...':''}</div>
+      ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' oleh '+esc(penjawab):''}</div><div>${esc(jawaban.slice(0,150))}${jawaban.length>150?'...':''}</div></div>`:''}
+      ${keputusan?`<span class="kep-badge" style="background:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'rgba(52,211,153,.2)':'rgba(248,113,113,.15)'};color:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'var(--accent3)':'var(--red)'};">${esc(keputusan)}</span>`:''}
+      ${isAdmin?`<div class="ptny-jawab-row" id="jawab-row-${origIdx}" style="display:none;margin-top:8px;">
+        <input id="j-nama-${origIdx}" type="text" placeholder="Nama Penjawab..." value="${esc(currentUser?.username||'')}">
+        <textarea id="j-isi-${origIdx}" rows="3" placeholder="Isi jawaban..."></textarea>
+        <select id="j-kep-${origIdx}"><option value="">— Keputusan —</option><option>VALID ANSWER</option><option>NOT VALID ANSWER</option><option>VALID QUESTION</option><option>NOT VALID QUESTION</option></select>
+        <div style="display:flex;gap:5px;margin-top:4px;">
+          <button class="btn accent" onclick="submitJawaban(${origIdx})" style="flex:1;padding:9px;">✅ Simpan Jawaban</button>
+          <button class="btn" onclick="document.getElementById('jawab-row-${origIdx}').style.display='none'" style="padding:9px;">✕</button>
         </div>
-        <div class="ptny-card-nama">👤 ${esc(nama)}</div>
-        ${waktu?`<div class="ptny-card-waktu">🕐 ${waktu}</div>`:''}
       </div>
-    </div>
-    <div class="ptny-question-text">${esc(isi.slice(0,200))}${isi.length>200?'...':''}</div>
-    ${hasAnswer?`<div class="ptny-answer-box">
-      <div class="ptny-answer-label">💬 Jawaban ${penjawab?'oleh '+esc(penjawab):''}</div>
-      <div style="font-size:.85rem;color:var(--text);line-height:1.6;">${esc(jawaban.slice(0,150))}${jawaban.length>150?'...':''}</div>
-      ${stars?`<div class="ptny-rating"><div class="ptny-stars">${stars}</div><span style="font-size:.7rem;color:var(--text3);">${rating}/5</span></div>`:''}
-    </div>`:''}
-  </div>`;
-}
-
-function openPertanyaanDetail(r){
-  const nama = r.nama || r.name || 'Anonim';
-  const topik = r.topik || r.topic || 'Lainnya';
-  const urgensi = r.urgensi || r.urgency || 'Medium';
-  const isi = r.isi || r.pertanyaan || r.question || '';
-  const jawaban = r.jawaban || r.answer || '';
-  const waktu = r.waktu || r.tanggal || r.timestamp || '';
-  const penjawab = r.penjawab || r.answerer || '';
-  const rating = r.rating || '';
-  const hasAnswer = jawaban.trim() !== '';
-  const stars = rating ? '⭐'.repeat(Math.min(5,Math.max(1,parseInt(rating)||0))) : '';
-
-  showDetail(`
-    <div style="margin-bottom:16px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-      <span style="font-size:1.6rem;">❓</span>
-      <div>
-        <div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">Detail Pertanyaan</div>
-        <div style="font-size:.75rem;color:var(--text3);">👤 ${esc(nama)} · ${esc(waktu)}</div>
-      </div>
-    </div></div>
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Topik</div><div class="detail-value">${esc(topik)}</div></div>
-      <div class="detail-field"><div class="detail-label">Urgensi</div><div class="detail-value"><span class="ptny-urgensi ${esc(urgensi)}">${esc(urgensi)}</span></div></div>
-    </div>
-    <div class="detail-field"><div class="detail-label">❓ Pertanyaan</div><div class="detail-value">${esc(isi)}</div></div>
-    ${hasAnswer?`
-    <div class="detail-field" style="border-color:var(--accent3);">
-      <div class="detail-label" style="color:var(--accent3);">💬 Jawaban ${penjawab?'oleh '+esc(penjawab):''}</div>
-      <div class="detail-value verse-highlight">${esc(jawaban)}</div>
-      ${stars?`<div style="margin-top:8px;font-size:.85rem;">${stars} <span style="color:var(--text3);font-size:.75rem;">(${rating}/5)</span></div>`:''}
-    </div>`:`
-    <div class="detail-field" style="background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3);">
-      <div class="detail-label" style="color:var(--yellow);">⏳ Status</div>
-      <div class="detail-value" style="color:var(--yellow);">Menunggu jawaban dari pengurus...</div>
-    </div>`}
-    <div style="margin-top:10px;display:flex;gap:6px;">
-      <button class="btn accent" onclick="copyEntryText(${JSON.stringify(isi)})">📋 Copy Pertanyaan</button>
-      ${hasAnswer?`<button class="btn" onclick="copyEntryText(${JSON.stringify('Pertanyaan:\n'+isi+'\n\nJawaban:\n'+jawaban)})">📋 Copy Semua</button>`:''}
-    </div>`);
+      <button class="btn" onclick="document.getElementById('jawab-row-${origIdx}').style.display='block'" style="margin-top:8px;font-size:.75rem;border-color:var(--accent);color:var(--accent);">✍️ Jawab</button>`:''}
+    </div>`;
+  }).join('');
 }
 
 async function submitPertanyaan(){
-  const btn=document.getElementById('ptny-submit-btn');
-  const msg=document.getElementById('ptny-status-msg');
+  const btn=document.getElementById('ptny-submit-btn'),msg=document.getElementById('ptny-status-msg');
   const nama=document.getElementById('ptny-nama')?.value.trim()||'Anonim';
   const topik=document.getElementById('ptny-topik')?.value||'Lainnya';
   const urgensi=document.getElementById('ptny-urgensi')?.value||'Medium';
   const isi=document.getElementById('ptny-isi')?.value.trim();
-
   if(!isi){toast('⚠️ Pertanyaan tidak boleh kosong');return;}
   if(isi.length<10){toast('⚠️ Pertanyaan terlalu singkat (min 10 karakter)');return;}
-
   btn.disabled=true; btn.textContent='⏳ Mengirim...';
-
-  // Cek Apps Script Pertanyaan
-  const isAppsScriptOK = APPS_SCRIPT_PERTANYAAN && !APPS_SCRIPT_PERTANYAAN.includes('GANTI') && APPS_SCRIPT_PERTANYAAN.startsWith('https://');
-
-  if(isAppsScriptOK){
-    try{
-      const now=new Date();
-      const pad=x=>String(x).padStart(2,'0');
-      const waktu=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-      const params=new URLSearchParams({
-        action:'tambah_pertanyaan',
-        nama,topik,urgensi,isi,waktu,
-        username:currentUser?.username||nama
-      });
-      await fetch(APPS_SCRIPT_PERTANYAAN,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
-      toast('✅ Pertanyaan berhasil dikirim!');
-      if(msg){msg.textContent='✅ Pertanyaan terkirim! Menunggu jawaban dari pengurus.';msg.style.color='var(--accent3)';}
-      const isiEl=document.getElementById('ptny-isi');
-      if(isiEl){isiEl.value=''; document.getElementById('ptny-char').textContent='0 karakter';}
-      // Refresh list setelah 2 detik
-      setTimeout(async()=>{
-        await refreshPertanyaan();
-        if(msg) msg.textContent='';
-      }, 2000);
-      return;
-    }catch(e){
-      console.warn('Apps Script pertanyaan gagal:', e);
-    }
+  if(isDemoMode){
+    if(!ptnyAllData)ptnyAllData=[]; ptnyAllData.unshift({nama,topik,urgensi,pertanyaan:isi,isi_jawaban:'',waktu:new Date().toLocaleString('id-ID')});
+    toast('✅ Pertanyaan tersimpan (demo)'); if(msg){msg.textContent='✅ Terkirim! (mode demo)';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi'); if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    renderPtnyStats(); applyPtnyFilter(); btn.disabled=false; btn.textContent='❓ Kirim Pertanyaan'; setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
   }
-
-  // Fallback demo / tidak terkonfigurasi
-  if(isDemoMode || !isAppsScriptOK){
-    // Simpan ke cache lokal sebagai demo
-    if(!cache.Pertanyaan) cache.Pertanyaan=[];
-    const now=new Date();
-    const pad=x=>String(x).padStart(2,'0');
-    cache.Pertanyaan.push({
-      nama,topik,urgensi,isi,jawaban:'',
-      waktu:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`,
-    });
-    if(isAppsScriptOK){
-      toast('⚠️ Gagal kirim ke server, tersimpan lokal saja');
-      if(msg){msg.textContent='⚠️ Gagal terhubung ke server. Coba lagi nanti.';msg.style.color='var(--yellow)';}
-    } else {
-      toast('⚠️ APPS_SCRIPT_PERTANYAAN belum dikonfigurasi');
-      if(msg){msg.textContent='⚠️ Isi APPS_SCRIPT_PERTANYAAN untuk menyimpan ke Spreadsheet.';msg.style.color='var(--yellow)';}
-    }
-    const isiEl=document.getElementById('ptny-isi');
-    if(isiEl){isiEl.value=''; document.getElementById('ptny-char').textContent='0 karakter';}
-    filterPertanyaan();
-    renderPertanyaanStats();
-    setTimeout(()=>{if(msg)msg.textContent='';},4000);
-  }
-
-  btn.disabled=false; btn.textContent='❓ Kirim Pertanyaan';
+  const now=new Date(),pad=x=>String(x).padStart(2,'0');
+  const waktu=`${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const params=new URLSearchParams({action:'tambah_pertanyaan',nama,topik,urgensi,pertanyaan:isi,waktu,username:currentUser?.username||nama,isi_jawaban:'',keputusan:'',status:'Pending'});
+  try{
+    if(APPS_SCRIPT_PTNY.includes('GANTI'))throw new Error('URL belum diisi');
+    await fetch(APPS_SCRIPT_PTNY,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
+    toast('✅ Pertanyaan berhasil dikirim!'); if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi'); if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    setTimeout(()=>{loadPertanyaanList();if(msg)msg.textContent='';},2000);
+  }catch(e){ toast('⚠️ Isi APPS_SCRIPT_PTNY dengan URL Apps Script'); if(msg){msg.textContent='⚠️ URL belum dikonfigurasi';msg.style.color='var(--yellow)';} }
+  finally{ btn.disabled=false; btn.textContent='❓ Kirim Pertanyaan'; }
 }
 
-// ═══════════════════════════════════════════════════
-// SHARED
-// ═══════════════════════════════════════════════════
-function copyEntryText(text){
-  navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin'));
+// ══════════════════════════════════════════════════
+// HASIL PERTANYAAN (Admin/All can view, can answer)
+// ══════════════════════════════════════════════════
+let hpCurrentPage=1, hpFilteredData=[];
+
+function renderHasilPertanyaan(){
+  const content=document.getElementById('app-content');
+  content.innerHTML=`
+    <div class="ptny-stats-bar" id="hp-stats"></div>
+    <div class="section-header">
+      <span class="section-title">📋 Hasil Pertanyaan</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="section-count" id="hp-count">—</span>
+        <button class="btn" onclick="loadHasilList()">🔄 Refresh</button>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <input type="text" class="filter-input" id="hp-search" placeholder="🔍 Cari..." oninput="applyHpFilter()">
+      <select class="filter-input" id="hp-f-topik" onchange="applyHpFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
+      <select class="filter-input" id="hp-f-urgensi" onchange="applyHpFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
+      <select class="filter-input" id="hp-f-status" onchange="applyHpFilter()"><option value="">Semua Status</option><option value="answered">✅ Dijawab</option><option value="pending">⏳ Pending</option></select>
+    </div>
+    <div id="hp-list"></div>
+    <div id="hp-pagination" class="pagination"></div>`;
+  loadHasilList();
 }
 
+function loadHasilList(){
+  const listEl=document.getElementById('hp-list'); if(!listEl)return;
+  listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat...</div>';
+  if(isDemoMode||!APPS_SCRIPT_PTNY||APPS_SCRIPT_PTNY.includes('GANTI')){
+    ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[])); renderHpStats(); applyHpFilter(); return;
+  }
+  const csvUrl=CSV_PTNY;
+  if(csvUrl&&csvUrl.startsWith('https')){
+    fetch(csvUrl+'&t='+Date.now()).then(r=>r.text()).then(txt=>{ ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim()); renderHpStats(); applyHpFilter(); }).catch(()=>{ listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+  } else {
+    fetch(`${APPS_SCRIPT_PTNY}?action=get_semua&t=${Date.now()}`).then(r=>r.json()).then(data=>{ if(data.status==='ok')ptnyAllData=data.data||[]; renderHpStats(); applyHpFilter(); }).catch(()=>{ listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+  }
+}
+
+function renderHpStats(){
+  const el=document.getElementById('hp-stats'); if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length;
+  const mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
+}
+
+function applyHpFilter(){
+  const search=(document.getElementById('hp-search')?.value||'').toLowerCase();
+  const filterTopik=document.getElementById('hp-f-topik')?.value||'';
+  const filterUrgensi=document.getElementById('hp-f-urgensi')?.value||'';
+  const filterStatus=document.getElementById('hp-f-status')?.value||'';
+  let data=[...ptnyAllData];
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(filterTopik)data=data.filter(r=>(r.topik||'')===filterTopik);
+  if(filterUrgensi)data=data.filter(r=>(r.urgensi||'').toLowerCase()===filterUrgensi.toLowerCase());
+  if(filterStatus==='answered')data=data.filter(r=>(r.isi_jawaban||r.jawaban||'').trim());
+  if(filterStatus==='pending')data=data.filter(r=>!(r.isi_jawaban||r.jawaban||'').trim());
+  const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
+  data.sort((a,b)=>{ const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2; if(ua!==ub)return ua-ub; const aa=(a.isi_jawaban||a.jawaban||'').trim(),ba=(b.isi_jawaban||b.jawaban||'').trim(); if(!!aa!==!!ba)return aa?1:-1; return 0; });
+  hpFilteredData=data;
+  const cnt=document.getElementById('hp-count'); if(cnt)cnt.textContent=data.length+' pertanyaan';
+  renderHpPage();
+}
+
+function renderHpPage(){
+  const total=hpFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(hpCurrentPage>totalPages)hpCurrentPage=1;
+  const start=(hpCurrentPage-1)*PER_PAGE;
+  renderHasilCards(hpFilteredData.slice(start,start+PER_PAGE),'hp-list');
+  renderPagination('hp-pagination',hpCurrentPage,totalPages,p=>{hpCurrentPage=p;renderHpPage();document.getElementById('hp-list')?.scrollIntoView({behavior:'smooth'});});
+}
+
+function renderHasilCards(data,containerId){
+  const container=document.getElementById(containerId); if(!container)return;
+  if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan ditemukan.</p></div>';return;}
+  const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
+  container.innerHTML=data.map((item)=>{
+    const origIdx=ptnyAllData.indexOf(item);
+    const nama=item.nama||item.name||'Anonim';
+    const topik=item.topik||item.topic||'Lainnya';
+    const urgensi=item.urgensi||item.urgency||'Medium';
+    const isi=item.pertanyaan||item.isi||item.question||'';
+    const jawaban=item.isi_jawaban||item.jawaban||item.answer||'';
+    const waktu=item.waktu||item.tanggal||item.timestamp||'';
+    const penjawab=item.nama_penjawab||item.penjawab||'';
+    const keputusan=item.keputusan||'';
+    const status=item.status||'Pending';
+    const hasAnswer=jawaban.trim()!=='';
+    const uc=urgColor[urgensi]||'var(--text3)';
+    return `<div class="ptny-card" style="border-left:4px solid ${uc};">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
+        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
+        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Dijawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
+        ${status?`<span style="font-size:.65rem;background:var(--surface2);color:var(--text3);padding:1px 7px;border-radius:8px;">${esc(status)}</span>`:''}
+      </div>
+      <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
+      <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi)}</div>
+      ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' — oleh '+esc(penjawab):''}</div><div>${esc(jawaban)}</div></div>`:''}
+      ${keputusan?`<span class="kep-badge" style="margin-top:6px;background:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'rgba(52,211,153,.2)':'rgba(248,113,113,.15)'};color:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'var(--accent3)':'var(--red)'};">${esc(keputusan)}</span>`:''}
+      <!-- Jawab Form -->
+      <div class="ptny-jawab-row" id="hp-jawab-${origIdx}" style="display:none;margin-top:10px;">
+        <div style="font-size:.7rem;font-weight:700;color:var(--accent2);margin-bottom:6px;">✍️ Tulis Jawaban</div>
+        <input id="hp-j-nama-${origIdx}" type="text" placeholder="Nama Penjawab..." value="${esc(currentUser?.username||'')}" style="width:100%;margin-bottom:6px;">
+        <textarea id="hp-j-isi-${origIdx}" rows="3" placeholder="Isi jawaban tertulis..." style="width:100%;resize:vertical;min-height:60px;margin-bottom:6px;"></textarea>
+        <select id="hp-j-kep-${origIdx}" style="width:100%;margin-bottom:6px;"><option value="">— Keputusan —</option><option>VALID ANSWER</option><option>NOT VALID ANSWER</option><option>VALID QUESTION</option><option>NOT VALID QUESTION</option></select>
+        <div style="display:flex;gap:5px;">
+          <button class="btn accent" onclick="submitJawaban(${origIdx})" style="flex:1;padding:9px;font-size:.82rem;">✅ Simpan Jawaban</button>
+          <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='none'" style="padding:9px;">✕</button>
+        </div>
+      </div>
+      <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='block'" style="margin-top:8px;font-size:.75rem;border-color:var(--accent);color:var(--accent);">✍️ Jawab / Edit</button>
+      <button class="btn" onclick="copyText(${JSON.stringify('❓ '+isi+(hasAnswer?'\n\n💬 '+jawaban:''))})" style="margin-top:8px;margin-left:5px;font-size:.75rem;">📋 Copy</button>
+    </div>`;
+  }).join('');
+}
+
+async function submitJawaban(idx){
+  const namaPenjawab=document.getElementById(`hp-j-nama-${idx}`)?.value?.trim()||currentUser?.username||'Anon';
+  const isiJawaban=document.getElementById(`hp-j-isi-${idx}`)?.value?.trim()||'';
+  const keputusan=document.getElementById(`hp-j-kep-${idx}`)?.value||'';
+  const now=new Date().toLocaleString('id-ID');
+  if(isDemoMode){
+    if(ptnyAllData[idx]){ ptnyAllData[idx].isi_jawaban=isiJawaban; ptnyAllData[idx].nama_penjawab=namaPenjawab; ptnyAllData[idx].keputusan=keputusan; ptnyAllData[idx].status='Done'; }
+    toast('✅ Jawaban tersimpan (demo)'); const row=document.getElementById(`hp-jawab-${idx}`); if(row)row.style.display='none'; renderHpStats(); applyHpFilter(); return;
+  }
+  const params=new URLSearchParams({action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});
+  try{
+    if(APPS_SCRIPT_PTNY.includes('GANTI'))throw new Error('URL belum diisi');
+    await fetch(APPS_SCRIPT_PTNY,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()});
+    toast('✅ Jawaban disimpan!'); const row=document.getElementById(`hp-jawab-${idx}`); if(row)row.style.display='none'; setTimeout(()=>loadHasilList(),1200);
+  }catch(e){ toast('⚠️ Gagal menyimpan jawaban.'); }
+}
+
+// ══════════════════════════════════════════════════
+// KEYBOARD
+// ══════════════════════════════════════════════════
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    if(document.getElementById('fullscreen-overlay').style.display==='flex') closeFullscreen();
-    else if(document.getElementById('detail-modal').style.display==='block') closeDetail();
+    if(document.getElementById('fullscreen-overlay').style.display==='flex')closeFullscreen();
+    else if(document.getElementById('detail-modal').style.display==='block')closeDetail();
   }
 });
 </script>
+
+<!-- ══════════════════════════════════════════════════
+  PANDUAN APPS SCRIPT — Salin ke Google Apps Script
+  ══════════════════════════════════════════════════
+
+=== APPS SCRIPT 1: LOGIN (Sheet: Awal) ===
+Sheet columns: username | password | level
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActive().getSheetByName('Awal');
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0].map(h => h.toString().toLowerCase().trim());
+  var action = e.parameter.action;
+  if (action === 'cek_login') {
+    var uname = e.parameter.username;
+    var pass = e.parameter.password;
+    for (var i = 1; i < data.length; i++) {
+      var row = {};
+      headers.forEach((h, j) => row[h] = data[i][j]);
+      if (row.username == uname && row.password == pass) {
+        return output({status:'ok', user:{username:uname, level:row.level||'Pengguna'}});
+      }
+    }
+    return output({status:'error', message:'Login gagal'});
+  }
+  return output({status:'error', message:'Action tidak dikenal'});
+}
+function output(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+=== APPS SCRIPT 2: DOA (Sheet: Doa) ===
+Sheet columns: no_urut | tanggal | user | permintaan | terang | tanggal_jawaban | status | catatan_jawaban
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActive().getSheetByName('Doa');
+  var data = sheet.getDataRange().getValues();
+  if (data.length < 2) return output({status:'ok', data:[]});
+  var headers = data[0].map(h => h.toString().trim());
+  var rows = data.slice(1).map(row => {
+    var obj = {};
+    headers.forEach((h, i) => obj[h] = row[i]);
+    return obj;
+  });
+  return output({status:'ok', data:rows});
+}
+function doPost(e) {
+  var params = e.parameter;
+  if (params.action === 'tambah') {
+    var sheet = SpreadsheetApp.getActive().getSheetByName('Doa');
+    sheet.appendRow([params.no_urut, params.tanggal, params.user, params.permintaan,
+      params.terang, params.tanggal_jawaban, params.status, params.catatan_jawaban]);
+    return output({status:'ok'});
+  }
+  return output({status:'error'});
+}
+function output(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+=== APPS SCRIPT 3: GELISAH (Sheet: Gelisah) ===
+Sheet columns: no_urut | tanggal | user | masalah | terang | kategori | tanggal_jawaban | status | catatan_jawaban
+(sama strukturnya dengan DOA, ganti nama sheet & kolom)
+
+=== APPS SCRIPT 4: ALKITAB (Sheet: Alkitab) ===
+Sheet columns: no_urut | tanggal | user | nama_alkitab | ayat | terang | catatan | tema | tanggal_jawaban | catatan_jawaban
+(sama strukturnya dengan DOA)
+
+=== APPS SCRIPT 5: PERTANYAAN (Sheet: Pertanyaan) ===
+Sheet columns: waktu | nama | topik | urgensi | pertanyaan | isi_jawaban | nama_penjawab | waktu_penjawab | status | keputusan
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActive().getSheetByName('Pertanyaan');
+  var data = sheet.getDataRange().getValues();
+  if (data.length < 2) return output({status:'ok', data:[]});
+  var headers = data[0].map(h => h.toString().trim());
+  var rows = data.slice(1).map(row => {
+    var obj = {};
+    headers.forEach((h, i) => obj[h] = row[i]);
+    return obj;
+  });
+  return output({status:'ok', data:rows});
+}
+function doPost(e) {
+  var params = e.parameter;
+  var sheet = SpreadsheetApp.getActive().getSheetByName('Pertanyaan');
+  if (params.action === 'tambah_pertanyaan') {
+    sheet.appendRow([params.waktu, params.nama, params.topik, params.urgensi,
+      params.pertanyaan, '', '', '', 'Pending', '']);
+    return output({status:'ok'});
+  }
+  if (params.action === 'update_jawaban') {
+    var rowIdx = parseInt(params.row_index) + 2; // +2: header + 0-index
+    var data = sheet.getDataRange().getValues();
+    var headers = data[0].map(h => h.toString().trim());
+    var iIsi = headers.indexOf('isi_jawaban');
+    var iNama = headers.indexOf('nama_penjawab');
+    var iWkt = headers.indexOf('waktu_penjawab');
+    var iSts = headers.indexOf('status');
+    var iKep = headers.indexOf('keputusan');
+    if (iIsi >= 0) sheet.getRange(rowIdx, iIsi+1).setValue(params.isi_jawaban||'');
+    if (iNama >= 0) sheet.getRange(rowIdx, iNama+1).setValue(params.nama_penjawab||'');
+    if (iWkt >= 0)  sheet.getRange(rowIdx, iWkt+1).setValue(params.waktu_penjawab||'');
+    if (iSts >= 0)  sheet.getRange(rowIdx, iSts+1).setValue(params.status||'Done');
+    if (iKep >= 0)  sheet.getRange(rowIdx, iKep+1).setValue(params.keputusan||'');
+    return output({status:'ok'});
+  }
+  return output({status:'error'});
+}
+function output(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+CARA DEPLOY:
+1. Buat Google Spreadsheet baru
+2. Buat sheet: Awal, Doa, Gelisah, Alkitab, Pertanyaan
+3. Di setiap sheet, buat header di baris 1 (sesuai kolom di atas)
+4. Untuk sheet Awal: isi minimal 1 baris user (username, password, level)
+5. Buka Extensions > Apps Script
+6. Buat 5 Apps Script terpisah (bisa 1 project, tambah file)
+7. Deploy sebagai Web App: Execute as "Me", Access "Anyone"
+8. Salin URL deployment ke konstanta APPS_SCRIPT_* di index.html
+
+DEPLOY KE GITHUB PAGES:
+1. Buat akun GitHub (misal: akunbaru)
+2. Buat repository baru: akunbaru.github.io
+3. Upload file ini sebagai index.html
+4. Aktifkan GitHub Pages di Settings > Pages > Deploy from branch: main
+5. Akses di https://akunbaru.github.io/
+-->
 </body>
 </html>
