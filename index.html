@@ -1696,56 +1696,451 @@ function out(obj) {
 // Sheet name: Pertanyaan
 // Kolom: waktu | nama | topik | urgensi | pertanyaan | isi_jawaban | nama_penjawab | waktu_penjawab | status | keputusan
 
-function doPost(e) {
-  const p = e.parameter;
-  const sheet = SpreadsheetApp.getActive().getSheetByName('Pertanyaan');
+// ═══════════════════════════════════════════════════════════════
+// APPS SCRIPT — Menu Pertanyaan Seminar
+// File ini di-paste ke Google Apps Script yang terhubung ke
+// Google Spreadsheet "Pertanyaan"
+//
+// Kolom di Sheet "Pertanyaan":
+//   A: waktu          | B: nama           | C: topik
+//   D: pertanyaan     | E: urgensi        | F: waktu_penjawab
+//   G: nama_penjawab  | H: rating         | I: status
+//   J: isi_jawaban    | K: keputusan      | L: nama_approve
+//
+// Cara deploy:
+//   1. Buka Google Spreadsheet "Pertanyaan"
+//   2. Menu Extensions → Apps Script
+//   3. Paste seluruh kode ini
+//   4. Klik Deploy → New Deployment → Web App
+//   5. Execute as: Me | Who has access: Anyone
+//   6. Copy URL deployment → paste ke APPS_SCRIPT_PERTANYAAN di index.html
+// ═══════════════════════════════════════════════════════════════
 
-  if (p.action === 'tambah_pertanyaan') {
-    sheet.appendRow([
-      p.waktu   || new Date().toLocaleString('id'),
-      p.nama    || 'Anonim',
-      p.topik   || '',
-      p.urgensi || 'Medium',
-      p.pertanyaan || '',
-      '', '', '', 'Pending', ''
-    ]);
-    return out({status:'ok'});
-  }
+// ── KONFIGURASI ─────────────────────────────────────────────────
+const SHEET_NAME = 'Pertanyaan';
+const AWAL_SHEET_NAME = 'Awal'; // sheet login di spreadsheet berbeda (opsional)
 
-  if (p.action === 'update_jawaban') {
-    const rowIdx = parseInt(p.row_index || '0') + 2; // +1 header, +1 1-based
-    const data = sheet.getDataRange().getValues();
-    const headers = data[0].map(h => h.toString().trim().toLowerCase().replace(/\\s+/g,'_'));
-    const col = name => { const i = headers.indexOf(name); return i >= 0 ? i + 1 : -1; };
-    if(col('isi_jawaban')>0)    sheet.getRange(rowIdx,col('isi_jawaban')).setValue(p.isi_jawaban||'');
-    if(col('nama_penjawab')>0)  sheet.getRange(rowIdx,col('nama_penjawab')).setValue(p.nama_penjawab||'');
-    if(col('waktu_penjawab')>0) sheet.getRange(rowIdx,col('waktu_penjawab')).setValue(p.waktu_penjawab||'');
-    if(col('status')>0)         sheet.getRange(rowIdx,col('status')).setValue(p.status||'Done');
-    if(col('keputusan')>0)      sheet.getRange(rowIdx,col('keputusan')).setValue(p.keputusan||'');
-    return out({status:'ok'});
-  }
+// Daftar level yang dianggap admin (boleh ubah keputusan berkali-kali)
+const ADMIN_LEVELS = ['Administrator', 'Penatua', 'Gembala Distrik'];
 
-  return out({status:'error', message:'Action tidak dikenal'});
-}
+// ── HEADER ROW ───────────────────────────────────────────────────
+const HEADERS = [
+  'waktu', 'nama', 'topik', 'pertanyaan', 'urgensi',
+  'waktu_penjawab', 'nama_penjawab', 'rating', 'status',
+  'isi_jawaban', 'keputusan', 'nama_approve'
+];
 
-function doGet(e) {
-  const sheet = SpreadsheetApp.getActive().getSheetByName('Pertanyaan');
-  const data = sheet.getDataRange().getValues();
-  if (data.length < 2) return out({status:'ok', data:[]});
-  const headers = data[0].map(h => h.toString().trim().toLowerCase().replace(/\\s+/g,'_'));
-  const rows = data.slice(1).map(row => {
-    const obj = {};
-    headers.forEach((h, i) => { obj[h] = String(row[i]||'').trim(); });
-    return obj;
-  }).filter(r => r.pertanyaan);
-  return out({status:'ok', data:rows});
-}
-
-function out(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
+// ── CORS — izinkan semua origin ──────────────────────────────────
+function setCorsHeaders(output) {
+  return output
     .setMimeType(ContentService.MimeType.JSON);
-}`
+}
+
+// ── ENTRY POINT GET ─────────────────────────────────────────────
+function doGet(e) {
+  const action = (e.parameter.action || 'get_semua').toLowerCase();
+  let result;
+  try {
+    if (action === 'get_semua')       result = getSemua(e);
+    else if (action === 'get_filter') result = getFilter(e);
+    else                              result = { status: 'error', message: 'Unknown GET action' };
+  } catch (err) {
+    result = { status: 'error', message: err.message };
+  }
+  return setCorsHeaders(
+    ContentService.createTextOutput(JSON.stringify(result))
+  );
+}
+
+// ── ENTRY POINT POST ────────────────────────────────────────────
+function doPost(e) {
+  let params = {};
+  try {
+    // Support both JSON body and URL-encoded form
+    if (e.postData && e.postData.type === 'application/json') {
+      params = JSON.parse(e.postData.contents);
+    } else if (e.postData && e.postData.contents) {
+      // URL-encoded
+      const raw = e.postData.contents;
+      raw.split('&').forEach(pair => {
+        const [k, v] = pair.split('=').map(decodeURIComponent);
+        params[k] = v ? v.replace(/\+/g, ' ') : '';
+      });
+    }
+    // Also merge e.parameter (for compatibility)
+    Object.assign(params, e.parameter || {});
+  } catch (err) {
+    params = e.parameter || {};
+  }
+
+  const action = (params.action || '').toLowerCase();
+  let result;
+  try {
+    if      (action === 'tambah_pertanyaan') result = tambahPertanyaan(params);
+    else if (action === 'update_jawaban')    result = updateJawaban(params);
+    else if (action === 'tambah_rating')     result = tambahRating(params);
+    else if (action === 'update_keputusan')  result = updateKeputusan(params);
+    else if (action === 'update_status')     result = updateStatus(params);
+    else if (action === 'ganti_password')    result = gantiPassword(params);
+    else                                     result = { status: 'error', message: 'Unknown action: ' + action };
+  } catch (err) {
+    result = { status: 'error', message: err.message };
+  }
+
+  return setCorsHeaders(
+    ContentService.createTextOutput(JSON.stringify(result))
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI BACA
+// ═══════════════════════════════════════════════════════════════
+
+function getSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    // Auto-create sheet jika belum ada
+    sheet = ss.insertSheet(SHEET_NAME);
+    sheet.appendRow(HEADERS);
+  }
+  // Pastikan header ada
+  const firstRow = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  const hasHeader = firstRow[0] === 'waktu';
+  if (!hasHeader) {
+    sheet.insertRowBefore(1);
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  }
+  return sheet;
+}
+
+function getSemua(e) {
+  const sheet = getSheet();
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return { status: 'ok', data: [] };
+  const headers = data[0].map(h => String(h).trim().toLowerCase().replace(/ /g, '_'));
+  const rows = data.slice(1).map((row, idx) => {
+    const obj = { _row: idx + 2 }; // row number in sheet (1-indexed, +1 for header)
+    headers.forEach((h, i) => { obj[h] = row[i] !== undefined ? String(row[i]) : ''; });
+    return obj;
+  }).filter(r => r.pertanyaan && r.pertanyaan.trim());
+  return { status: 'ok', data: rows };
+}
+
+function getFilter(e) {
+  const all = getSemua(e);
+  if (all.status !== 'ok') return all;
+  const urgensi   = (e.parameter.urgensi || '').trim();
+  const topik     = (e.parameter.topik   || '').trim();
+  const status    = (e.parameter.status  || '').trim();
+  const nama      = (e.parameter.nama    || '').trim().toLowerCase();
+  const namaJwb   = (e.parameter.nama_penjawab || '').trim().toLowerCase();
+  const filtered = all.data.filter(r => {
+    if (urgensi && r.urgensi !== urgensi) return false;
+    if (topik   && r.topik   !== topik)   return false;
+    if (status  && r.status  !== status)  return false;
+    if (nama    && !(r.nama || '').toLowerCase().includes(nama)) return false;
+    if (namaJwb && !(r.nama_penjawab || '').toLowerCase().includes(namaJwb)) return false;
+    return true;
+  });
+  return { status: 'ok', data: filtered };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI TAMBAH PERTANYAAN
+// ═══════════════════════════════════════════════════════════════
+
+function tambahPertanyaan(params) {
+  const sheet = getSheet();
+  const now = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+  const row = [
+    params.waktu || now,
+    params.nama  || 'Anonim',
+    params.topik || '-',
+    params.pertanyaan || '',
+    params.urgensi || 'Low',
+    '', // waktu_penjawab
+    '', // nama_penjawab
+    '0', // rating
+    'Pending', // status
+    '', // isi_jawaban
+    '', // keputusan
+    ''  // nama_approve
+  ];
+  sheet.appendRow(row);
+  // Auto-resize kolom D (pertanyaan)
+  try { sheet.autoResizeColumn(4); } catch(e) {}
+  return { status: 'ok', message: 'Pertanyaan berhasil ditambahkan' };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI UPDATE JAWABAN
+// Semua orang bisa mengisi jawaban dan nama_penjawab
+// Keputusan: user biasa hanya bisa isi 1x (dari kosong → isi)
+// Admin (nama_approve level) bisa ubah berkali-kali
+// ═══════════════════════════════════════════════════════════════
+
+function updateJawaban(params) {
+  const sheet    = getSheet();
+  const rowIndex = parseInt(params.row_index);
+  // row_index adalah 0-based index dari array data (bukan row sheet)
+  // Row sheet = rowIndex + 2 (baris 1 = header)
+  const sheetRow = rowIndex + 2;
+
+  const totalRows = sheet.getLastRow();
+  if (sheetRow < 2 || sheetRow > totalRows) {
+    return { status: 'error', message: 'Row tidak valid: ' + sheetRow };
+  }
+
+  const now = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+
+  // Ambil data existing
+  const existing = sheet.getRange(sheetRow, 1, 1, HEADERS.length).getValues()[0];
+  const colMap = {};
+  HEADERS.forEach((h, i) => { colMap[h] = i; });
+
+  const existingKeputusan = String(existing[colMap['keputusan']] || '').trim();
+  const existingNamaApprove = String(existing[colMap['nama_approve']] || '').trim();
+
+  const namaUser = (params.user || params.nama_penjawab || '').trim();
+  const levelUser = (params.level || '').trim();
+  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelUser.toLowerCase()) ||
+                  namaUser.toLowerCase() === 'admin';
+
+  // Validasi keputusan: user biasa hanya 1x
+  const newKeputusan = (params.keputusan || '').trim();
+  if (newKeputusan) {
+    if (!isAdmin && existingKeputusan && existingNamaApprove) {
+      // Sudah ada keputusan dan bukan admin → tolak perubahan keputusan
+      // tapi tetap izinkan update jawaban/nama_penjawab
+    } else {
+      // Boleh update keputusan
+      sheet.getRange(sheetRow, colMap['keputusan'] + 1).setValue(newKeputusan);
+      sheet.getRange(sheetRow, colMap['nama_approve'] + 1).setValue(namaUser);
+    }
+  }
+
+  // Update kolom jawaban
+  if (params.nama_penjawab) {
+    sheet.getRange(sheetRow, colMap['nama_penjawab'] + 1).setValue(params.nama_penjawab);
+    sheet.getRange(sheetRow, colMap['waktu_penjawab'] + 1).setValue(params.waktu_penjawab || now);
+  }
+  if (params.isi_jawaban !== undefined) {
+    sheet.getRange(sheetRow, colMap['isi_jawaban'] + 1).setValue(params.isi_jawaban);
+  }
+  if (params.status) {
+    sheet.getRange(sheetRow, colMap['status'] + 1).setValue(params.status);
+  }
+
+  return { status: 'ok', message: 'Jawaban berhasil disimpan' };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI RATING
+// Setiap user bisa beri -2 sampai +2 berkali-kali
+// Rating dijumlahkan (bukan rata-rata)
+// ═══════════════════════════════════════════════════════════════
+
+function tambahRating(params) {
+  const sheet    = getSheet();
+  const rowIndex = parseInt(params.row_index);
+  const sheetRow = rowIndex + 2;
+
+  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
+    return { status: 'error', message: 'Row tidak valid' };
+  }
+
+  const nilai = parseInt(params.nilai || '0');
+  // Validasi range -2 sampai +2
+  if (nilai < -2 || nilai > 2 || nilai === 0) {
+    return { status: 'error', message: 'Nilai rating harus -2, -1, 1, atau 2' };
+  }
+
+  const colMap = {};
+  HEADERS.forEach((h, i) => { colMap[h] = i; });
+
+  // Ambil rating saat ini
+  const cell = sheet.getRange(sheetRow, colMap['rating'] + 1);
+  const currentRating = parseFloat(cell.getValue() || '0') || 0;
+  const newRating = currentRating + nilai;
+  cell.setValue(newRating);
+
+  return { status: 'ok', rating: newRating };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI UPDATE KEPUTUSAN (shortcut tanpa jawaban)
+// ═══════════════════════════════════════════════════════════════
+
+function updateKeputusan(params) {
+  const sheet    = getSheet();
+  const rowIndex = parseInt(params.row_index);
+  const sheetRow = rowIndex + 2;
+
+  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
+    return { status: 'error', message: 'Row tidak valid' };
+  }
+
+  const colMap = {};
+  HEADERS.forEach((h, i) => { colMap[h] = i; });
+
+  const existing = sheet.getRange(sheetRow, 1, 1, HEADERS.length).getValues()[0];
+  const existingKeputusan = String(existing[colMap['keputusan']] || '').trim();
+  const existingNamaApprove = String(existing[colMap['nama_approve']] || '').trim();
+
+  const namaUser = (params.user || '').trim();
+  const levelUser = (params.level || '').trim();
+  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelUser.toLowerCase()) ||
+                  namaUser.toLowerCase() === 'admin';
+
+  // Cek apakah boleh ubah
+  if (!isAdmin && existingKeputusan && existingNamaApprove) {
+    return { status: 'error', message: 'Keputusan sudah diisi dan tidak bisa diubah lagi (bukan admin)' };
+  }
+
+  const keputusan = (params.keputusan || '').trim();
+  const VALID_KEPUTUSAN = ['VALID ANSWER', 'NOT VALID ANSWER', 'VALID QUESTION', 'NOT VALID QUESTION'];
+  if (!VALID_KEPUTUSAN.includes(keputusan)) {
+    return { status: 'error', message: 'Keputusan tidak valid: ' + keputusan };
+  }
+
+  sheet.getRange(sheetRow, colMap['keputusan'] + 1).setValue(keputusan);
+  sheet.getRange(sheetRow, colMap['nama_approve'] + 1).setValue(namaUser);
+
+  return { status: 'ok', message: 'Keputusan disimpan: ' + keputusan, is_admin: isAdmin };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI UPDATE STATUS
+// ═══════════════════════════════════════════════════════════════
+
+function updateStatus(params) {
+  const sheet    = getSheet();
+  const rowIndex = parseInt(params.row_index);
+  const sheetRow = rowIndex + 2;
+
+  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
+    return { status: 'error', message: 'Row tidak valid' };
+  }
+
+  const colMap = {};
+  HEADERS.forEach((h, i) => { colMap[h] = i; });
+
+  const status = (params.status || '').trim();
+  if (!['Pending', 'Done', 'Cancel'].includes(status)) {
+    return { status: 'error', message: 'Status tidak valid' };
+  }
+
+  sheet.getRange(sheetRow, colMap['status'] + 1).setValue(status);
+  return { status: 'ok', message: 'Status diupdate: ' + status };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FUNGSI GANTI PASSWORD
+// Disimpan di Spreadsheet "Awal" kolom password
+// Semua user bisa ganti password sendiri
+// Admin bisa ganti password siapapun
+// ═══════════════════════════════════════════════════════════════
+
+function gantiPassword(params) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const awalSheet = ss.getSheetByName(AWAL_SHEET_NAME);
+  if (!awalSheet) {
+    // Cari di spreadsheet lain kalau ada
+    return { status: 'error', message: 'Sheet "Awal" tidak ditemukan di spreadsheet ini. Gunakan AppScript di spreadsheet Awal.' };
+  }
+
+  const requester = (params.requester || '').trim(); // username yang meminta
+  const targetUser = (params.username || requester).trim(); // username yang ingin diubah
+  const newPass = (params.new_password || '').trim();
+  const levelRequester = (params.level || '').trim();
+
+  if (!newPass) return { status: 'error', message: 'Password baru tidak boleh kosong' };
+  if (newPass.length < 3) return { status: 'error', message: 'Password minimal 3 karakter' };
+
+  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelRequester.toLowerCase()) ||
+                  requester.toLowerCase() === 'admin';
+
+  // User biasa hanya boleh ganti password sendiri
+  if (!isAdmin && requester !== targetUser) {
+    return { status: 'error', message: 'Hanya admin yang bisa ganti password orang lain' };
+  }
+
+  const data = awalSheet.getDataRange().getValues();
+  const headers = data[0].map(h => String(h).trim().toLowerCase());
+  const userCol = headers.indexOf('username');
+  const passCol = headers.indexOf('password');
+
+  if (userCol === -1 || passCol === -1) {
+    return { status: 'error', message: 'Kolom username/password tidak ditemukan di sheet Awal' };
+  }
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][userCol]).trim() === targetUser) {
+      awalSheet.getRange(i + 1, passCol + 1).setValue(newPass);
+      return { status: 'ok', message: 'Password berhasil diganti untuk user: ' + targetUser };
+    }
+  }
+  return { status: 'error', message: 'User tidak ditemukan: ' + targetUser };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TRIGGER OTOMATIS — Buat header saat pertama kali
+// ═══════════════════════════════════════════════════════════════
+
+function setupSheet() {
+  const sheet = getSheet();
+  // Format header
+  const headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
+  headerRange.setFontWeight('bold');
+  headerRange.setBackground('#1a3a6e');
+  headerRange.setFontColor('#ffffff');
+  headerRange.setHorizontalAlignment('center');
+
+  // Freeze header row
+  sheet.setFrozenRows(1);
+
+  // Set lebar kolom
+  const widths = [160, 120, 150, 400, 90, 160, 120, 70, 90, 400, 160, 120];
+  widths.forEach((w, i) => {
+    try { sheet.setColumnWidth(i + 1, w); } catch(e) {}
+  });
+
+  // Validasi dropdown kolom urgensi (E)
+  const urgRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['Critical','High','Medium','Low','Intermesso'], true)
+    .build();
+  sheet.getRange(2, 5, 1000, 1).setDataValidation(urgRule);
+
+  // Validasi dropdown kolom status (I)
+  const statusRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['Pending','Done','Cancel'], true)
+    .build();
+  sheet.getRange(2, 9, 1000, 1).setDataValidation(statusRule);
+
+  // Validasi dropdown kolom keputusan (K)
+  const keputusanRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['VALID ANSWER','NOT VALID ANSWER','VALID QUESTION','NOT VALID QUESTION'], true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 11, 1000, 1).setDataValidation(keputusanRule);
+
+  return 'Setup selesai! Sheet Pertanyaan sudah siap digunakan.';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST FUNCTION — Jalankan ini untuk cek koneksi
+// ═══════════════════════════════════════════════════════════════
+
+function testSetup() {
+  const result = setupSheet();
+  Logger.log(result);
+  Logger.log('Sheet name: ' + getSheet().getName());
+  Logger.log('Last row: ' + getSheet().getLastRow());
+  Logger.log('Headers: ' + HEADERS.join(', '));
+  Logger.log('=== SETUP BERHASIL ===');
+}
+`
 };
 
 function renderPanduan(){
