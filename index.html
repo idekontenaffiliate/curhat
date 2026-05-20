@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.11 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.13 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -771,14 +771,14 @@ async function doLogin(){
   const demoU=DEMO_USERS[user.toLowerCase()];
   if(demoU&&demoU.password===pass){
     isDemoMode=true; currentUser={username:user,level:demoU.level};
-    masukApp(user,demoU.level); toast(`✅ Login demo: ${demoU.level}`); return;
+    masukApp(user,demoU.level,''); toast(`✅ Login demo: ${demoU.level}`); return;
   }
   try{
     setLoginStatus('🔗 Menghubungkan ke server...');
     const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),8000);
     const r=await fetch(`${APPS_SCRIPT_AWAL}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,{signal:ctrl.signal});
     clearTimeout(t); const data=await r.json();
-    if(data.status==='ok'){isDemoMode=false;currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})};masukApp(user,currentUser.level);return;}
+    if(data.status==='ok'){isDemoMode=false;currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})};masukApp(user,currentUser.level,currentUser.tipe);return;}
     else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
   }catch(e){console.warn('AS login gagal:',e.message);}
   try{
@@ -791,7 +791,7 @@ async function doLogin(){
       const p=(row.password||row.pass||'').trim();
       return u===user.toLowerCase()&&p===pass;
     });
-    if(found){isDemoMode=false;currentUser={username:user,level:found.level||'Pengguna'};masukApp(user,currentUser.level);toast('✅ Login berhasil');return;}
+    if(found){isDemoMode=false;currentUser={username:user,level:found.level||'Pengguna',tipe:found.tipe||''};masukApp(user,currentUser.level,currentUser.tipe);toast('✅ Login berhasil');return;}  
     else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
   }catch(e){console.warn('CSV login gagal:',e.message);}
   errEl.style.display='block';
@@ -799,7 +799,8 @@ async function doLogin(){
   btn.disabled=false; btn.textContent='✦ Masuk';
 }
 
-function masukApp(username,level){
+function masukApp(username,level, tipe){
+  currentUser.tipe = tipe||'';
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-app').style.display='flex';
   document.getElementById('hdr-title').textContent=username;
@@ -918,23 +919,38 @@ function closeAnnounce(){
 // ══════════════════════════════════════════════════════════════════
 // NAV
 // ══════════════════════════════════════════════════════════════════
+
 function getMenus(){
-  const base=[
-    {id:'dashboard',label:'🏠 Beranda'},
-    {id:'doa',label:'🙏 Catatan Doa'},
-    {id:'gelisah',label:'💭 Kegelisahan'},
-    {id:'alkitab',label:'📖 Alkitab'},
+  const ALL_MENUS=[
+    {id:'dashboard', label:'🏠 Beranda'},
+    {id:'doa',       label:'🙏 Catatan Doa'},
+    {id:'gelisah',   label:'💭 Kegelisahan'},
+    {id:'alkitab',   label:'📖 Alkitab'},
     {id:'pertanyaan',label:'❓ Pertanyaan'},
-    {id:'hasil',label:'📋 Hasil'},
-    {id:'panduan',label:'⚙️ Panduan'},
+    {id:'jemaat',    label:'👥 Jemaat'},
+    {id:'hasil',     label:'📋 Hasil'},
+    {id:'laporan',   label:'📊 Laporan'},
+    {id:'pengumuman',label:'📢 Pengumuman'},
+    {id:'panduan',   label:'⚙️ Panduan'},
   ];
-  if(isAdminUser()){
-    base.splice(5,0,{id:'jemaat',label:'👥 Jemaat'});
-    base.push({id:'laporan',label:'📊 Laporan'});
-    base.push({id:'pengumuman',label:'📢 Pengumuman'});
+
+  // Jika admin level, tampilkan semua
+  if(isAdminUser()) return ALL_MENUS;
+
+  // Jika tipe kosong/tidak ada → tampilkan menu default (semua kecuali admin-only)
+  const tipeStr=(currentUser?.tipe||'').trim();
+  if(!tipeStr){
+    return ALL_MENUS.filter(m=>!['jemaat','laporan','pengumuman'].includes(m.id));
   }
-  return base;
-}
+
+  // Parse tipe: pisah koma, trim, lowercase
+  const allowed=tipeStr.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
+
+  // Dashboard selalu tampil
+  return ALL_MENUS.filter(m=>
+    m.id==='dashboard' || allowed.includes(m.id)
+  );
+}  
 
 function setupNav(){
   const nav=document.getElementById('main-nav'); nav.innerHTML='';
