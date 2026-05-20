@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.1 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.11 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -1875,7 +1875,402 @@ async function deletePengumuman(idx){
   processAnnouncements();
   toast('✅ Pengumuman dihapus');
 }
+// ══════════════════════════════════════════════════════════════════
+// PERTANYAAN MODULE
+// ══════════════════════════════════════════════════════════════════
+function renderPertanyaan(){
+  const content=document.getElementById('app-content');
+  content.innerHTML=`
+    <div class="info-box">❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan rohanimu kepada pemimpin.</div>
+    <div class="form-card">
+      <div class="form-title" style="color:var(--accent2);">❓ Ajukan Pertanyaan</div>
+      <div class="form-field"><label class="form-label">Nama (opsional)</label><input type="text" class="form-input" id="ptny-nama" placeholder="Nama kamu atau anonim..." value="${esc(currentUser?.username||'')}"></div>
+      <div class="form-row">
+        <div class="form-field"><label class="form-label">Topik</label><select class="form-select" id="ptny-topik">${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select></div>
+        <div class="form-field"><label class="form-label">Urgensi</label><select class="form-select" id="ptny-urgensi"><option value="Low">🟢 Santai</option><option value="Medium" selected>🔵 Normal</option><option value="High">🟡 Penting</option><option value="Critical">🔴 Mendesak</option><option value="Intermesso">🟣 Intermesso</option></select></div>
+      </div>
+      <div class="form-field"><label class="form-label">Pertanyaan / Kesulitan</label><textarea class="form-textarea" id="ptny-isi" rows="4" placeholder="Tulis pertanyaan atau kesulitanmu di sini..."></textarea><div id="ptny-char" style="font-size:.68rem;color:var(--text3);text-align:right;margin-top:3px;">0 karakter</div></div>
+      <button class="form-submit" style="background:linear-gradient(135deg,var(--accent2),var(--accent3));" onclick="submitPertanyaan()" id="ptny-submit-btn">❓ Kirim Pertanyaan</button>
+      <div id="ptny-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
+    </div>
+    <div class="ptny-stats-bar" id="ptny-stats"></div>
+    <div class="section-header">
+      <span class="section-title">❓ Daftar Pertanyaan</span>
+      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="ptny-count">—</span><button class="btn" onclick="loadPertanyaanList()">🔄</button></div>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">🔍 Filter Pertanyaan</div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="ptny-search" placeholder="Cari pertanyaan..." oninput="applyPtnyFilter()"></div>
+      <select class="filter-input" id="ptny-f-topik" onchange="applyPtnyFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
+      <select class="filter-input" id="ptny-f-urgensi" onchange="applyPtnyFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
+    </div>
+    <div id="ptny-list"></div><div id="ptny-pagination" class="pagination"></div>`;
+  document.getElementById('ptny-isi').addEventListener('input',function(){document.getElementById('ptny-char').textContent=this.value.length+' karakter';});
+  loadPertanyaanList();
+}
 
+function loadPertanyaanList(){
+  const listEl=document.getElementById('ptny-list');if(!listEl)return;
+  listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat pertanyaan...</div>';
+  if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderPtnyStats();applyPtnyFilter();return;}
+  fetch(URLS.Pertanyaan+'&t='+Date.now())
+    .then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderPtnyStats();applyPtnyFilter();})
+    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data. Coba lagi.</p></div>';});
+}
+
+function renderPtnyStats(){
+  const el=document.getElementById('ptny-stats');if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
+}
+
+function applyPtnyFilter(){
+  const search=(document.getElementById('ptny-search')?.value||'').toLowerCase();
+  const filterTopik=document.getElementById('ptny-f-topik')?.value||'';
+  const filterUrgensi=document.getElementById('ptny-f-urgensi')?.value||'';
+  let data=[...ptnyAllData];
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(filterTopik)data=data.filter(r=>(r.topik||'')===filterTopik);
+  if(filterUrgensi)data=data.filter(r=>(r.urgensi||'').toLowerCase()===filterUrgensi.toLowerCase());
+  const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
+  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;return ua-ub;});
+  ptnyFilteredData=data;
+  const cnt=document.getElementById('ptny-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
+  renderPtnyPage();
+}
+
+function renderPtnyPage(){
+  const total=ptnyFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(ptnyCurrentPage>totalPages)ptnyCurrentPage=1;
+  const start=(ptnyCurrentPage-1)*PER_PAGE;
+  renderPertanyaanCards(ptnyFilteredData.slice(start,start+PER_PAGE),'ptny-list');
+  renderPagination('ptny-pagination',ptnyCurrentPage,totalPages,p=>{ptnyCurrentPage=p;renderPtnyPage();document.getElementById('ptny-list')?.scrollIntoView({behavior:'smooth'});});
+}
+
+function renderPertanyaanCards(data,containerId){
+  const container=document.getElementById(containerId);if(!container)return;
+  if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan.</p></div>';return;}
+  const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
+  container.innerHTML=data.map(item=>{
+    const nama=item.nama||'Anonim',topik=item.topik||'Lainnya',urgensi=item.urgensi||'Medium';
+    const isi=item.pertanyaan||item.isi||'',jawaban=item.isi_jawaban||item.jawaban||'';
+    const waktu=item.waktu||item.tanggal||'',penjawab=item.nama_penjawab||'';
+    const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
+    return `<div class="ptny-card" style="border-left:4px solid ${uc};">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
+        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
+        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Terjawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
+      </div>
+      <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
+      <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi.slice(0,200))}${isi.length>200?'...':''}</div>
+      ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' oleh '+esc(penjawab):''}</div><div>${esc(jawaban.slice(0,150))}${jawaban.length>150?'...':''}</div></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function submitPertanyaan(){
+  const btn=document.getElementById('ptny-submit-btn'),msg=document.getElementById('ptny-status-msg');
+  const nama=document.getElementById('ptny-nama')?.value.trim()||'Anonim';
+  const topik=document.getElementById('ptny-topik')?.value||'Lainnya';
+  const urgensi=document.getElementById('ptny-urgensi')?.value||'Medium';
+  const isi=document.getElementById('ptny-isi')?.value.trim();
+  if(!isi){toast('⚠️ Pertanyaan tidak boleh kosong');return;}
+  if(isi.length<10){toast('⚠️ Pertanyaan terlalu singkat (min 10 karakter)');return;}
+  btn.disabled=true;btn.textContent='⏳ Mengirim...';
+  if(isDemoMode){
+    ptnyAllData.unshift({nama,topik,urgensi,pertanyaan:isi,isi_jawaban:'',waktu:new Date().toLocaleString('id-ID')});
+    toast('✅ Pertanyaan tersimpan (demo)');if(msg){msg.textContent='✅ Terkirim! (demo)';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    renderPtnyStats();applyPtnyFilter();btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';
+    setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
+  }
+  const now=new Date(),pp=x=>String(x).padStart(2,'0');
+  const waktu=`${pp(now.getDate())}/${pp(now.getMonth()+1)}/${now.getFullYear()} ${pp(now.getHours())}:${pp(now.getMinutes())}`;
+  try{
+    await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'tambah_pertanyaan',nama,topik,urgensi,pertanyaan:isi,waktu,username:currentUser?.username||nama,isi_jawaban:'',keputusan:'',status:'Pending'});
+    toast('✅ Pertanyaan berhasil dikirim!');if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    setTimeout(()=>{loadPertanyaanList();if(msg)msg.textContent='';},2000);
+  }catch(e){toast('⚠️ Gagal mengirim pertanyaan');if(msg){msg.textContent='⚠️ Gagal kirim';msg.style.color='var(--yellow)';}}
+  finally{btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';}
+}
+
+// ══════════════════════════════════════════════════════════════════
+// HASIL PERTANYAAN
+// ══════════════════════════════════════════════════════════════════
+function renderHasilPertanyaan(){
+  const content=document.getElementById('app-content');
+  content.innerHTML=`
+    <div class="ptny-stats-bar" id="hp-stats"></div>
+    <div class="section-header">
+      <span class="section-title">📋 Hasil Pertanyaan</span>
+      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="hp-count">—</span><button class="btn" onclick="loadHasilList()">🔄 Refresh</button></div>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">🔍 Filter Hasil</div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="hp-search" placeholder="Cari..." oninput="applyHpFilter()"></div>
+      <select class="filter-input" id="hp-f-topik" onchange="applyHpFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
+      <select class="filter-input" id="hp-f-urgensi" onchange="applyHpFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
+      <select class="filter-input" id="hp-f-status" onchange="applyHpFilter()"><option value="">Semua Status</option><option value="answered">✅ Dijawab</option><option value="pending">⏳ Pending</option></select>
+    </div>
+    <div id="hp-list"></div><div id="hp-pagination" class="pagination"></div>`;
+  loadHasilList();
+}
+
+function loadHasilList(){
+  const listEl=document.getElementById('hp-list');if(!listEl)return;
+  listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat...</div>';
+  if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderHpStats();applyHpFilter();return;}
+  fetch(URLS.Pertanyaan+'&t='+Date.now())
+    .then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderHpStats();applyHpFilter();})
+    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>';});
+}
+
+function renderHpStats(){
+  const el=document.getElementById('hp-stats');if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
+}
+
+function applyHpFilter(){
+  const search=(document.getElementById('hp-search')?.value||'').toLowerCase();
+  const filterTopik=document.getElementById('hp-f-topik')?.value||'';
+  const filterUrgensi=document.getElementById('hp-f-urgensi')?.value||'';
+  const filterStatus=document.getElementById('hp-f-status')?.value||'';
+  let data=[...ptnyAllData];
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(filterTopik)data=data.filter(r=>(r.topik||'')===filterTopik);
+  if(filterUrgensi)data=data.filter(r=>(r.urgensi||'').toLowerCase()===filterUrgensi.toLowerCase());
+  if(filterStatus==='answered')data=data.filter(r=>(r.isi_jawaban||r.jawaban||'').trim());
+  if(filterStatus==='pending')data=data.filter(r=>!(r.isi_jawaban||r.jawaban||'').trim());
+  const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
+  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;return ua-ub;});
+  hpFilteredData=data;
+  const cnt=document.getElementById('hp-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
+  renderHpPage();
+}
+
+function renderHpPage(){
+  const total=hpFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(hpCurrentPage>totalPages)hpCurrentPage=1;
+  const start=(hpCurrentPage-1)*PER_PAGE;
+  renderHasilCards(hpFilteredData.slice(start,start+PER_PAGE),'hp-list');
+  renderPagination('hp-pagination',hpCurrentPage,totalPages,p=>{hpCurrentPage=p;renderHpPage();document.getElementById('hp-list')?.scrollIntoView({behavior:'smooth'});});
+}
+
+function renderHasilCards(data,containerId){
+  const container=document.getElementById(containerId);if(!container)return;
+  if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan ditemukan.</p></div>';return;}
+  const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
+  container.innerHTML=data.map(item=>{
+    const origIdx=ptnyAllData.indexOf(item);
+    const nama=item.nama||'Anonim',topik=item.topik||'Lainnya',urgensi=item.urgensi||'Medium';
+    const isi=item.pertanyaan||item.isi||'',jawaban=item.isi_jawaban||item.jawaban||'';
+    const waktu=item.waktu||item.tanggal||'',penjawab=item.nama_penjawab||'';
+    const keputusan=item.keputusan||'',status=item.status||'Pending';
+    const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
+    return `<div class="ptny-card" style="border-left:4px solid ${uc};">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
+        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
+        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Dijawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
+        ${status?`<span style="font-size:.65rem;background:var(--surface2);color:var(--text3);padding:1px 7px;border-radius:8px;">${esc(status)}</span>`:''}
+      </div>
+      <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
+      <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi)}</div>
+      ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' — oleh '+esc(penjawab):''}</div><div>${esc(jawaban)}</div></div>`:''}
+      ${keputusan?`<span class="kep-badge" style="margin-top:6px;background:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'rgba(52,211,153,.2)':'rgba(248,113,113,.15)'};color:${keputusan.includes('VALID')&&!keputusan.includes('NOT')?'var(--accent3)':'var(--red)'};">${esc(keputusan)}</span>`:''}
+      <div class="ptny-jawab-row" id="hp-jawab-${origIdx}" style="display:none;margin-top:10px;">
+        <div style="font-size:.7rem;font-weight:700;color:var(--accent2);margin-bottom:6px;">✍️ Tulis Jawaban</div>
+        <input id="hp-j-nama-${origIdx}" type="text" placeholder="Nama Penjawab..." value="${esc(currentUser?.username||'')}">
+        <textarea id="hp-j-isi-${origIdx}" rows="3" placeholder="Isi jawaban tertulis..."></textarea>
+        <select id="hp-j-kep-${origIdx}"><option value="">— Keputusan —</option><option>VALID ANSWER</option><option>NOT VALID ANSWER</option><option>VALID QUESTION</option><option>NOT VALID QUESTION</option></select>
+        <div style="display:flex;gap:5px;margin-top:4px;">
+          <button class="btn accent" onclick="submitJawaban(${origIdx})" style="flex:1;padding:9px;font-size:.82rem;">✅ Simpan Jawaban</button>
+          <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='none'" style="padding:9px;">✕</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='block'" style="font-size:.75rem;border-color:var(--accent);color:var(--accent);">✍️ Jawab / Edit</button>
+        <button class="btn" onclick="copyText(${JSON.stringify('❓ '+isi+(hasAnswer?'\n\n💬 '+jawaban:''))})" style="font-size:.75rem;">📋 Copy</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function submitJawaban(idx){
+  const namaPenjawab=document.getElementById(`hp-j-nama-${idx}`)?.value?.trim()||currentUser?.username||'Anon';
+  const isiJawaban=document.getElementById(`hp-j-isi-${idx}`)?.value?.trim()||'';
+  const keputusan=document.getElementById(`hp-j-kep-${idx}`)?.value||'';
+  if(isDemoMode){
+    if(ptnyAllData[idx]){ptnyAllData[idx].isi_jawaban=isiJawaban;ptnyAllData[idx].nama_penjawab=namaPenjawab;ptnyAllData[idx].keputusan=keputusan;ptnyAllData[idx].status='Done';}
+    toast('✅ Jawaban tersimpan (demo)');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';
+    renderHpStats();applyHpFilter();return;
+  }
+  const now=new Date().toLocaleString('id-ID');
+  try{
+    await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});
+    toast('✅ Jawaban disimpan!');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';
+    setTimeout(()=>loadHasilList(),1500);
+  }catch(e){toast('⚠️ Gagal menyimpan jawaban.');}
+}
+
+// ══════════════════════════════════════════════════════════════════
+// LAPORAN ADMIN
+// ══════════════════════════════════════════════════════════════════
+async function renderLaporan(){
+  if(!isAdminUser()){
+    document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas. Hanya Administrator.</p></div>';return;
+  }
+  document.getElementById('app-content').innerHTML=`
+    <div class="laporan-card">
+      <div class="laporan-title">📊 Generate Laporan Penggunaan</div>
+      <div class="form-row" style="margin-bottom:12px;">
+        <div class="form-field"><label class="form-label">Dari Tanggal</label><input type="date" class="form-input" id="laporan-from" value="${getTodayStr().substring(0,7)+'-01'}"></div>
+        <div class="form-field"><label class="form-label">Sampai Tanggal</label><input type="date" class="form-input" id="laporan-to" value="${getTodayStr()}"></div>
+      </div>
+      <button class="form-submit" onclick="loadLaporanData()" id="laporan-btn">📊 Generate Laporan</button>
+    </div>
+    <div id="laporan-result"></div>`;
+}
+
+async function loadLaporanData(){
+  const btn=document.getElementById('laporan-btn');
+  const from=document.getElementById('laporan-from')?.value||'';
+  const to=document.getElementById('laporan-to')?.value||'';
+  const result=document.getElementById('laporan-result');
+  btn.disabled=true;btn.textContent='⏳ Memuat...';
+  result.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Menganalisis data...</div>';
+  await Promise.allSettled([loadCache('Doa'),loadCache('Gelisah'),loadCache('Alkitab')]);
+  btn.disabled=false;btn.textContent='📊 Generate Laporan';
+  function filterByDate(data){return data.filter(r=>{if(!r.tanggal)return true;return(!from||r.tanggal>=from)&&(!to||r.tanggal<=to);});}
+  const doaAll=cache.Doa||[],gelAll=cache.Gelisah||[],alkAll=cache.Alkitab||[];
+  const doaFiltered=filterByDate(doaAll),gelFiltered=filterByDate(gelAll),alkFiltered=filterByDate(alkAll);
+  const allFiltered=[...doaFiltered,...gelFiltered,...alkFiltered];
+  const uniqueUsers=[...new Set(allFiltered.map(r=>r.user||'(tanpa nama)'))].filter(u=>u);
+  const shareAdminCount=allFiltered.filter(r=>(r.share_type||'').toLowerCase()==='admin').length;
+  const shareAllCount=allFiltered.filter(r=>(r.share_type||'').toLowerCase()==='all').length;
+  const userStats={};
+  doaFiltered.forEach(r=>{const u=r.user||'(tanpa nama)';if(!userStats[u])userStats[u]={doa:0,gelisah:0,alkitab:0,shareAdmin:0,shareAll:0};userStats[u].doa++;if((r.share_type||'').toLowerCase()==='admin')userStats[u].shareAdmin++;if((r.share_type||'').toLowerCase()==='all')userStats[u].shareAll++;});
+  gelFiltered.forEach(r=>{const u=r.user||'(tanpa nama)';if(!userStats[u])userStats[u]={doa:0,gelisah:0,alkitab:0,shareAdmin:0,shareAll:0};userStats[u].gelisah++;if((r.share_type||'').toLowerCase()==='admin')userStats[u].shareAdmin++;if((r.share_type||'').toLowerCase()==='all')userStats[u].shareAll++;});
+  alkFiltered.forEach(r=>{const u=r.user||'(tanpa nama)';if(!userStats[u])userStats[u]={doa:0,gelisah:0,alkitab:0,shareAdmin:0,shareAll:0};userStats[u].alkitab++;if((r.share_type||'').toLowerCase()==='admin')userStats[u].shareAdmin++;if((r.share_type||'').toLowerCase()==='all')userStats[u].shareAll++;});
+  const doaTerjawab=doaFiltered.filter(r=>(r.tanggal_jawaban||'').trim()).length;
+  const gelTerjawab=gelFiltered.filter(r=>(r.tanggal_jawaban||'').trim()).length;
+  const alkTerjawab=alkFiltered.filter(r=>(r.tanggal_jawaban||'').trim()).length;
+  result.innerHTML=`
+    <div class="laporan-card">
+      <div class="laporan-title">📋 Ringkasan ${from?formatDate(from):'Semua'} – ${to?formatDate(to):'Sekarang'}</div>
+      <div class="laporan-stat-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div class="laporan-stat"><div class="laporan-stat-num">${doaFiltered.length}</div><div class="laporan-stat-label">🙏 Doa</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num">${gelFiltered.length}</div><div class="laporan-stat-label">💭 Gelisah</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num">${alkFiltered.length}</div><div class="laporan-stat-label">📖 Alkitab</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num">${uniqueUsers.length}</div><div class="laporan-stat-label">👥 Pengguna</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num" style="color:var(--accent3);">${doaTerjawab+gelTerjawab+alkTerjawab}</div><div class="laporan-stat-label">✅ Terjawab</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num" style="color:var(--accent2);">${shareAdminCount}</div><div class="laporan-stat-label">🔐 Share Admin</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num" style="color:var(--accent);">${shareAllCount}</div><div class="laporan-stat-label">🌐 Share All</div></div>
+        <div class="laporan-stat"><div class="laporan-stat-num">${allFiltered.length}</div><div class="laporan-stat-label">📄 Total</div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="pdf-btn" onclick="generateLaporanPDF(${JSON.stringify({from,to,doaLen:doaFiltered.length,gelLen:gelFiltered.length,alkLen:alkFiltered.length,total:allFiltered.length,uniqueUsers,shareAdminCount,shareAllCount,userStats}).replace(/"/g,'&quot;')})">📄 Export PDF</button>
+        <button class="btn" onclick="copyLaporanText(${JSON.stringify({from,to,doaLen:doaFiltered.length,gelLen:gelFiltered.length,alkLen:alkFiltered.length,uniqueUsers,shareAdminCount}).replace(/"/g,'&quot;')})">📋 Copy Laporan</button>
+      </div>
+    </div>
+    <div class="laporan-card">
+      <div class="laporan-title">👤 Statistik per Pengguna</div>
+      ${Object.entries(userStats).sort((a,b)=>(b[1].doa+b[1].gelisah+b[1].alkitab)-(a[1].doa+a[1].gelisah+a[1].alkitab)).map(([user,stats])=>`
+        <div class="user-row">
+          <div class="user-row-name">👤 ${esc(user)}</div>
+          <div class="user-row-counts">
+            <span class="user-count-badge" title="Doa">🙏${stats.doa}</span>
+            <span class="user-count-badge" title="Gelisah">💭${stats.gelisah}</span>
+            <span class="user-count-badge" title="Alkitab">📖${stats.alkitab}</span>
+            ${stats.shareAdmin?`<span class="user-count-badge" style="color:var(--accent2);">🔐${stats.shareAdmin}</span>`:''}
+            ${stats.shareAll?`<span class="user-count-badge" style="color:var(--accent3);">🌐${stats.shareAll}</span>`:''}
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function copyLaporanText(d){
+  const text=`📊 LAPORAN BUKU HARIAN ROHANI\n${'═'.repeat(30)}\nPeriode: ${d.from||'semua'} s/d ${d.to||'sekarang'}\nDibuat: ${new Date().toLocaleString('id-ID')}\n\n🙏 Doa: ${d.doaLen||0}\n💭 Gelisah: ${d.gelLen||0}\n📖 Alkitab: ${d.alkLen||0}\n👥 Pengguna Aktif: ${(d.uniqueUsers||[]).length}\n🔐 Share Admin: ${d.shareAdminCount||0}\n\nPengguna: ${(d.uniqueUsers||[]).join(', ')}`;
+  copyText(text);
+}
+
+function generateLaporanPDF(d){
+  const lines=[
+    '=== LAPORAN BUKU HARIAN ROHANI ===',
+    `Periode   : ${d.from||'semua'} s/d ${d.to||'sekarang'}`,
+    `Dibuat    : ${new Date().toLocaleString('id-ID')}`,
+    `Dibuat oleh: ${currentUser?.username||'-'}`,
+    '---',
+    '=== RINGKASAN ===',
+    `Total Doa           : ${d.doaLen||0}`,
+    `Total Kegelisahan   : ${d.gelLen||0}`,
+    `Total Alkitab       : ${d.alkLen||0}`,
+    `Total               : ${d.total||0}`,
+    `Total Pengguna Aktif: ${(d.uniqueUsers||[]).length}`,
+    `Share for Admin     : ${d.shareAdminCount||0}`,
+    `Share for All       : ${d.shareAllCount||0}`,
+    '',
+    '=== STATISTIK PER PENGGUNA ===',
+    ...Object.entries(d.userStats||{}).map(([user,stats])=>`${user}: Doa=${stats.doa} Gelisah=${stats.gelisah} Alkitab=${stats.alkitab} ShareAdmin=${stats.shareAdmin} ShareAll=${stats.shareAll}`),
+    '',
+    '=== DAFTAR PENGGUNA AKTIF ===',
+    ...(d.uniqueUsers||[]).map((u,i)=>`${i+1}. ${u}`),
+  ];
+  generatePDF(`Laporan_${d.from||'all'}_sd_${d.to||'now'}`,lines);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PENGUMUMAN ADMIN MENU
+// ══════════════════════════════════════════════════════════════════
+async function renderPengumumanAdmin(){
+  if(!isAdminUser()){
+    document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas.</p></div>';return;
+  }
+  await loadCache('Pengumuman');
+  document.getElementById('app-content').innerHTML=`
+    <div class="announce-form-card">
+      <div class="form-title" style="color:var(--accent);">📢 Buat Pengumuman Baru</div>
+      <div class="form-field"><label class="form-label">Judul Pengumuman</label><input type="text" class="form-input" id="ann-judul" placeholder="Judul singkat pengumuman..."></div>
+      <div class="form-field"><label class="form-label">Isi Pengumuman</label><textarea class="form-textarea" id="ann-isi" rows="4" placeholder="Tulis isi pengumuman lengkap..."></textarea></div>
+      <div class="form-field"><label class="form-label">Target Penerima</label>
+        <select class="form-select" id="ann-target">
+          <option value="all">🌐 Semua Pengguna</option>
+          <option value="admin">🔐 Admin &amp; Gembala saja</option>
+        </select>
+      </div>
+      <button class="form-submit" onclick="submitPengumuman()">📢 Kirim Pengumuman</button>
+      <div id="ann-status" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
+    </div>
+    <div class="section-header">
+      <span class="section-title">📋 Daftar Pengumuman</span>
+      <button class="btn" onclick="loadCache('Pengumuman').then(()=>renderPengumumanList())">🔄</button>
+    </div>
+    <div id="ann-list"></div>`;
+  renderPengumumanList();
+}
+
+function renderPengumumanList(){
+  const list=document.getElementById('ann-list');if(!list)return;
+  const data=cache.Pengumuman||DEMO.Pengumuman||[];
+  if(!data.length){list.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Belum ada pengumuman.</p></div>';return;}
+  list.innerHTML=data.map((a,i)=>`
+    <div class="announce-list-item">
+      <div class="announce-list-header">
+        <div class="announce-list-title">📢 ${esc(a.judul||a.title||'Pengumuman')}</div>
+        <button class="announce-del-btn" onclick="deletePengumuman(${i})">🗑 Hapus</button>
+      </div>
+      <div class="announce-list-body">${esc(a.isi||a.body||a.konten||'')}</div>
+      <div class="announce-list-meta">
+        🕐 ${esc(a.waktu||a.tanggal||'')} · 👤 ${esc(a.author||'Admin')} ·
+        ${(a.target||'all')==='admin'?'<span style="color:var(--accent2);">🔐 Admin saja</span>':'<span style="color:var(--accent3);">🌐 Semua</span>'}
+      </div>
+    </div>`).join('');
+}
+
+  
 // ══════════════════════════════════════════════════════════════════
 // JEMAAT
 // ══════════════════════════════════════════════════════════════════
