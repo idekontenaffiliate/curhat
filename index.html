@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.0 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.1 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -1836,13 +1836,7 @@ async function submitAlkitab(){
   }finally{btn.disabled=false;btn.textContent='📖 Simpan Catatan Alkitab';}
 }
 
-isi||a.body||a.konten||'')}</div>
-      <div class="announce-list-meta">
-        🕐 ${esc(a.waktu||a.tanggal||'')} · 👤 ${esc(a.author||'Admin')} · 
-        ${(a.target||'all')==='admin'?'<span style="color:var(--accent2);">🔐 Admin saja</span>':'<span style="color:var(--accent3);">🌐 Semua</span>'}
-      </div>
-    </div>`).join('');
-}
+
 
 async function submitPengumuman(){
   const judul=document.getElementById('ann-judul')?.value.trim();
