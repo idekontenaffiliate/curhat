@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +5,6 @@
 <title>Buku Harian Rohani</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ═══ THEME SYSTEM ═══ */
 [data-theme="dark-night"]{--bg:#0d0f14;--surface:#161a24;--surface2:#1e2333;--border:#2a3048;--accent:#7c9ef0;--accent2:#a78bfa;--accent3:#34d399;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;--glow:rgba(124,158,240,.15);--hbg:#161a24;--radius:14px;}
 [data-theme="dark-green"]{--bg:#071a0e;--surface:#0d2a18;--surface2:#153d24;--border:#1e5c34;--accent:#4ade80;--accent2:#86efac;--accent3:#fbbf24;--red:#f87171;--yellow:#fcd34d;--text:#dcfce7;--text2:#86efac;--text3:#4ade80;--glow:rgba(74,222,128,.15);--hbg:#0d2a18;--radius:14px;}
 [data-theme="dark-gold"]{--bg:#0c0900;--surface:#1a1400;--surface2:#2a2100;--border:#4a3800;--accent:#fcd34d;--accent2:#f59e0b;--accent3:#34d399;--red:#f87171;--yellow:#f59e0b;--text:#fefce8;--text2:#fde68a;--text3:#fbbf24;--glow:rgba(252,211,77,.15);--hbg:#1a1400;--radius:14px;}
@@ -17,79 +15,27 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased;}
 
-/* ═══ LOGIN SCREEN ═══ */
-#login-screen{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9000;padding:16px;
-  background:#050810;overflow:hidden;
-}
-
-/* Animated starfield background */
-.login-bg{position:absolute;inset:0;overflow:hidden;}
+/* ═══ LOGIN ═══ */
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9000;padding:16px;background:#050810;overflow:hidden;}
+#login-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;pointer-events:none;z-index:0;transition:opacity .5s;}
+#login-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18;pointer-events:none;z-index:0;}
+.login-bg{position:absolute;inset:0;overflow:hidden;z-index:1;}
 .login-bg canvas{position:absolute;inset:0;width:100%;height:100%;}
-
-/* Floating cross/light orbs */
-.orb{position:absolute;border-radius:50%;filter:blur(60px);animation:orbFloat 8s ease-in-out infinite;pointer-events:none;}
-.orb1{width:300px;height:300px;background:radial-gradient(circle,rgba(124,158,240,.25),transparent 70%);top:-80px;left:-60px;animation-delay:0s;}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);animation:orbFloat 8s ease-in-out infinite;pointer-events:none;z-index:1;}
+.orb1{width:300px;height:300px;background:radial-gradient(circle,rgba(124,158,240,.25),transparent 70%);top:-80px;left:-60px;}
 .orb2{width:200px;height:200px;background:radial-gradient(circle,rgba(167,139,250,.2),transparent 70%);bottom:-40px;right:-40px;animation-delay:-3s;}
 .orb3{width:150px;height:150px;background:radial-gradient(circle,rgba(52,211,153,.15),transparent 70%);top:40%;left:20%;animation-delay:-5s;}
 @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.1);}}
-
-/* Cross silhouette */
-.login-cross{
-  position:absolute;top:12%;left:50%;transform:translateX(-50%);
-  opacity:.06;pointer-events:none;
-  font-size:180px;line-height:1;animation:crossPulse 4s ease-in-out infinite;
-  filter:drop-shadow(0 0 40px rgba(124,158,240,.8));
-}
-@keyframes crossPulse{0%,100%{opacity:.06;}50%{opacity:.12;}}
-
-/* Particle dots */
-.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur,3s) ease-in-out infinite;animation-delay:var(--delay,0s);}
-@keyframes twinkle{0%,100%{opacity:.1;transform:scale(1);}50%{opacity:.8;transform:scale(1.4);}}
-
-/* ═══ VIDEO BG (optional) ═══ */
-#login-video-bg{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:.15;pointer-events:none;z-index:0;
-  display:none; /* shown via JS if video loads */
-}
-
-/* ═══ ANIMATED VERSE TICKER ═══ */
-.verse-ticker{
-  position:absolute;bottom:0;left:0;right:0;
-  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
-  border-top:1px solid rgba(124,158,240,.2);
-  padding:8px 16px;z-index:10;overflow:hidden;
-}
-.verse-ticker-inner{
-  display:flex;align-items:center;gap:12px;
-  white-space:nowrap;animation:tickerScroll 30s linear infinite;
-}
+.login-cross{position:absolute;top:10%;left:50%;transform:translateX(-50%);opacity:.06;pointer-events:none;font-size:180px;line-height:1;animation:crossPulse 4s ease-in-out infinite;filter:drop-shadow(0 0 40px rgba(124,158,240,.8));z-index:2;}
+@keyframes crossPulse{0%,100%{opacity:.05;}50%{opacity:.13;}}
+.verse-ticker{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border-top:1px solid rgba(124,158,240,.2);padding:8px 16px;z-index:10;overflow:hidden;}
+.verse-ticker-inner{display:flex;align-items:center;gap:12px;white-space:nowrap;animation:tickerScroll 32s linear infinite;}
 @keyframes tickerScroll{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
-.verse-ticker span{font-family:'Lora',serif;font-style:italic;font-size:.78rem;color:rgba(255,255,255,.7);}
+.verse-ticker span{font-family:'Lora',serif;font-style:italic;font-size:.78rem;color:rgba(255,255,255,.75);}
 .verse-ticker b{color:#7c9ef0;font-style:normal;}
-
-/* ═══ LOGIN CARD ═══ */
-.login-card{
-  position:relative;z-index:5;
-  background:rgba(22,26,36,.92);
-  border:1px solid rgba(124,158,240,.25);
-  border-radius:28px;padding:2.4rem 2rem;
-  width:100%;max-width:380px;
-  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 24px 64px rgba(0,0,0,.6),0 0 80px rgba(124,158,240,.08);
-  backdrop-filter:blur(20px);
-  animation:slideUp .7s cubic-bezier(.34,1.56,.64,1);
-}
+.login-card{position:relative;z-index:5;background:rgba(22,26,36,.93);border:1px solid rgba(124,158,240,.25);border-radius:28px;padding:2.4rem 2rem;width:100%;max-width:380px;box-shadow:0 0 0 1px rgba(255,255,255,.04),0 24px 64px rgba(0,0,0,.6),0 0 80px rgba(124,158,240,.08);backdrop-filter:blur(20px);animation:slideUp .7s cubic-bezier(.34,1.56,.64,1);}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(.95);}to{opacity:1;transform:none;}}
-.login-icon-wrap{
-  width:72px;height:72px;border-radius:22px;
-  background:linear-gradient(135deg,rgba(124,158,240,.3),rgba(167,139,250,.3));
-  border:1px solid rgba(124,158,240,.4);
-  display:flex;align-items:center;justify-content:center;
-  font-size:2rem;margin:0 auto 1.2rem;
-  box-shadow:0 8px 32px rgba(124,158,240,.25),0 0 0 8px rgba(124,158,240,.06);
-  animation:iconGlow 3s ease-in-out infinite;
-}
+.login-icon-wrap{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,rgba(124,158,240,.3),rgba(167,139,250,.3));border:1px solid rgba(124,158,240,.4);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.2rem;box-shadow:0 8px 32px rgba(124,158,240,.25),0 0 0 8px rgba(124,158,240,.06);animation:iconGlow 3s ease-in-out infinite;}
 @keyframes iconGlow{0%,100%{box-shadow:0 8px 32px rgba(124,158,240,.25),0 0 0 8px rgba(124,158,240,.06);}50%{box-shadow:0 8px 32px rgba(124,158,240,.4),0 0 0 12px rgba(124,158,240,.12);}}
 .login-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:700;text-align:center;color:#e2e8f0;margin-bottom:4px;}
 .login-sub{font-size:.78rem;text-align:center;color:#4a5568;margin-bottom:1.8rem;font-style:italic;}
@@ -122,33 +68,25 @@ header{background:var(--hbg);border-bottom:1px solid var(--border);height:54px;d
 .icon-btn:hover{background:var(--border);color:var(--text);}
 .icon-btn.danger{color:var(--red);border-color:rgba(248,113,113,.3);}
 #live-clock{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--accent2);background:var(--surface2);padding:3px 7px;border-radius:6px;border:1px solid var(--border);white-space:nowrap;}
-
-/* ═══ THEME PANEL ═══ */
 #theme-panel{display:none;position:fixed;top:58px;right:10px;z-index:600;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.5);width:260px;}
 .tp-label{font-size:.62rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin:8px 0 6px;}
 .tp-chips{display:flex;flex-wrap:wrap;gap:5px;}
 .tp-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:.72rem;font-weight:600;color:var(--text2);transition:all .2s;}
 .tp-chip:hover,.tp-chip.active{border-color:var(--accent);color:var(--accent);background:var(--glow);}
 .tp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-
-/* ═══ NAV ═══ */
 nav{display:flex;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;scrollbar-width:none;padding:0 8px;gap:2px;min-height:42px;}
 nav::-webkit-scrollbar{display:none;}
 nav button{padding:0 12px;height:42px;border:none;background:none;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;font-weight:600;font-size:.78rem;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
 nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
-
-/* ═══ CONTENT ═══ */
 #app-content-wrapper{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .content-area{padding:14px 14px 100px;}
 
-/* ═══ CARDS ═══ */
+/* ═══ CARDS & FORMS ═══ */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
 .stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
 .stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);}
 .stat-label{font-size:.68rem;color:var(--text3);margin-top:2px;}
-
-/* ═══ FORM ═══ */
 .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
 .form-title{font-family:'Lora',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
 .form-field{margin-bottom:12px;}
@@ -175,7 +113,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .btn{padding:8px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;}
 .btn:hover{background:var(--border);}
 .btn.accent{background:var(--accent);color:#fff;border-color:var(--accent);}
-.btn-clear{padding:8px 12px;border-radius:9px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.08);color:var(--red);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.btn-clear{padding:8px 12px;border-radius:9px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.08);color:var(--red);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;}
 .filter-active-badge{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:700;color:var(--accent);background:var(--glow);border:1px solid rgba(124,158,240,.3);border-radius:6px;padding:2px 8px;margin-bottom:6px;}
 
 /* ═══ ENTRY CARDS ═══ */
@@ -203,18 +141,16 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
 .verse-highlight{background:linear-gradient(135deg,var(--glow),transparent);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 10px 10px 0;font-family:'Lora',serif;font-style:italic;font-size:.92rem;color:var(--text);margin:8px 0;}
 
-/* ═══ FULLSCREEN OVERLAY ═══ */
-#fullscreen-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:9998;flex-direction:column;}
+/* ═══ FULLSCREEN UNIVERSAL ═══ */
+.fs-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:9998;flex-direction:column;}
 .fs-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--hbg);border-bottom:1px solid var(--border);flex-shrink:0;gap:8px;flex-wrap:wrap;}
 .fs-title{font-family:'Lora',serif;font-size:.9rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .fs-controls{display:flex;gap:4px;align-items:center;}
 .fs-btn{padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;}
 .fs-content{flex:1;overflow-y:auto;padding:24px 20px;font-family:'Lora',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;}
 
-/* ═══ DASHBOARD FULLSCREEN ═══ */
-#dash-fullscreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:9990;flex-direction:column;overflow-y:auto;}
-#dash-fullscreen .fs-toolbar{position:sticky;top:0;z-index:5;}
-#dash-fullscreen .content-area{padding:20px;}
+/* FULLSCREEN — Dashboard (HTML content copy) */
+#dash-fullscreen .fs-content{white-space:normal;font-family:'Nunito',sans-serif;}
 
 /* ═══ TOAST ═══ */
 #toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:9px 18px;font-size:.82rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -230,8 +166,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-
-/* ═══ DASHBOARD ═══ */
 .dash-welcome{background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:var(--radius);padding:20px;margin-bottom:12px;position:relative;overflow:hidden;}
 .dash-welcome::before{content:'📖';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:3rem;opacity:.2;}
 .dash-welcome h2{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px;}
@@ -244,15 +178,11 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .re-body{flex:1;min-width:0;}
 .re-title{font-weight:700;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .re-sub{font-size:.68rem;color:var(--text3);}
-
-/* ═══ PAGINATION ═══ */
 .pagination{display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap;padding:14px 0;}
 .pg-btn{min-width:32px;height:32px;padding:0 8px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:.75rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
 .pg-btn:hover{background:var(--border);}
 .pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .pg-btn:disabled{opacity:.4;cursor:default;}
-
-/* ═══ PERTANYAAN ═══ */
 .ptny-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
 .ptny-urgensi{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;}
 .ptny-urgensi.Critical{background:rgba(239,68,68,.2);color:#ef4444;border:1px solid rgba(239,68,68,.3);}
@@ -269,40 +199,29 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .ptny-jawab-row{background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px;margin-top:8px;}
 .ptny-jawab-row input,.ptny-jawab-row select,.ptny-jawab-row textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;margin-bottom:6px;}
 .ptny-jawab-row textarea{resize:vertical;min-height:60px;}
-
-/* ═══ INFO BOX ═══ */
 .info-box{background:rgba(124,158,240,.08);border:1px solid rgba(124,158,240,.2);border-radius:10px;padding:12px;font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:12px;}
 .info-box b{color:var(--accent);}
 .loading-state{text-align:center;padding:30px 20px;color:var(--text3);}
 .spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* ═══ APPS SCRIPT INFO BOX ═══ */
 .as-info{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);border-radius:12px;padding:14px;margin-bottom:14px;}
 .as-info h3{font-family:'Lora',serif;font-size:.9rem;font-weight:700;color:var(--accent3);margin-bottom:8px;}
-.as-info pre{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text2);overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin-top:6px;}
+.as-info pre{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text2);overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin-top:6px;max-height:300px;overflow-y:auto;}
 .as-copy-btn{margin-top:8px;padding:6px 14px;background:var(--accent3);color:#fff;border:none;border-radius:7px;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;}
 .kep-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:5px;text-transform:uppercase;margin-top:4px;}
+/* fullscreen button in section header */
+.btn-fs{padding:6px 10px;border-radius:8px;border:1px solid var(--accent);background:rgba(124,158,240,.1);color:var(--accent);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;}
 </style>
 </head>
 <body data-theme="dark-night">
 
-<!-- ═══ LOGIN ═══ -->
+<!-- LOGIN -->
 <div id="login-screen">
-  <!-- Animated background -->
-  <div class="login-bg">
-    <canvas id="star-canvas"></canvas>
-  </div>
-
-  <!-- Ambient orbs -->
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-
-  <!-- Decorative cross -->
+  <img id="login-img-bg" src="" alt="" onerror="this.style.display='none'">
+  <video id="login-video-bg" autoplay muted loop playsinline style="display:none"></video>
+  <div class="login-bg"><canvas id="star-canvas"></canvas></div>
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
   <div class="login-cross">✝</div>
-
-  <!-- Verse ticker -->
   <div class="verse-ticker">
     <div class="verse-ticker-inner">
       <b>✦</b><span>"Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku." — Filipi 4:13</span>
@@ -312,46 +231,32 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
       <b>✦</b><span>"Mintalah, maka akan diberikan kepadamu." — Matius 7:7</span>
     </div>
   </div>
-
-  <!-- Login card -->
   <div class="login-card">
     <div class="login-icon-wrap">📖</div>
     <h1 class="login-title">Buku Harian Rohani</h1>
     <p class="login-sub">Catatan doa, kegelisahan &amp; firman Tuhan</p>
     <div class="lf-group">
       <label class="lf-label">Username</label>
-      <div class="lf-wrap">
-        <span class="lf-icon">👤</span>
-        <input type="text" id="l-user" class="lf-input" placeholder="Masukkan username" autocomplete="off" autocapitalize="none">
-      </div>
+      <div class="lf-wrap"><span class="lf-icon">👤</span><input type="text" id="l-user" class="lf-input" placeholder="Masukkan username" autocomplete="off" autocapitalize="none"></div>
     </div>
     <div class="lf-group">
       <label class="lf-label">Password</label>
-      <div class="lf-wrap">
-        <span class="lf-icon">🔒</span>
-        <input type="password" id="l-pass" class="lf-input" placeholder="Masukkan password">
-      </div>
+      <div class="lf-wrap"><span class="lf-icon">🔒</span><input type="password" id="l-pass" class="lf-input" placeholder="Masukkan password"></div>
     </div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">✦ Masuk</button>
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
-    <div class="login-hint">
-      💡 Login via sheet <b>Awal</b> (username | password | level)<br>
-      Demo lokal: <b>admin</b> / <b>admin</b>
-    </div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v2.2 · Catatan Harian Rohani @2026</div>
+    <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo lokal: <b>admin</b> / <b>admin</b></div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v2.3 · Catatan Harian Rohani @2026</div>
   </div>
 </div>
 
-<!-- ═══ MAIN APP ═══ -->
+<!-- MAIN APP -->
 <div id="main-app">
   <header>
     <div class="hdr-left">
       <div class="hdr-pulse"></div>
-      <div>
-        <div class="hdr-title" id="hdr-title">Buku Harian</div>
-        <div class="hdr-sub" id="hdr-sub">loading...</div>
-      </div>
+      <div><div class="hdr-title" id="hdr-title">Buku Harian</div><div class="hdr-sub" id="hdr-sub">loading...</div></div>
     </div>
     <div class="hdr-right">
       <div id="live-clock">--:--</div>
@@ -359,8 +264,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
       <button class="icon-btn danger" onclick="doLogout()" title="Keluar">⏻</button>
     </div>
   </header>
-
-  <!-- THEME PANEL -->
   <div id="theme-panel">
     <div class="tp-label">🌙 Gelap</div>
     <div class="tp-chips">
@@ -375,12 +278,8 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
       <div class="tp-chip" data-t="light-rose" onclick="setTheme('light-rose',this)"><span class="tp-dot" style="background:#ffe4e6;border:1px solid #fecdd3;"></span>Mawar</div>
     </div>
   </div>
-
   <nav id="main-nav"></nav>
-
-  <div id="app-content-wrapper">
-    <div class="content-area" id="app-content"></div>
-  </div>
+  <div id="app-content-wrapper"><div class="content-area" id="app-content"></div></div>
 </div>
 
 <!-- DETAIL MODAL -->
@@ -392,38 +291,80 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   </div>
 </div>
 
-<!-- FULLSCREEN ENTRY -->
-<div id="fullscreen-overlay">
+<!-- FULLSCREEN — Entry Detail (Doa/Gelisah/Alkitab plain text) -->
+<div id="fullscreen-overlay" class="fs-overlay">
   <div class="fs-toolbar">
     <div class="fs-title" id="fs-title">Detail</div>
     <div class="fs-controls">
       <button class="fs-btn" id="fs-a-minus">A−</button>
       <span id="fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">16px</span>
       <button class="fs-btn" id="fs-a-plus">A+</button>
-      <button class="fs-btn" onclick="closeFullscreen()">✕ Tutup</button>
+      <button class="fs-btn" onclick="closeFS('fullscreen-overlay')">✕ Tutup</button>
     </div>
   </div>
   <div class="fs-content" id="fs-content"></div>
 </div>
 
-<!-- DASHBOARD FULLSCREEN -->
-<div id="dash-fullscreen">
+<!-- FULLSCREEN — Dashboard -->
+<div id="dash-fullscreen" class="fs-overlay">
   <div class="fs-toolbar">
     <div class="fs-title">🏠 Beranda — Tampilan Penuh</div>
-    <div class="fs-controls">
-      <button class="fs-btn" onclick="closeDashFullscreen()">✕ Tutup</button>
-    </div>
+    <div class="fs-controls"><button class="fs-btn" onclick="closeFS('dash-fullscreen')">✕ Tutup</button></div>
   </div>
-  <div class="content-area" id="dash-fs-content"></div>
+  <div class="fs-content" id="dash-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div>
 </div>
 
-<!-- TOAST -->
+<!-- FULLSCREEN — Doa List -->
+<div id="doa-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">🙏 Catatan Doa — Tampilan Penuh</div>
+    <div class="fs-controls">
+      <button class="fs-btn" id="doa-fs-a-minus">A−</button>
+      <span id="doa-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span>
+      <button class="fs-btn" id="doa-fs-a-plus">A+</button>
+      <button class="fs-btn" onclick="closeFS('doa-fullscreen')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-content" id="doa-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div>
+</div>
+
+<!-- FULLSCREEN — Gelisah List -->
+<div id="gel-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">💭 Catatan Kegelisahan — Tampilan Penuh</div>
+    <div class="fs-controls">
+      <button class="fs-btn" id="gel-fs-a-minus">A−</button>
+      <span id="gel-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span>
+      <button class="fs-btn" id="gel-fs-a-plus">A+</button>
+      <button class="fs-btn" onclick="closeFS('gel-fullscreen')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-content" id="gel-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div>
+</div>
+
+<!-- FULLSCREEN — Alkitab List -->
+<div id="alk-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">📖 Catatan Alkitab — Tampilan Penuh</div>
+    <div class="fs-controls">
+      <button class="fs-btn" id="alk-fs-a-minus">A−</button>
+      <span id="alk-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span>
+      <button class="fs-btn" id="alk-fs-a-plus">A+</button>
+      <button class="fs-btn" onclick="closeFS('alk-fullscreen')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-content" id="alk-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div>
+</div>
+
 <div id="toast"></div>
 
 <script>
 // ══════════════════════════════════════════════════
-// CONFIG URL
+// ✅ CONFIG — Edit bagian ini saja
 // ══════════════════════════════════════════════════
+const LOGIN_VIDEO_URL = "";
+const LOGIN_IMAGE_URL = "https://lh3.googleusercontent.com/d/1eJt3G62NYTNANOjmelXXflSm1Cuy4mQO";
+
 const URLS = {
   Awal:        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSplYP8o_2Nfu8H3TLlrodFzARIM2fjpTMZq6mbF2bL9cDer_ktFOGPClbqAwLhDJVeq_F7SI_AYVnP/pub?output=csv",
   Doa:         "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUP9PHhlxDoXbccBBp_Br6VhVpAGwJbg-0ltcsSNbqMKaolpI97LIckaSp706PYcdJIII0I73Ebo8n/pub?output=csv",
@@ -438,76 +379,63 @@ const APPS_SCRIPT_ALKITAB    = "https://script.google.com/macros/s/AKfycbyYJjt7T
 const APPS_SCRIPT_PERTANYAAN = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 
 // ══════════════════════════════════════════════════
-// STATE
+// INIT LOGIN BACKGROUND
 // ══════════════════════════════════════════════════
-let currentUser = null;
-let cache = {};
-let fsFontSize = 16;
-let isDemoMode = false;
-const PER_PAGE = 10;
-let pageState = { Doa:1, Gelisah:1, Alkitab:1, Pertanyaan:1 };
-let _fontPressTimer = null, _fontPressInterval = null;
+(function initLoginBg(){
+  if(LOGIN_VIDEO_URL){
+    const v=document.getElementById('login-video-bg');
+    v.src=LOGIN_VIDEO_URL; v.style.display='block';
+  } else if(LOGIN_IMAGE_URL){
+    const img=document.getElementById('login-img-bg');
+    img.src=LOGIN_IMAGE_URL; img.style.display='block';
+  }
+})();
 
 // ══════════════════════════════════════════════════
-// STARFIELD ANIMATION
+// STARFIELD
 // ══════════════════════════════════════════════════
-(function initStarfield() {
-  const canvas = document.getElementById('star-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let stars = [];
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  function createStars(n) {
-    stars = [];
-    for (let i = 0; i < n; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5 + 0.3,
-        alpha: Math.random(),
-        speed: Math.random() * 0.008 + 0.003,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-  }
-  function draw(t) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#050810';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    stars.forEach(s => {
-      s.alpha = 0.2 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-      ctx.fill();
+(function initStarfield(){
+  const canvas=document.getElementById('star-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let stars=[];
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  function createStars(n){stars=[];for(let i=0;i<n;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.3,alpha:Math.random(),speed:Math.random()*.008+.003,phase:Math.random()*Math.PI*2});}
+  function draw(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      s.alpha=.2+.7*(.5+.5*Math.sin(t*s.speed+s.phase));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;ctx.fill();
     });
     requestAnimationFrame(draw);
   }
-  resize();
-  createStars(160);
-  window.addEventListener('resize', () => { resize(); createStars(160); });
+  resize();createStars(160);
+  window.addEventListener('resize',()=>{resize();createStars(160);});
   requestAnimationFrame(draw);
 })();
 
 // ══════════════════════════════════════════════════
-// DEMO DATA
+// STATE
 // ══════════════════════════════════════════════════
-const DEMO = {
+let currentUser=null,cache={},isDemoMode=false;
+const PER_PAGE=10;
+let pageState={Doa:1,Gelisah:1,Alkitab:1,Pertanyaan:1};
+let fsFontSizes={main:16,doa:15,gel:15,alk:15};
+let _fontPressTimer=null,_fontPressInterval=null;
+
+const DEMO={
   Doa:[
-    {no_urut:1,tanggal:'2025-01-10',permintaan:'Doa untuk kesehatan keluarga agar selalu diberkati.',terang:'Yesaya 41:10 — Jangan takut, sebab Aku menyertai engkau.',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh, Tuhan sungguh baik.'},
-    {no_urut:2,tanggal:'2025-02-14',permintaan:'Doa untuk pekerjaan dan karir yang Tuhan siapkan.',terang:'Yeremia 29:11 — Aku tahu rancangan-Ku tentang kamu.',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:''},
-    {no_urut:3,tanggal:'2025-03-01',permintaan:'Doa agar diberikan hikmat dalam setiap keputusan.',terang:'Yakobus 1:5 — Mintalah hikmat kepada Allah.',tanggal_jawaban:'2025-03-20',status:'Terjawab',catatan_jawaban:'Mendapat kejelasan arah hidup.'},
+    {no_urut:1,tanggal:'2025-01-10',permintaan:'Doa untuk kesehatan keluarga.',terang:'Yesaya 41:10 — Jangan takut, sebab Aku menyertai engkau.',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh, Tuhan sungguh baik.'},
+    {no_urut:2,tanggal:'2025-02-14',permintaan:'Doa untuk pekerjaan dan karir.',terang:'Yeremia 29:11 — Aku tahu rancangan-Ku.',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:''},
   ],
   Gelisah:[
-    {no_urut:1,tanggal:'2025-01-15',masalah:'Gelisah tentang masa depan pekerjaan yang belum pasti.',terang:'Filipi 4:6-7 — Nyatakanlah keinginanmu kepada Allah.',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai yang melampaui segala akal.'},
-    {no_urut:2,tanggal:'2025-02-20',masalah:'Kecemasan tentang hubungan yang sedang dalam proses pemulihan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:''},
+    {no_urut:1,tanggal:'2025-01-15',masalah:'Gelisah tentang masa depan pekerjaan.',terang:'Filipi 4:6-7 — Nyatakanlah keinginanmu kepada Allah.',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai.'},
+    {no_urut:2,tanggal:'2025-02-20',masalah:'Kecemasan tentang hubungan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:''},
   ],
   Alkitab:[
-    {no_urut:1,tanggal:'2025-01-05',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku, takkan kekurangan aku.',terang:'Tuhan memimpin dan memelihara hidupku.',catatan:'Percayakan setiap langkah kepada Tuhan.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:''},
-    {no_urut:2,tanggal:'2025-01-20',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah akan dunia ini...',terang:'Kasih Allah begitu besar sehingga Ia mengorbankan Anak-Nya.',catatan:'Hidup dalam kasih dan syukur.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Sungguh merasakan kasih Tuhan.'},
+    {no_urut:1,tanggal:'2025-01-05',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku, takkan kekurangan aku.',terang:'Tuhan memimpin dan memelihara hidupku.',catatan:'Percayakan setiap langkah.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:''},
+    {no_urut:2,tanggal:'2025-01-20',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah akan dunia ini...',terang:'Kasih Allah begitu besar.',catatan:'Hidup dalam kasih dan syukur.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Sungguh merasakan kasih Tuhan.'},
   ],
   Pertanyaan:[]
 };
@@ -515,20 +443,23 @@ const DEMO = {
 // ══════════════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════════════
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function toast(msg,dur=2600){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),dur); }
-function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
-function showDetail(html){ document.getElementById('detail-body').innerHTML=html; document.getElementById('detail-modal').style.display='block'; }
-function getTodayStr(){ const n=new Date(),pad=x=>String(x).padStart(2,'0'); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; }
-function formatDate(s){ if(!s)return'-'; const d=new Date(s); if(isNaN(d.getTime()))return s; const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; }
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg,dur=2600){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur);}
+function closeDetail(){document.getElementById('detail-modal').style.display='none';}
+function showDetail(html){document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block';}
+function getTodayStr(){const n=new Date(),p=x=>String(x).padStart(2,'0');return`${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`;}
+function formatDate(s){if(!s)return'-';const d=new Date(s);if(isNaN(d.getTime()))return s;const dy=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],mo=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];return`${dy[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;}
+function resetForm(ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+function setLoginStatus(msg,color='var(--text3)'){const el=document.getElementById('login-status');if(el){el.textContent=msg;el.style.color=color;}}
+function copyText(text){navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin'));}
 
 function parseCSV(txt){
   const lines=txt.trim().split('\n');
-  if(lines.length<2)return [];
+  if(lines.length<2)return[];
   const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase().replace(/\s+/g,'_'));
   return lines.slice(1).map(line=>{
     const cols=[];let cur='',inQ=false;
-    for(let c of line){ if(c==='"')inQ=!inQ; else if(c===','&&!inQ){cols.push(cur.trim());cur='';} else cur+=c; }
+    for(let c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else cur+=c;}
     cols.push(cur.trim());
     const obj={};
     headers.forEach((h,i)=>{obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();});
@@ -536,130 +467,127 @@ function parseCSV(txt){
   }).filter(r=>Object.values(r).some(v=>v));
 }
 
-function setLoginStatus(msg, color='var(--text3)'){
-  const el=document.getElementById('login-status');
-  if(el){el.textContent=msg;el.style.color=color;}
+// ══════════════════════════════════════════════════
+// FULLSCREEN UNIVERSAL
+// ══════════════════════════════════════════════════
+function openFS(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.style.display='flex';
+  el.requestFullscreen?.().catch(()=>{});
+}
+function closeFS(id){
+  const el=document.getElementById(id);
+  if(el)el.style.display='none';
+  if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});
 }
 
-// ══════════════════════════════════════════════════
-// FULLSCREEN (entry detail)
-// ══════════════════════════════════════════════════
-function openDetailFullscreen(){
-  document.getElementById('fullscreen-overlay').style.display='flex';
-  document.getElementById('fullscreen-overlay').requestFullscreen?.().catch(()=>{});
-}
-function closeFullscreen(){ document.getElementById('fullscreen-overlay').style.display='none'; if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{}); }
-function fsFontChange(d){ fsFontSize=Math.max(10,Math.min(40,fsFontSize+d)); const el=document.getElementById('fs-content'),lbl=document.getElementById('fs-font-label'); if(el)el.style.fontSize=fsFontSize+'px'; if(lbl)lbl.textContent=fsFontSize+'px'; }
-document.getElementById('fs-a-minus').addEventListener('click',()=>fsFontChange(-1));
-document.getElementById('fs-a-plus').addEventListener('click',()=>fsFontChange(1));
-document.getElementById('fs-a-minus').addEventListener('pointerdown',()=>{_fontPressTimer=setTimeout(()=>{_fontPressInterval=setInterval(()=>fsFontChange(-1),80);},400);});
-document.getElementById('fs-a-plus').addEventListener('pointerdown',()=>{_fontPressTimer=setTimeout(()=>{_fontPressInterval=setInterval(()=>fsFontChange(1),80);},400);});
-['pointerup','pointerleave'].forEach(ev=>{ document.getElementById('fs-a-minus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);}); document.getElementById('fs-a-plus').addEventListener(ev,()=>{clearTimeout(_fontPressTimer);clearInterval(_fontPressInterval);}); });
-function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title; document.getElementById('fs-content').textContent=text; document.getElementById('fs-content').style.fontSize=fsFontSize+'px'; document.getElementById('fullscreen-overlay').style.display='flex'; document.getElementById('fullscreen-overlay').requestFullscreen?.().catch(()=>{}); }
-function copyText(text){ navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin')); }
+// Entry detail fullscreen (plain text, from modal)
+function openDetailFullscreen(){openFS('fullscreen-overlay');}
 
-// ══════════════════════════════════════════════════
-// DASHBOARD FULLSCREEN
-// ══════════════════════════════════════════════════
+// Font controls for main fullscreen
+document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
+document.getElementById('fs-a-plus').addEventListener('click',()=>changeFSFont('main',1));
+function changeFSFont(key,d){
+  fsFontSizes[key]=Math.max(10,Math.min(40,fsFontSizes[key]+d));
+  const map={main:['fs-content','fs-font-label'],doa:['doa-fs-content','doa-fs-font-label'],gel:['gel-fs-content','gel-fs-font-label'],alk:['alk-fs-content','alk-fs-font-label']};
+  if(map[key]){
+    const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);
+    // only change font-size on text nodes, not HTML content
+    if(el&&el.dataset.isHtml!=='1')el.style.fontSize=fsFontSizes[key]+'px';
+    if(lbl)lbl.textContent=fsFontSizes[key]+'px';
+  }
+}
+// Font controls for module fullscreens
+['doa','gel','alk'].forEach(key=>{
+  document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
+  document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
+});
+
+function openEntryFullscreen(title,text){
+  document.getElementById('fs-title').textContent=title;
+  const c=document.getElementById('fs-content');
+  c.textContent=text;c.dataset.isHtml='0';
+  c.style.fontSize=fsFontSizes.main+'px';
+  openFS('fullscreen-overlay');
+}
+
+// Open module fullscreen with HTML cards
+function openModuleFullscreen(mod){
+  const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};
+  const key=map[mod];if(!key)return;
+  const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';
+  const c=document.getElementById(key+'-fs-content');
+  c.innerHTML=src;c.dataset.isHtml='1';
+  openFS(key+'-fullscreen');
+}
+
+// Dashboard fullscreen
 function openDashFullscreen(){
   const src=document.getElementById('app-content')?.innerHTML||'';
-  const fs=document.getElementById('dash-fullscreen');
-  const fc=document.getElementById('dash-fs-content');
-  if(fc)fc.innerHTML=src;
-  if(fs){fs.style.display='flex';}
-  fs.requestFullscreen?.().catch(()=>{});
-}
-function closeDashFullscreen(){
-  const fs=document.getElementById('dash-fullscreen');
-  if(fs)fs.style.display='none';
-  if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});
+  document.getElementById('dash-fs-content').innerHTML=src;
+  openFS('dash-fullscreen');
 }
 
 // ══════════════════════════════════════════════════
 // CLOCK
 // ══════════════════════════════════════════════════
-setInterval(()=>{ const n=new Date(),pad=x=>String(x).padStart(2,'0'); const el=document.getElementById('live-clock'); if(el)el.textContent=`${pad(n.getDate())}/${pad(n.getMonth()+1)} ${pad(n.getHours())}:${pad(n.getMinutes())}`; },1000);
+setInterval(()=>{const n=new Date(),p=x=>String(x).padStart(2,'0');const el=document.getElementById('live-clock');if(el)el.textContent=`${p(n.getDate())}/${p(n.getMonth()+1)} ${p(n.getHours())}:${p(n.getMinutes())}`;},1000);
 
 // ══════════════════════════════════════════════════
 // THEME
 // ══════════════════════════════════════════════════
 let themePanelOpen=false;
-function toggleThemePanel(){ const p=document.getElementById('theme-panel'); themePanelOpen=!themePanelOpen; p.style.display=themePanelOpen?'block':'none'; }
-function setTheme(t,chip){ document.body.setAttribute('data-theme',t); document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active')); if(chip)chip.classList.add('active'); localStorage.setItem('bhr_theme',t); themePanelOpen=false; document.getElementById('theme-panel').style.display='none'; }
-(function(){ const t=localStorage.getItem('bhr_theme')||'dark-night'; document.body.setAttribute('data-theme',t); setTimeout(()=>{ const chip=document.querySelector(`.tp-chip[data-t="${t}"]`); if(chip){document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');} },100); })();
-document.addEventListener('click',e=>{ if(themePanelOpen&&!e.target.closest('#theme-panel')&&!e.target.closest('#btn-theme')){ document.getElementById('theme-panel').style.display='none'; themePanelOpen=false; } });
+function toggleThemePanel(){const p=document.getElementById('theme-panel');themePanelOpen=!themePanelOpen;p.style.display=themePanelOpen?'block':'none';}
+function setTheme(t,chip){document.body.setAttribute('data-theme',t);document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));if(chip)chip.classList.add('active');localStorage.setItem('bhr_theme',t);themePanelOpen=false;document.getElementById('theme-panel').style.display='none';}
+(function(){const t=localStorage.getItem('bhr_theme')||'dark-night';document.body.setAttribute('data-theme',t);setTimeout(()=>{const chip=document.querySelector(`.tp-chip[data-t="${t}"]`);if(chip){document.querySelectorAll('.tp-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');}},100);})();
+document.addEventListener('click',e=>{if(themePanelOpen&&!e.target.closest('#theme-panel')&&!e.target.closest('#btn-theme')){document.getElementById('theme-panel').style.display='none';themePanelOpen=false;}});
 
 // ══════════════════════════════════════════════════
-// AUTH — 3 metode: Apps Script → CSV → Demo
+// AUTH
 // ══════════════════════════════════════════════════
-document.getElementById('l-user').addEventListener('keydown',e=>{ if(e.key==='Enter')doLogin(); });
-document.getElementById('l-pass').addEventListener('keydown',e=>{ if(e.key==='Enter')doLogin(); });
+document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
 async function doLogin(){
-  const btn=document.getElementById('login-btn');
-  const errEl=document.getElementById('login-err');
-  errEl.style.display='none';
-  setLoginStatus('');
+  const btn=document.getElementById('login-btn'),errEl=document.getElementById('login-err');
+  errEl.style.display='none';setLoginStatus('');
   const user=document.getElementById('l-user').value.trim();
   const pass=document.getElementById('l-pass').value.trim();
-  if(!user||!pass){ toast('⚠️ Isi username dan password'); return; }
-  btn.disabled=true; btn.textContent='⏳ Memverifikasi...';
+  if(!user||!pass){toast('⚠️ Isi username dan password');return;}
+  btn.disabled=true;btn.textContent='⏳ Memverifikasi...';
 
   // METODE 1: Apps Script
-  try {
+  try{
     setLoginStatus('🔗 Menghubungkan ke server...');
-    const url=`${APPS_SCRIPT_AWAL}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
     const ctrl=new AbortController();
-    const timeout=setTimeout(()=>ctrl.abort(),8000);
-    const r=await fetch(url,{signal:ctrl.signal});
-    clearTimeout(timeout);
+    const t=setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch(`${APPS_SCRIPT_AWAL}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,{signal:ctrl.signal});
+    clearTimeout(t);
     const data=await r.json();
-    if(data.status==='ok'){
-      isDemoMode=false;
-      currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})};
-      masukApp(user,currentUser.level); return;
-    } else {
-      errEl.style.display='block'; setLoginStatus('');
-      btn.disabled=false; btn.textContent='✦ Masuk'; return;
-    }
-  } catch(e) { console.warn('Apps Script login gagal:', e.message); }
+    if(data.status==='ok'){isDemoMode=false;currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})};masukApp(user,currentUser.level);return;}
+    else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
+  }catch(e){console.warn('AS login gagal:',e.message);}
 
   // METODE 2: CSV
-  try {
-    setLoginStatus('📄 Mencoba login via spreadsheet CSV...');
+  try{
+    setLoginStatus('📄 Mencoba via CSV...');
     const ctrl2=new AbortController();
-    const timeout2=setTimeout(()=>ctrl2.abort(),10000);
+    setTimeout(()=>ctrl2.abort(),10000);
     const r2=await fetch(URLS.Awal+'&t='+Date.now(),{signal:ctrl2.signal});
-    clearTimeout(timeout2);
-    const txt=await r2.text();
-    const rows=parseCSV(txt);
+    const rows=parseCSV(await r2.text());
     const found=rows.find(row=>{
       const u=(row.username||row.user||'').trim().toLowerCase();
       const p=(row.password||row.pass||'').trim();
       return u===user.toLowerCase()&&p===pass;
     });
-    if(found){
-      isDemoMode=false;
-      currentUser={username:user,level:found.level||'Pengguna'};
-      masukApp(user,currentUser.level);
-      toast('✅ Login via CSV berhasil'); return;
-    } else {
-      errEl.style.display='block'; setLoginStatus('');
-      btn.disabled=false; btn.textContent='✦ Masuk'; return;
-    }
-  } catch(e) { console.warn('CSV login gagal:', e.message); }
+    if(found){isDemoMode=false;currentUser={username:user,level:found.level||'Pengguna'};masukApp(user,currentUser.level);toast('✅ Login via CSV berhasil');return;}
+    else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
+  }catch(e){console.warn('CSV login gagal:',e.message);}
 
-  // METODE 3: Demo lokal
-  if(user==='admin'&&pass==='admin'){
-    isDemoMode=true;
-    currentUser={username:'admin',level:'Demo Mode'};
-    masukApp('admin','Demo Mode');
-    toast('⚠️ Mode demo aktif — data tidak tersimpan');
-  } else {
-    errEl.style.display='block';
-    setLoginStatus('⚠️ Server tidak dapat dijangkau. Coba demo: admin/admin','var(--yellow)');
-    btn.disabled=false; btn.textContent='✦ Masuk';
-  }
+  // METODE 3: Demo
+  if(user==='admin'&&pass==='admin'){isDemoMode=true;currentUser={username:'admin',level:'Demo Mode'};masukApp('admin','Demo Mode');toast('⚠️ Mode demo aktif');}
+  else{errEl.style.display='block';setLoginStatus('⚠️ Server tidak terjangkau. Coba demo: admin/admin','var(--yellow)');btn.disabled=false;btn.textContent='✦ Masuk';}
 }
 
 function masukApp(username,level){
@@ -669,17 +597,15 @@ function masukApp(username,level){
   document.getElementById('hdr-sub').textContent=level;
   document.getElementById('login-btn').disabled=false;
   document.getElementById('login-btn').textContent='✦ Masuk';
-  setLoginStatus('');
-  setupNav(); loadPage('dashboard');
+  setLoginStatus('');setupNav();loadPage('dashboard');
 }
 
 function doLogout(){
   if(!confirm('Yakin ingin keluar?'))return;
-  currentUser=null; cache={}; isDemoMode=false;
+  currentUser=null;cache={};isDemoMode=false;
   document.getElementById('main-app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
-  document.getElementById('l-user').value='';
-  document.getElementById('l-pass').value='';
+  ['l-user','l-pass'].forEach(id=>{document.getElementById(id).value='';});
   document.getElementById('login-err').style.display='none';
   setLoginStatus('');
   document.getElementById('main-nav').innerHTML='';
@@ -699,39 +625,54 @@ const MENUS=[
   {id:'panduan',label:'⚙️ Panduan AS'},
 ];
 function setupNav(){
-  const nav=document.getElementById('main-nav'); nav.innerHTML='';
+  const nav=document.getElementById('main-nav');nav.innerHTML='';
   MENUS.forEach(m=>{
-    const btn=document.createElement('button'); btn.textContent=m.label; btn.dataset.id=m.id;
-    btn.onclick=()=>{ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); loadPage(m.id); };
+    const btn=document.createElement('button');btn.textContent=m.label;btn.dataset.id=m.id;
+    btn.onclick=()=>{document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');loadPage(m.id);};
     nav.appendChild(btn);
   });
 }
 function loadPage(id){
-  if(id==='dashboard') renderDashboard();
-  else if(id==='doa') renderModule('Doa');
-  else if(id==='gelisah') renderModule('Gelisah');
-  else if(id==='alkitab') renderModule('Alkitab');
-  else if(id==='pertanyaan') renderPertanyaan();
-  else if(id==='hasil') renderHasilPertanyaan();
-  else if(id==='panduan') renderPanduan();
-  document.querySelectorAll('nav button').forEach(b=>{ if(b.dataset.id===id)b.classList.add('active'); });
+  if(id==='dashboard')renderDashboard();
+  else if(id==='doa')renderModule('Doa');
+  else if(id==='gelisah')renderModule('Gelisah');
+  else if(id==='alkitab')renderModule('Alkitab');
+  else if(id==='pertanyaan')renderPertanyaan();
+  else if(id==='hasil')renderHasilPertanyaan();
+  else if(id==='panduan')renderPanduan();
+  document.querySelectorAll('nav button').forEach(b=>{if(b.dataset.id===id)b.classList.add('active');});
 }
 
 // ══════════════════════════════════════════════════
-// LOAD CACHE
+// LOAD CACHE (CSV only — Apps Script GET opsional)
 // ══════════════════════════════════════════════════
 async function loadCache(mod){
-  if(isDemoMode){ cache[mod]=cache[mod]||JSON.parse(JSON.stringify(DEMO[mod]||[])); return; }
+  if(isDemoMode){cache[mod]=cache[mod]||JSON.parse(JSON.stringify(DEMO[mod]||[]));return;}
   const csvUrl=URLS[mod];
   if(csvUrl){
     try{
       const r=await fetch(csvUrl+'&t='+Date.now());
-      const txt=await r.text();
-      cache[mod]=parseCSV(txt);
+      cache[mod]=parseCSV(await r.text());
       return;
-    }catch(e){ console.warn('CSV gagal untuk',mod,e.message); }
+    }catch(e){console.warn('CSV gagal',mod,e.message);}
   }
   cache[mod]=cache[mod]||[];
+}
+
+// ══════════════════════════════════════════════════
+// ✅ POST HELPER — kirim ke Apps Script (no-cors)
+// ══════════════════════════════════════════════════
+async function postToAS(url, params){
+  // Bangun URL-encoded body string secara manual untuk kompatibilitas penuh
+  const body=Object.entries(params).map(([k,v])=>
+    encodeURIComponent(k)+'='+encodeURIComponent(String(v||''))
+  ).join('&');
+  await fetch(url,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body
+  });
 }
 
 // ══════════════════════════════════════════════════
@@ -739,23 +680,16 @@ async function loadCache(mod){
 // ══════════════════════════════════════════════════
 async function renderDashboard(){
   const content=document.getElementById('app-content');
-  const now=new Date(),pad=x=>String(x).padStart(2,'0');
+  const now=new Date(),p=x=>String(x).padStart(2,'0');
   const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const dateStr=`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-
   content.innerHTML=`
-    ${isDemoMode?'<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;">⚠️ Mode Demo — data tidak tersimpan ke Spreadsheet</div>':''}
-    <div class="dash-welcome">
-      <h2>Selamat datang, ${esc(currentUser?.username||'Pengguna')} 🙏</h2>
-      <p>Catat perjalanan rohanimu hari ini</p>
-    </div>
+    ${isDemoMode?'<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;">⚠️ Mode Demo — data tidak tersimpan</div>':''}
+    <div class="dash-welcome"><h2>Selamat datang, ${esc(currentUser?.username||'Pengguna')} 🙏</h2><p>Catat perjalanan rohanimu hari ini</p></div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;text-align:center;">
-      <div class="dash-clock" id="dash-clk">${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}</div>
-      <div class="dash-date">${dateStr}</div>
-      <button onclick="openDashFullscreen()" style="margin-top:10px;padding:8px 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;box-shadow:0 4px 16px var(--glow);">
-        ⛶ Tampilkan Fullscreen
-      </button>
+      <div class="dash-clock" id="dash-clk">${p(now.getHours())}:${p(now.getMinutes())}:${p(now.getSeconds())}</div>
+      <div class="dash-date">${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}</div>
+      <button onclick="openDashFullscreen()" style="margin-top:10px;padding:8px 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;box-shadow:0 4px 16px var(--glow);">⛶ Tampilkan Fullscreen</button>
     </div>
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-num" id="s-doa">—</div><div class="stat-label">🙏 Catatan Doa</div></div>
@@ -767,19 +701,18 @@ async function renderDashboard(){
       <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>
       <div class="shimmer"></div><div class="shimmer" style="height:55px;opacity:.6;"></div>
     </div>`;
-
-  const clkTimer=setInterval(()=>{ const el=document.getElementById('dash-clk'); if(!el){clearInterval(clkTimer);return;} const n=new Date(); el.textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`; },1000);
+  const clkT=setInterval(()=>{const el=document.getElementById('dash-clk');if(!el){clearInterval(clkT);return;}const n=new Date();el.textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;},1000);
   await Promise.allSettled([loadCache('Doa'),loadCache('Gelisah'),loadCache('Alkitab')]);
   const doaData=cache.Doa||[],gelData=cache.Gelisah||[],alkData=cache.Alkitab||[];
   const allTerjawab=[...doaData,...gelData,...alkData].filter(r=>(r.tanggal_jawaban||'').trim()).length;
-  const set=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
-  set('s-doa',doaData.length); set('s-gel',gelData.length); set('s-alk',alkData.length); set('s-jwb',allTerjawab);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('s-doa',doaData.length);set('s-gel',gelData.length);set('s-alk',alkData.length);set('s-jwb',allTerjawab);
   const allRecent=[...doaData.slice(-3).map(r=>({...r,_mod:'Doa'})),...gelData.slice(-3).map(r=>({...r,_mod:'Gelisah'})),...alkData.slice(-3).map(r=>({...r,_mod:'Alkitab'}))].sort((a,b)=>new Date(b.tanggal||0)-new Date(a.tanggal||0)).slice(0,6);
   const icons={Doa:'🙏',Gelisah:'💭',Alkitab:'📖'};
   const recentEl=document.getElementById('dash-recent');
-  if(recentEl){ recentEl.innerHTML=`<div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`<div class="recent-entry" onclick='openFromDash(${JSON.stringify(r)})'><div class="re-icon">${icons[r._mod]||'📄'}</div><div class="re-body"><div class="re-title">${esc((r.permintaan||r.nama_alkitab||r.masalah||'Tanpa Judul').slice(0,50))}</div><div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}</div></div></div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.</p></div>`); }
+  if(recentEl)recentEl.innerHTML=`<div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`<div class="recent-entry" onclick='openFromDash(${JSON.stringify(r)})'><div class="re-icon">${icons[r._mod]||'📄'}</div><div class="re-body"><div class="re-title">${esc((r.permintaan||r.nama_alkitab||r.masalah||'Tanpa Judul').slice(0,50))}</div><div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}</div></div></div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.</p></div>`);
 }
-function openFromDash(r){ const mod=r._mod; if(mod==='Doa')openDoaDetail(r); else if(mod==='Gelisah')openGelisahDetail(r); else if(mod==='Alkitab')openAlkitabDetail(r); }
+function openFromDash(r){const mod=r._mod;if(mod==='Doa')openDoaDetail(r);else if(mod==='Gelisah')openGelisahDetail(r);else if(mod==='Alkitab')openAlkitabDetail(r);}
 
 // ══════════════════════════════════════════════════
 // RENDER MODULE GENERIC
@@ -796,6 +729,7 @@ function renderModule(mod){
       <div style="display:flex;gap:6px;align-items:center;">
         <span class="section-count" id="${ml}-count">—</span>
         <button class="btn" onclick="refreshModule('${mod}')">🔄</button>
+        <button class="btn-fs" onclick="openModuleFullscreen('${mod}')">⛶ Fullscreen</button>
       </div>
     </div>
     <div class="filter-bar">
@@ -821,13 +755,12 @@ function renderModule(mod){
 
 function clearFilter(mod){
   const ml=mod.toLowerCase();
-  const ids=[`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`gel-kat`,`alk-tema-f`];
-  ids.forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
+  [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   filterModule(mod);
 }
 
-async function loadAndRenderList(mod){ await loadCache(mod); filterModule(mod); }
-async function refreshModule(mod){ delete cache[mod]; toast('⏳ Memuat ulang...'); await loadCache(mod); filterModule(mod); toast('✅ Data diperbarui'); }
+async function loadAndRenderList(mod){await loadCache(mod);filterModule(mod);}
+async function refreshModule(mod){delete cache[mod];toast('⏳ Memuat ulang...');await loadCache(mod);filterModule(mod);toast('✅ Data diperbarui');}
 
 function filterModule(mod){
   const ml=mod.toLowerCase();
@@ -837,33 +770,25 @@ function filterModule(mod){
   const answered=document.getElementById(`${ml}-answered`)?.value||'';
   const gelKat=document.getElementById('gel-kat')?.value||'';
   const alkTema=document.getElementById('alk-tema-f')?.value||'';
-
   let data=[...(cache[mod]||[])];
-  if(search) data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
-  if(dateFrom) data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
-  if(dateTo) data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
-  if(answered==='answered') data=data.filter(r=>(r.tanggal_jawaban||'').trim());
-  if(answered==='pending') data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
-  if(mod==='Gelisah'&&gelKat) data=data.filter(r=>(r.kategori||'')===gelKat);
-  if(mod==='Alkitab'&&alkTema) data=data.filter(r=>(r.tema||'')===alkTema);
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(dateFrom)data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
+  if(dateTo)data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
+  if(answered==='answered')data=data.filter(r=>(r.tanggal_jawaban||'').trim());
+  if(answered==='pending')data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
+  if(mod==='Gelisah'&&gelKat)data=data.filter(r=>(r.kategori||'')===gelKat);
+  if(mod==='Alkitab'&&alkTema)data=data.filter(r=>(r.tema||'')===alkTema);
   data.reverse();
-
-  const cnt=document.getElementById(`${ml}-count`); if(cnt)cnt.textContent=data.length+' entri';
-
-  // Active filters badge
+  const cnt=document.getElementById(`${ml}-count`);if(cnt)cnt.textContent=data.length+' entri';
   const activeEl=document.getElementById(`${ml}-active-filters`);
   if(activeEl){
     const filters=[];
     if(search)filters.push(`Kata kunci: "${search}"`);
-    if(dateFrom)filters.push(`Dari: ${dateFrom}`);
-    if(dateTo)filters.push(`Sampai: ${dateTo}`);
-    if(answered==='answered')filters.push('Status: Terjawab');
-    if(answered==='pending')filters.push('Status: Pending');
-    if(gelKat)filters.push(`Kategori: ${gelKat}`);
-    if(alkTema)filters.push(`Tema: ${alkTema}`);
+    if(dateFrom)filters.push(`Dari: ${dateFrom}`);if(dateTo)filters.push(`Sampai: ${dateTo}`);
+    if(answered==='answered')filters.push('Status: Terjawab');if(answered==='pending')filters.push('Status: Pending');
+    if(gelKat)filters.push(`Kategori: ${gelKat}`);if(alkTema)filters.push(`Tema: ${alkTema}`);
     activeEl.innerHTML=filters.length?`<div class="filter-active-badge">🔵 ${filters.length} filter aktif: ${filters.join(' · ')}</div>`:'';
   }
-
   const totalPages=Math.max(1,Math.ceil(data.length/PER_PAGE));
   if(pageState[mod]>totalPages)pageState[mod]=1;
   const start=(pageState[mod]-1)*PER_PAGE;
@@ -872,16 +797,15 @@ function filterModule(mod){
 }
 
 function renderList(mod,data){
-  const listEl=document.getElementById(mod.toLowerCase()+'-list');
-  if(!listEl)return;
-  if(!data.length){listEl.innerHTML=`<div class="empty-state"><div class="icon">${{Doa:'🙏',Gelisah:'💭',Alkitab:'📖'}[mod]}</div><p>Tidak ada catatan yang cocok.<br>Coba ubah filter pencarian.</p></div>`;return;}
-  if(mod==='Doa') listEl.innerHTML=data.map(buildDoaCard).join('');
-  else if(mod==='Gelisah') listEl.innerHTML=data.map(buildGelisahCard).join('');
-  else if(mod==='Alkitab') listEl.innerHTML=data.map(buildAlkitabCard).join('');
+  const listEl=document.getElementById(mod.toLowerCase()+'-list');if(!listEl)return;
+  if(!data.length){listEl.innerHTML=`<div class="empty-state"><div class="icon">${{Doa:'🙏',Gelisah:'💭',Alkitab:'📖'}[mod]}</div><p>Tidak ada catatan yang cocok.</p></div>`;return;}
+  if(mod==='Doa')listEl.innerHTML=data.map(buildDoaCard).join('');
+  else if(mod==='Gelisah')listEl.innerHTML=data.map(buildGelisahCard).join('');
+  else if(mod==='Alkitab')listEl.innerHTML=data.map(buildAlkitabCard).join('');
 }
 
 function renderPagination(containerId,current,total,onPageFn){
-  const el=document.getElementById(containerId); if(!el||total<=1){if(el)el.innerHTML='';return;}
+  const el=document.getElementById(containerId);if(!el||total<=1){if(el)el.innerHTML='';return;}
   let html=`<button class="pg-btn" ${current===1?'disabled':''} onclick="(${onPageFn.toString()})(${current-1})">‹</button>`;
   for(let i=1;i<=total;i++){
     if(total>7&&Math.abs(i-current)>2&&i!==1&&i!==total){if(i===2||i===total-1)html+=`<span style="color:var(--text3);padding:0 3px;">…</span>`;continue;}
@@ -915,8 +839,8 @@ function buildDoaForm(){
 
 function buildDoaCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
-  const json=JSON.stringify(r).replace(/'/g,'&#39;');
-  return `<div class="entry-card" onclick='openDoaDetail(${json})'>
+  const j=JSON.stringify(r).replace(/'/g,'&#39;');
+  return `<div class="entry-card" onclick='openDoaDetail(${j})'>
     <div class="entry-card-header">
       <div class="entry-card-icon">🙏</div>
       <div style="width:3px;border-radius:3px;background:var(--accent);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
@@ -935,7 +859,8 @@ function buildDoaCard(r){
 }
 
 function openDoaDetail(r){
-  const txt=`📖 CATATAN DOA\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n\n🙏 Permintaan Doa:\n${r.permintaan||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status   : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
+  // Teks fullscreen: tampilkan permintaan doa dan terang
+  const txt=`📖 CATATAN DOA #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal    : ${formatDate(r.tanggal)}\n📊 Status     : ${r.status||'-'}\n\n🙏 PERMINTAAN DOA:\n${r.permintaan||'-'}\n\n✨ TERANG YANG DIDAPAT:\n${r.terang||'-'}\n\n📅 Tgl Jawaban : ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan Jwb : ${r.catatan_jawaban||'-'}`;
   showDetail(`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">🙏</span>
@@ -947,65 +872,46 @@ function openDoaDetail(r){
     </div>
     <div class="detail-field"><div class="detail-label">🙏 Permintaan Doa</div><div class="detail-value">${esc(r.permintaan||'-')}</div></div>
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${esc(r.terang)}</div></div>`:''}
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
-    </div>
+    <div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('Catatan Doa #${esc(String(r.no_urut||r.tanggal))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
+      <button class="btn" onclick="openEntryFullscreen('Doa #${esc(String(r.no_urut||'-'))} — ${esc((r.permintaan||'').slice(0,30))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
-// ── SUBMIT DOA — pakai no-cors POST ──
 async function submitDoa(){
   const btn=document.getElementById('doa-submit-btn'),msg=document.getElementById('doa-status-msg');
   const tgl=document.getElementById('doa-tgl')?.value;
   const permintaan=document.getElementById('doa-permintaan')?.value.trim();
   if(!tgl||!permintaan){toast('⚠️ Tanggal dan permintaan wajib diisi');return;}
-
   if(isDemoMode){
     if(!cache.Doa)cache.Doa=[];
-    cache.Doa.push({no_urut:cache.Doa.length+1,tanggal:tgl,permintaan,
+    cache.Doa.push({no_urut:cache.Doa.length+1,tanggal:tgl,permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)');if(msg)msg.textContent='✅ Tersimpan (mode demo)';
+    resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb']);filterModule('Doa');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
+  }
+  btn.disabled=true;btn.textContent='⏳ Menyimpan...';
+  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
+  const no=document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1);
+  try{
+    await postToAS(APPS_SCRIPT_DOA,{
+      action:'tambah',sheet:'Doa',user:currentUser?.username||'',
+      tanggal:tgl,no_urut:String(no),permintaan,
       terang:document.getElementById('doa-terang')?.value.trim()||'',
       tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',
       status:document.getElementById('doa-status')?.value||'Berdoa',
-      catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''});
-    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
-    resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb']);
-    filterModule('Doa'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
-  }
-
-  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
-  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
-
-  const no=document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1);
-  const body=new URLSearchParams({
-    action:'tambah',
-    sheet:'Doa',
-    user:currentUser?.username||'',
-    tanggal:tgl,
-    no_urut:String(no),
-    permintaan,
-    terang:document.getElementById('doa-terang')?.value.trim()||'',
-    tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',
-    status:document.getElementById('doa-status')?.value||'Berdoa',
-    catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''
-  });
-
-  try{
-    // no-cors — tidak bisa baca response, tapi data terkirim jika Apps Script benar
-    await fetch(APPS_SCRIPT_DOA,{method:'POST',mode:'no-cors',body});
+      catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||''
+    });
     toast('✅ Catatan doa tersimpan!');
-    if(msg){msg.textContent='✅ Tersimpan! Data mungkin butuh 30 detik untuk muncul.';msg.style.color='var(--accent3)';}
+    if(msg){msg.textContent='✅ Tersimpan! Tunggu ~5 detik lalu refresh.';msg.style.color='var(--accent3)';}
     resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb']);
     document.getElementById('doa-tgl').value=getTodayStr();
-    setTimeout(async()=>{delete cache.Doa;await loadCache('Doa');filterModule('Doa');if(msg)msg.textContent='';},4000);
+    setTimeout(async()=>{delete cache.Doa;await loadCache('Doa');filterModule('Doa');if(msg)msg.textContent='';},5000);
   }catch(e){
-    toast('⚠️ Gagal menyimpan — cek koneksi');
-    if(msg){msg.textContent='⚠️ Gagal kirim. Pastikan Apps Script sudah di-deploy.';msg.style.color='var(--red)';}
-  }
-  finally{ btn.disabled=false; btn.textContent='🙏 Simpan Catatan Doa'; }
+    toast('⚠️ Gagal menyimpan — cek koneksi & Apps Script');
+    if(msg){msg.textContent='⚠️ Gagal. Pastikan Apps Script sudah di-deploy dengan benar.';msg.style.color='var(--red)';}
+  }finally{btn.disabled=false;btn.textContent='🙏 Simpan Catatan Doa';}
 }
 
 // ══════════════════════════════════════════════════
@@ -1021,11 +927,7 @@ function buildGelisahForm(){
     <div class="form-field"><label class="form-label">Kegelisahan / Masalah</label><textarea class="form-textarea" id="gel-masalah" rows="3" placeholder="Apa yang membuatmu gelisah hari ini?"></textarea></div>
     <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="gel-terang" rows="2" placeholder="Jawaban / firman / kedamaian yang diterima..."></textarea></div>
     <div class="form-field"><label class="form-label">Kategori</label>
-      <select class="form-select" id="gel-kategori">
-        <option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option>
-        <option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option>
-        <option>Iman</option><option>Lainnya</option>
-      </select>
+      <select class="form-select" id="gel-kategori"><option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option><option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option><option>Iman</option><option>Lainnya</option></select>
     </div>
     <div class="form-row">
       <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="gel-tgl-jwb"></div>
@@ -1041,8 +943,8 @@ function buildGelisahCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
   const katColors={Keluarga:'#f97316',Pekerjaan:'#3b82f6',Kesehatan:'#10b981',Hubungan:'#ec4899',Keuangan:'#f59e0b',Iman:'#a78bfa',default:'var(--text3)'};
   const katColor=katColors[r.kategori]||katColors.default;
-  const json=JSON.stringify(r).replace(/'/g,'&#39;');
-  return `<div class="entry-card" onclick='openGelisahDetail(${json})'>
+  const j=JSON.stringify(r).replace(/'/g,'&#39;');
+  return `<div class="entry-card" onclick='openGelisahDetail(${j})'>
     <div class="entry-card-header">
       <div class="entry-card-icon">💭</div>
       <div style="width:3px;border-radius:3px;background:var(--accent2);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
@@ -1060,7 +962,8 @@ function buildGelisahCard(r){
 }
 
 function openGelisahDetail(r){
-  const txt=`💭 CATATAN KEGELISAHAN\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n🏷 Kategori: ${r.kategori||'-'}\n\n💭 Kegelisahan:\n${r.masalah||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📊 Status   : ${r.status||'-'}\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Penyelesaian:\n${r.catatan_jawaban||'-'}`;
+  // Teks fullscreen: tampilkan isi curhat gelisah + terang
+  const txt=`💭 CATATAN KEGELISAHAN #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal    : ${formatDate(r.tanggal)}\n🏷 Kategori   : ${r.kategori||'-'}\n📊 Status     : ${r.status||'-'}\n\n💭 ISI KEGELISAHAN:\n${r.masalah||'-'}\n\n✨ TERANG YANG DIDAPAT:\n${r.terang||'-'}\n\n📅 Tgl Jawaban : ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan     : ${r.catatan_jawaban||'-'}`;
   showDetail(`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">💭</span>
@@ -1070,7 +973,7 @@ function openGelisahDetail(r){
       <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
       <div class="detail-field"><div class="detail-label">Kategori</div><div class="detail-value">${esc(r.kategori||'-')}</div></div>
     </div>
-    <div class="detail-field"><div class="detail-label">💭 Kegelisahan</div><div class="detail-value">${esc(r.masalah||'-')}</div></div>
+    <div class="detail-field"><div class="detail-label">💭 Isi Kegelisahan</div><div class="detail-value">${esc(r.masalah||'-')}</div></div>
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${esc(r.terang)}</div></div>`:''}
     <div class="detail-grid">
       <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div>
@@ -1079,7 +982,7 @@ function openGelisahDetail(r){
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Penyelesaian</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('Kegelisahan #${esc(String(r.no_urut||r.tanggal))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
+      <button class="btn" onclick="openEntryFullscreen('Gelisah #${esc(String(r.no_urut||'-'))}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
@@ -1088,48 +991,34 @@ async function submitGelisah(){
   const tgl=document.getElementById('gel-tgl')?.value;
   const masalah=document.getElementById('gel-masalah')?.value.trim();
   if(!tgl||!masalah){toast('⚠️ Tanggal dan kegelisahan wajib diisi');return;}
-
   if(isDemoMode){
     if(!cache.Gelisah)cache.Gelisah=[];
-    cache.Gelisah.push({no_urut:cache.Gelisah.length+1,tanggal:tgl,masalah,
+    cache.Gelisah.push({no_urut:cache.Gelisah.length+1,tanggal:tgl,masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)');if(msg)msg.textContent='✅ Tersimpan (mode demo)';
+    resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb']);filterModule('Gelisah');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
+  }
+  btn.disabled=true;btn.textContent='⏳ Menyimpan...';
+  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
+  const no=document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1);
+  try{
+    await postToAS(APPS_SCRIPT_GELISAH,{
+      action:'tambah',sheet:'Gelisah',user:currentUser?.username||'',
+      tanggal:tgl,no_urut:String(no),masalah,
       terang:document.getElementById('gel-terang')?.value.trim()||'',
       kategori:document.getElementById('gel-kategori')?.value||'',
       tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',
       status:document.getElementById('gel-status')?.value||'Gelisah',
-      catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''});
-    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
-    resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb']);
-    filterModule('Gelisah'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
-  }
-
-  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
-  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
-  const no=document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1);
-  const body=new URLSearchParams({
-    action:'tambah',
-    sheet:'Gelisah',
-    user:currentUser?.username||'',
-    tanggal:tgl,
-    no_urut:String(no),
-    masalah,
-    terang:document.getElementById('gel-terang')?.value.trim()||'',
-    kategori:document.getElementById('gel-kategori')?.value||'',
-    tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',
-    status:document.getElementById('gel-status')?.value||'Gelisah',
-    catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''
-  });
-  try{
-    await fetch(APPS_SCRIPT_GELISAH,{method:'POST',mode:'no-cors',body});
+      catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||''
+    });
     toast('✅ Catatan kegelisahan tersimpan!');
     if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
     resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb']);
     document.getElementById('gel-tgl').value=getTodayStr();
-    setTimeout(async()=>{delete cache.Gelisah;await loadCache('Gelisah');filterModule('Gelisah');if(msg)msg.textContent='';},4000);
+    setTimeout(async()=>{delete cache.Gelisah;await loadCache('Gelisah');filterModule('Gelisah');if(msg)msg.textContent='';},5000);
   }catch(e){
     toast('⚠️ Gagal menyimpan');
     if(msg){msg.textContent='⚠️ Gagal. Pastikan Apps Script sudah di-deploy.';msg.style.color='var(--red)';}
-  }
-  finally{ btn.disabled=false; btn.textContent='💭 Simpan Catatan Kegelisahan'; }
+  }finally{btn.disabled=false;btn.textContent='💭 Simpan Catatan Kegelisahan';}
 }
 
 // ══════════════════════════════════════════════════
@@ -1149,11 +1038,7 @@ function buildAlkitabForm(){
     <div class="form-row">
       <div class="form-field"><label class="form-label">Tanggal Terjawab</label><input type="date" class="form-input" id="alk-tgl-jwb"></div>
       <div class="form-field"><label class="form-label">Tema</label>
-        <select class="form-select" id="alk-tema">
-          <option>Iman</option><option>Kasih</option><option>Pengharapan</option>
-          <option>Berkat</option><option>Kekuatan</option><option>Hikmat</option>
-          <option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option>
-        </select>
+        <select class="form-select" id="alk-tema"><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select>
       </div>
     </div>
     <div class="form-field"><label class="form-label">Catatan Jawaban Alkitab</label><textarea class="form-textarea" id="alk-catatan-jwb" rows="2" placeholder="Bagaimana firman ini terbukti?"></textarea></div>
@@ -1164,8 +1049,8 @@ function buildAlkitabForm(){
 
 function buildAlkitabCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
-  const json=JSON.stringify(r).replace(/'/g,'&#39;');
-  return `<div class="entry-card" onclick='openAlkitabDetail(${json})'>
+  const j=JSON.stringify(r).replace(/'/g,'&#39;');
+  return `<div class="entry-card" onclick='openAlkitabDetail(${j})'>
     <div class="entry-card-header">
       <div class="entry-card-icon">📖</div>
       <div style="width:3px;border-radius:3px;background:var(--accent3);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
@@ -1183,7 +1068,8 @@ function buildAlkitabCard(r){
 }
 
 function openAlkitabDetail(r){
-  const txt=`📖 CATATAN ALKITAB\n${'─'.repeat(30)}\n📅 Tanggal : ${formatDate(r.tanggal)}\n🔢 No.Urut : #${r.no_urut||'-'}\n📌 Referensi: ${r.nama_alkitab||'-'}\n🏷 Tema    : ${r.tema||'-'}\n\n📜 Ayat / Bacaan:\n${r.ayat||'-'}\n\n✨ Terang yang Didapat:\n${r.terang||'-'}\n\n📝 Catatan / Aplikasi:\n${r.catatan||'-'}\n\n📅 Tgl Terjawab: ${formatDate(r.tanggal_jawaban)||'-'}\n\n📝 Catatan Jawaban:\n${r.catatan_jawaban||'-'}`;
+  // Fullscreen: tampilkan nama kitab, ayat, dan catatan
+  const txt=`📖 CATATAN ALKITAB #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal      : ${formatDate(r.tanggal)}\n📌 Nama Kitab   : ${r.nama_alkitab||'-'}\n🏷 Tema         : ${r.tema||'-'}\n\n📜 AYAT / BACAAN:\n${r.ayat||'-'}\n\n✨ TERANG YANG DIDAPAT:\n${r.terang||'-'}\n\n📝 CATATAN / APLIKASI:\n${r.catatan||'-'}\n\n📅 Tgl Terjawab : ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan Jwb  : ${r.catatan_jawaban||'-'}`;
   showDetail(`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">📖</span>
@@ -1196,11 +1082,11 @@ function openAlkitabDetail(r){
     ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${esc(r.ayat)}</div></div>`:''}
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${esc(r.terang)}</div></div>`:''}
     ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${esc(r.catatan)}</div></div>`:''}
-    ${r.tanggal_jawaban?`<div class="detail-grid"><div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)}</div></div></div>`:''}
+    ${r.tanggal_jawaban?`<div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)}</div></div>`:''}
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('${esc(r.nama_alkitab||'Alkitab')}',${JSON.stringify(txt)})">⛶ Fullscreen</button>
+      <button class="btn" onclick="openEntryFullscreen('${esc(r.nama_alkitab||'Alkitab')} — Nama Kitab, Ayat &amp; Catatan',${JSON.stringify(txt)})">⛶ Fullscreen</button>
     </div>`);
 }
 
@@ -1209,68 +1095,48 @@ async function submitAlkitab(){
   const tgl=document.getElementById('alk-tgl')?.value;
   const nama=document.getElementById('alk-nama')?.value.trim();
   if(!tgl||!nama){toast('⚠️ Tanggal dan referensi alkitab wajib diisi');return;}
-
   if(isDemoMode){
     if(!cache.Alkitab)cache.Alkitab=[];
-    cache.Alkitab.push({no_urut:cache.Alkitab.length+1,tanggal:tgl,nama_alkitab:nama,
+    cache.Alkitab.push({no_urut:cache.Alkitab.length+1,tanggal:tgl,nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''});
+    toast('✅ Tersimpan (demo)');if(msg)msg.textContent='✅ Tersimpan (mode demo)';
+    resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama']);filterModule('Alkitab');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
+  }
+  btn.disabled=true;btn.textContent='⏳ Menyimpan...';
+  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
+  const no=document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1);
+  try{
+    await postToAS(APPS_SCRIPT_ALKITAB,{
+      action:'tambah',sheet:'Alkitab',user:currentUser?.username||'',
+      tanggal:tgl,no_urut:String(no),nama_alkitab:nama,
       ayat:document.getElementById('alk-ayat')?.value.trim()||'',
       terang:document.getElementById('alk-terang')?.value.trim()||'',
       catatan:document.getElementById('alk-catatan')?.value.trim()||'',
       tema:document.getElementById('alk-tema')?.value||'',
       tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',
-      catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''});
-    toast('✅ Tersimpan (demo)'); if(msg)msg.textContent='✅ Tersimpan (mode demo)';
-    resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama']);
-    filterModule('Alkitab'); setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
-  }
-
-  btn.disabled=true; btn.textContent='⏳ Menyimpan...';
-  if(msg){msg.textContent='⏳ Mengirim ke Google Sheets...';msg.style.color='var(--text3)';}
-  const no=document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1);
-  const body=new URLSearchParams({
-    action:'tambah',
-    sheet:'Alkitab',
-    user:currentUser?.username||'',
-    tanggal:tgl,
-    no_urut:String(no),
-    nama_alkitab:nama,
-    ayat:document.getElementById('alk-ayat')?.value.trim()||'',
-    terang:document.getElementById('alk-terang')?.value.trim()||'',
-    catatan:document.getElementById('alk-catatan')?.value.trim()||'',
-    tema:document.getElementById('alk-tema')?.value||'',
-    tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',
-    catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''
-  });
-  try{
-    await fetch(APPS_SCRIPT_ALKITAB,{method:'POST',mode:'no-cors',body});
+      catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||''
+    });
     toast('✅ Catatan alkitab tersimpan!');
     if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
     resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama']);
     document.getElementById('alk-tgl').value=getTodayStr();
-    setTimeout(async()=>{delete cache.Alkitab;await loadCache('Alkitab');filterModule('Alkitab');if(msg)msg.textContent='';},4000);
+    setTimeout(async()=>{delete cache.Alkitab;await loadCache('Alkitab');filterModule('Alkitab');if(msg)msg.textContent='';},5000);
   }catch(e){
     toast('⚠️ Gagal menyimpan');
     if(msg){msg.textContent='⚠️ Gagal. Pastikan Apps Script sudah di-deploy.';msg.style.color='var(--red)';}
-  }
-  finally{ btn.disabled=false; btn.textContent='📖 Simpan Catatan Alkitab'; }
+  }finally{btn.disabled=false;btn.textContent='📖 Simpan Catatan Alkitab';}
 }
-
-// ══════════════════════════════════════════════════
-// HELPER RESET FORM
-// ══════════════════════════════════════════════════
-function resetForm(ids){ ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
 
 // ══════════════════════════════════════════════════
 // PERTANYAAN
 // ══════════════════════════════════════════════════
 const TOPIK_OPTIONS=['Iman & Doktrin','Kehidupan Rohani','Alkitab','Doa','Pelayanan','Keluarga & Pernikahan','Masalah Pribadi','Lainnya'];
 const URGENSI_OPTIONS=['Low','Medium','High','Critical','Intermesso'];
-let ptnyAllData=[], ptnyFilteredData=[], ptnyCurrentPage=1;
+let ptnyAllData=[],ptnyFilteredData=[],ptnyCurrentPage=1;
 
 function renderPertanyaan(){
   const content=document.getElementById('app-content');
   content.innerHTML=`
-    <div class="info-box">❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan rohanimu. Pertanyaan akan dijawab dan bisa dilihat di Hasil Pertanyaan.</div>
+    <div class="info-box">❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan rohanimu.</div>
     <div class="form-card">
       <div class="form-title" style="color:var(--accent2);">❓ Ajukan Pertanyaan</div>
       <div class="form-field"><label class="form-label">Nama (opsional)</label><input type="text" class="form-input" id="ptny-nama" placeholder="Nama kamu atau anonim..." value="${esc(currentUser?.username||'')}"></div>
@@ -1285,40 +1151,32 @@ function renderPertanyaan(){
     <div class="ptny-stats-bar" id="ptny-stats"></div>
     <div class="section-header">
       <span class="section-title">❓ Daftar Pertanyaan</span>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <span class="section-count" id="ptny-count">—</span>
-        <button class="btn" onclick="loadPertanyaanList()">🔄</button>
-      </div>
+      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="ptny-count">—</span><button class="btn" onclick="loadPertanyaanList()">🔄</button></div>
     </div>
     <div class="filter-bar">
       <div class="filter-bar-title">🔍 Filter Pertanyaan</div>
-      <div class="filter-search-wrap">
-        <span class="filter-search-icon">🔍</span>
-        <input type="text" class="filter-search-input" id="ptny-search" placeholder="Cari pertanyaan..." oninput="applyPtnyFilter()">
-      </div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="ptny-search" placeholder="Cari pertanyaan..." oninput="applyPtnyFilter()"></div>
       <select class="filter-input" id="ptny-f-topik" onchange="applyPtnyFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
       <select class="filter-input" id="ptny-f-urgensi" onchange="applyPtnyFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
     </div>
-    <div id="ptny-list"></div>
-    <div id="ptny-pagination" class="pagination"></div>`;
-  document.getElementById('ptny-isi').addEventListener('input',function(){ document.getElementById('ptny-char').textContent=this.value.length+' karakter'; });
+    <div id="ptny-list"></div><div id="ptny-pagination" class="pagination"></div>`;
+  document.getElementById('ptny-isi').addEventListener('input',function(){document.getElementById('ptny-char').textContent=this.value.length+' karakter';});
   loadPertanyaanList();
 }
 
 function loadPertanyaanList(){
-  const listEl=document.getElementById('ptny-list'); if(!listEl)return;
+  const listEl=document.getElementById('ptny-list');if(!listEl)return;
   listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat pertanyaan...</div>';
-  if(isDemoMode){ ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[])); renderPtnyStats(); applyPtnyFilter(); return; }
+  if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderPtnyStats();applyPtnyFilter();return;}
   fetch(URLS.Pertanyaan+'&t='+Date.now())
     .then(r=>r.text())
-    .then(txt=>{ ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim()); renderPtnyStats(); applyPtnyFilter(); })
-    .catch(()=>{ if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+    .then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderPtnyStats();applyPtnyFilter();})
+    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>';});
 }
 
 function renderPtnyStats(){
-  const el=document.getElementById('ptny-stats'); if(!el)return;
-  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length;
-  const mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  const el=document.getElementById('ptny-stats');if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
   el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
 }
 
@@ -1331,9 +1189,9 @@ function applyPtnyFilter(){
   if(filterTopik)data=data.filter(r=>(r.topik||'')===filterTopik);
   if(filterUrgensi)data=data.filter(r=>(r.urgensi||'').toLowerCase()===filterUrgensi.toLowerCase());
   const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
-  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;if(ua!==ub)return ua-ub;return 0;});
+  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;return ua-ub;});
   ptnyFilteredData=data;
-  const cnt=document.getElementById('ptny-count'); if(cnt)cnt.textContent=data.length+' pertanyaan';
+  const cnt=document.getElementById('ptny-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
   renderPtnyPage();
 }
 
@@ -1346,14 +1204,14 @@ function renderPtnyPage(){
 }
 
 function renderPertanyaanCards(data,containerId){
-  const container=document.getElementById(containerId); if(!container)return;
+  const container=document.getElementById(containerId);if(!container)return;
   if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan.</p></div>';return;}
   const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
-  container.innerHTML=data.map((item)=>{
-    const nama=item.nama||'Anonim';const topik=item.topik||'Lainnya';const urgensi=item.urgensi||'Medium';
-    const isi=item.pertanyaan||item.isi||'';const jawaban=item.isi_jawaban||item.jawaban||'';
-    const waktu=item.waktu||item.tanggal||'';const penjawab=item.nama_penjawab||'';
-    const hasAnswer=jawaban.trim()!=='';const uc=urgColor[urgensi]||'var(--text3)';
+  container.innerHTML=data.map(item=>{
+    const nama=item.nama||'Anonim',topik=item.topik||'Lainnya',urgensi=item.urgensi||'Medium';
+    const isi=item.pertanyaan||item.isi||'',jawaban=item.isi_jawaban||item.jawaban||'';
+    const waktu=item.waktu||item.tanggal||'',penjawab=item.nama_penjawab||'';
+    const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
     return `<div class="ptny-card" style="border-left:4px solid ${uc};">
       <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
         <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
@@ -1374,30 +1232,29 @@ async function submitPertanyaan(){
   const urgensi=document.getElementById('ptny-urgensi')?.value||'Medium';
   const isi=document.getElementById('ptny-isi')?.value.trim();
   if(!isi){toast('⚠️ Pertanyaan tidak boleh kosong');return;}
-  if(isi.length<10){toast('⚠️ Pertanyaan terlalu singkat (min 10 karakter)');return;}
-  btn.disabled=true; btn.textContent='⏳ Mengirim...';
+  if(isi.length<10){toast('⚠️ Pertanyaan terlalu singkat');return;}
+  btn.disabled=true;btn.textContent='⏳ Mengirim...';
   if(isDemoMode){
     ptnyAllData.unshift({nama,topik,urgensi,pertanyaan:isi,isi_jawaban:'',waktu:new Date().toLocaleString('id-ID')});
-    toast('✅ Pertanyaan tersimpan (demo)'); if(msg){msg.textContent='✅ Terkirim! (mode demo)';msg.style.color='var(--accent3)';}
-    const isiEl=document.getElementById('ptny-isi'); if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
-    renderPtnyStats(); applyPtnyFilter(); btn.disabled=false; btn.textContent='❓ Kirim Pertanyaan'; setTimeout(()=>{if(msg)msg.textContent='';},3000); return;
+    toast('✅ Pertanyaan tersimpan (demo)');if(msg){msg.textContent='✅ Terkirim! (mode demo)';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    renderPtnyStats();applyPtnyFilter();btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
   }
-  const now=new Date(),pad=x=>String(x).padStart(2,'0');
-  const waktu=`${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-  const body=new URLSearchParams({action:'tambah_pertanyaan',nama,topik,urgensi,pertanyaan:isi,waktu,username:currentUser?.username||nama,isi_jawaban:'',keputusan:'',status:'Pending'});
+  const now=new Date(),pp=x=>String(x).padStart(2,'0');
+  const waktu=`${pp(now.getDate())}/${pp(now.getMonth()+1)}/${now.getFullYear()} ${pp(now.getHours())}:${pp(now.getMinutes())}`;
   try{
-    await fetch(APPS_SCRIPT_PERTANYAAN,{method:'POST',mode:'no-cors',body});
-    toast('✅ Pertanyaan berhasil dikirim!'); if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
-    const isiEl=document.getElementById('ptny-isi'); if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
+    await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'tambah_pertanyaan',nama,topik,urgensi,pertanyaan:isi,waktu,username:currentUser?.username||nama,isi_jawaban:'',keputusan:'',status:'Pending'});
+    toast('✅ Pertanyaan berhasil dikirim!');if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
+    const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
     setTimeout(()=>{loadPertanyaanList();if(msg)msg.textContent='';},2000);
-  }catch(e){ toast('⚠️ Gagal mengirim pertanyaan'); if(msg){msg.textContent='⚠️ Gagal kirim';msg.style.color='var(--yellow)';} }
-  finally{ btn.disabled=false; btn.textContent='❓ Kirim Pertanyaan'; }
+  }catch(e){toast('⚠️ Gagal mengirim pertanyaan');if(msg){msg.textContent='⚠️ Gagal kirim';msg.style.color='var(--yellow)';}}
+  finally{btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';}
 }
 
 // ══════════════════════════════════════════════════
 // HASIL PERTANYAAN
 // ══════════════════════════════════════════════════
-let hpCurrentPage=1, hpFilteredData=[];
+let hpCurrentPage=1,hpFilteredData=[];
 
 function renderHasilPertanyaan(){
   const content=document.getElementById('app-content');
@@ -1405,40 +1262,32 @@ function renderHasilPertanyaan(){
     <div class="ptny-stats-bar" id="hp-stats"></div>
     <div class="section-header">
       <span class="section-title">📋 Hasil Pertanyaan</span>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <span class="section-count" id="hp-count">—</span>
-        <button class="btn" onclick="loadHasilList()">🔄 Refresh</button>
-      </div>
+      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="hp-count">—</span><button class="btn" onclick="loadHasilList()">🔄 Refresh</button></div>
     </div>
     <div class="filter-bar">
       <div class="filter-bar-title">🔍 Filter Hasil</div>
-      <div class="filter-search-wrap">
-        <span class="filter-search-icon">🔍</span>
-        <input type="text" class="filter-search-input" id="hp-search" placeholder="Cari..." oninput="applyHpFilter()">
-      </div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="hp-search" placeholder="Cari..." oninput="applyHpFilter()"></div>
       <select class="filter-input" id="hp-f-topik" onchange="applyHpFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
       <select class="filter-input" id="hp-f-urgensi" onchange="applyHpFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
       <select class="filter-input" id="hp-f-status" onchange="applyHpFilter()"><option value="">Semua Status</option><option value="answered">✅ Dijawab</option><option value="pending">⏳ Pending</option></select>
     </div>
-    <div id="hp-list"></div>
-    <div id="hp-pagination" class="pagination"></div>`;
+    <div id="hp-list"></div><div id="hp-pagination" class="pagination"></div>`;
   loadHasilList();
 }
 
 function loadHasilList(){
-  const listEl=document.getElementById('hp-list'); if(!listEl)return;
+  const listEl=document.getElementById('hp-list');if(!listEl)return;
   listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat...</div>';
-  if(isDemoMode){ ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[])); renderHpStats(); applyHpFilter(); return; }
+  if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderHpStats();applyHpFilter();return;}
   fetch(URLS.Pertanyaan+'&t='+Date.now())
     .then(r=>r.text())
-    .then(txt=>{ ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim()); renderHpStats(); applyHpFilter(); })
-    .catch(()=>{ if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>'; });
+    .then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderHpStats();applyHpFilter();})
+    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>';});
 }
 
 function renderHpStats(){
-  const el=document.getElementById('hp-stats'); if(!el)return;
-  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length;
-  const mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
+  const el=document.getElementById('hp-stats');if(!el)return;
+  const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
   el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
 }
 
@@ -1454,9 +1303,9 @@ function applyHpFilter(){
   if(filterStatus==='answered')data=data.filter(r=>(r.isi_jawaban||r.jawaban||'').trim());
   if(filterStatus==='pending')data=data.filter(r=>!(r.isi_jawaban||r.jawaban||'').trim());
   const urgOrder={critical:0,high:1,medium:2,low:3,intermesso:4};
-  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;if(ua!==ub)return ua-ub;return 0;});
+  data.sort((a,b)=>{const ua=urgOrder[(a.urgensi||'').toLowerCase()]??2,ub=urgOrder[(b.urgensi||'').toLowerCase()]??2;return ua-ub;});
   hpFilteredData=data;
-  const cnt=document.getElementById('hp-count'); if(cnt)cnt.textContent=data.length+' pertanyaan';
+  const cnt=document.getElementById('hp-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
   renderHpPage();
 }
 
@@ -1469,16 +1318,16 @@ function renderHpPage(){
 }
 
 function renderHasilCards(data,containerId){
-  const container=document.getElementById(containerId); if(!container)return;
+  const container=document.getElementById(containerId);if(!container)return;
   if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan ditemukan.</p></div>';return;}
   const urgColor={Critical:'#ef4444',High:'#f59e0b',Medium:'#3b82f6',Low:'#10b981',Intermesso:'#8b5cf6'};
-  container.innerHTML=data.map((item)=>{
+  container.innerHTML=data.map(item=>{
     const origIdx=ptnyAllData.indexOf(item);
-    const nama=item.nama||'Anonim';const topik=item.topik||'Lainnya';const urgensi=item.urgensi||'Medium';
-    const isi=item.pertanyaan||item.isi||'';const jawaban=item.isi_jawaban||item.jawaban||'';
-    const waktu=item.waktu||item.tanggal||'';const penjawab=item.nama_penjawab||'';
-    const keputusan=item.keputusan||'';const status=item.status||'Pending';
-    const hasAnswer=jawaban.trim()!=='';const uc=urgColor[urgensi]||'var(--text3)';
+    const nama=item.nama||'Anonim',topik=item.topik||'Lainnya',urgensi=item.urgensi||'Medium';
+    const isi=item.pertanyaan||item.isi||'',jawaban=item.isi_jawaban||item.jawaban||'';
+    const waktu=item.waktu||item.tanggal||'',penjawab=item.nama_penjawab||'';
+    const keputusan=item.keputusan||'',status=item.status||'Pending';
+    const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
     return `<div class="ptny-card" style="border-left:4px solid ${uc};">
       <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
         <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
@@ -1512,701 +1361,164 @@ async function submitJawaban(idx){
   const namaPenjawab=document.getElementById(`hp-j-nama-${idx}`)?.value?.trim()||currentUser?.username||'Anon';
   const isiJawaban=document.getElementById(`hp-j-isi-${idx}`)?.value?.trim()||'';
   const keputusan=document.getElementById(`hp-j-kep-${idx}`)?.value||'';
-  const now=new Date().toLocaleString('id-ID');
   if(isDemoMode){
     if(ptnyAllData[idx]){ptnyAllData[idx].isi_jawaban=isiJawaban;ptnyAllData[idx].nama_penjawab=namaPenjawab;ptnyAllData[idx].keputusan=keputusan;ptnyAllData[idx].status='Done';}
     toast('✅ Jawaban tersimpan (demo)');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';renderHpStats();applyHpFilter();return;
   }
-  const body=new URLSearchParams({action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});
+  const now=new Date().toLocaleString('id-ID');
   try{
-    await fetch(APPS_SCRIPT_PERTANYAAN,{method:'POST',mode:'no-cors',body});
+    await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});
     toast('✅ Jawaban disimpan!');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';setTimeout(()=>loadHasilList(),1500);
-  }catch(e){ toast('⚠️ Gagal menyimpan jawaban.'); }
+  }catch(e){toast('⚠️ Gagal menyimpan jawaban.');}
 }
 
 // ══════════════════════════════════════════════════
-// ⚙️ PANDUAN APPS SCRIPT
+// PANDUAN APPS SCRIPT (kode perbaikan)
 // ══════════════════════════════════════════════════
-const AS_CODES = {
-  awal: `// ═══ APPS SCRIPT: AWAL (LOGIN) ═══
-// Sheet name: Awal
-// Kolom: username | password | level
-
-function doGet(e) {
-  const ss = SpreadsheetApp.getActive();
-  const sheet = ss.getSheetByName('Awal');
-  const data = sheet.getDataRange().getValues();
-  const headers = data[0].map(h => h.toString().toLowerCase().trim());
-  const action = (e.parameter.action || '').trim();
-
-  if (action === 'cek_login') {
-    const uname = (e.parameter.username || '').trim().toLowerCase();
-    const pass  = (e.parameter.password || '').trim();
-    for (let i = 1; i < data.length; i++) {
-      const row = {};
-      headers.forEach((h, j) => { row[h] = String(data[i][j] || '').trim(); });
-      if (row.username.toLowerCase() === uname && row.password === pass) {
-        return out({status:'ok', user:{username:row.username, level:row.level||'Pengguna'}});
-      }
-    }
-    return out({status:'error', message:'Login gagal'});
-  }
-  return out({status:'error', message:'Action tidak dikenal'});
-}
-
-function out(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
-}`,
-
-  doa: `// ═══ APPS SCRIPT: DOA ═══
-// Sheet name: Doa
-// Kolom: no_urut | tanggal | user | permintaan | terang | tanggal_jawaban | status | catatan_jawaban
+const AS_CODES={
+doa:`// ═══ APPS SCRIPT: DOA ═══
+// Sheet: Doa | Kolom: no_urut | tanggal | user | permintaan | terang | tanggal_jawaban | status | catatan_jawaban
+// Deploy: Execute as Me, Who has access: Anyone
 
 function doPost(e) {
   const p = e.parameter;
-  const sheet = SpreadsheetApp.getActive().getSheetByName('Doa');
-
   if (p.action === 'tambah') {
-    sheet.appendRow([
-      p.no_urut        || '',
-      p.tanggal        || '',
-      p.user           || '',
-      p.permintaan     || '',
-      p.terang         || '',
-      p.tanggal_jawaban|| '',
-      p.status         || 'Berdoa',
-      p.catatan_jawaban|| ''
-    ]);
+    const sheet = SpreadsheetApp.getActive().getSheetByName('Doa');
+    sheet.appendRow([p.no_urut||'', p.tanggal||'', p.user||'', p.permintaan||'',
+      p.terang||'', p.tanggal_jawaban||'', p.status||'Berdoa', p.catatan_jawaban||'']);
     return out({status:'ok'});
   }
-  return out({status:'error', message:'Action tidak dikenal'});
+  return out({status:'error',message:'Unknown action'});
 }
 
 function doGet(e) {
   const sheet = SpreadsheetApp.getActive().getSheetByName('Doa');
   const data = sheet.getDataRange().getValues();
   if (data.length < 2) return out({status:'ok', data:[]});
-  const headers = data[0].map(h => h.toString().trim().toLowerCase().replace(/\\s+/g,'_'));
+  const h = data[0].map(x => String(x).trim().toLowerCase().replace(/\\s+/g,'_'));
   const rows = data.slice(1).map(row => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = String(row[i]||'').trim(); });
+    h.forEach((k, i) => { obj[k] = String(row[i]||'').trim(); });
     return obj;
   }).filter(r => r.permintaan || r.tanggal);
   return out({status:'ok', data:rows});
 }
 
 function out(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
+  return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }`,
 
-  gelisah: `// ═══ APPS SCRIPT: GELISAH ═══
-// Sheet name: Gelisah
-// Kolom: no_urut | tanggal | user | masalah | terang | kategori | tanggal_jawaban | status | catatan_jawaban
+gelisah:`// ═══ APPS SCRIPT: GELISAH ═══
+// Sheet: Gelisah | Kolom: no_urut | tanggal | user | masalah | terang | kategori | tanggal_jawaban | status | catatan_jawaban
 
 function doPost(e) {
   const p = e.parameter;
-  const sheet = SpreadsheetApp.getActive().getSheetByName('Gelisah');
-
   if (p.action === 'tambah') {
-    sheet.appendRow([
-      p.no_urut        || '',
-      p.tanggal        || '',
-      p.user           || '',
-      p.masalah        || '',
-      p.terang         || '',
-      p.kategori       || '',
-      p.tanggal_jawaban|| '',
-      p.status         || 'Gelisah',
-      p.catatan_jawaban|| ''
-    ]);
+    const sheet = SpreadsheetApp.getActive().getSheetByName('Gelisah');
+    sheet.appendRow([p.no_urut||'', p.tanggal||'', p.user||'', p.masalah||'',
+      p.terang||'', p.kategori||'', p.tanggal_jawaban||'', p.status||'Gelisah', p.catatan_jawaban||'']);
     return out({status:'ok'});
   }
-  return out({status:'error', message:'Action tidak dikenal'});
+  return out({status:'error',message:'Unknown action'});
 }
 
 function doGet(e) {
   const sheet = SpreadsheetApp.getActive().getSheetByName('Gelisah');
   const data = sheet.getDataRange().getValues();
   if (data.length < 2) return out({status:'ok', data:[]});
-  const headers = data[0].map(h => h.toString().trim().toLowerCase().replace(/\\s+/g,'_'));
+  const h = data[0].map(x => String(x).trim().toLowerCase().replace(/\\s+/g,'_'));
   const rows = data.slice(1).map(row => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = String(row[i]||'').trim(); });
+    h.forEach((k, i) => { obj[k] = String(row[i]||'').trim(); });
     return obj;
   }).filter(r => r.masalah || r.tanggal);
   return out({status:'ok', data:rows});
 }
 
 function out(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
+  return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }`,
 
-  alkitab: `// ═══ APPS SCRIPT: ALKITAB ═══
-// Sheet name: Alkitab
-// Kolom: no_urut | tanggal | user | nama_alkitab | ayat | terang | catatan | tema | tanggal_jawaban | catatan_jawaban
+alkitab:`// ═══ APPS SCRIPT: ALKITAB ═══
+// Sheet: Alkitab | Kolom: no_urut | tanggal | user | nama_alkitab | ayat | terang | catatan | tema | tanggal_jawaban | catatan_jawaban
 
 function doPost(e) {
   const p = e.parameter;
-  const sheet = SpreadsheetApp.getActive().getSheetByName('Alkitab');
-
   if (p.action === 'tambah') {
-    sheet.appendRow([
-      p.no_urut        || '',
-      p.tanggal        || '',
-      p.user           || '',
-      p.nama_alkitab   || '',
-      p.ayat           || '',
-      p.terang         || '',
-      p.catatan        || '',
-      p.tema           || '',
-      p.tanggal_jawaban|| '',
-      p.catatan_jawaban|| ''
-    ]);
+    const sheet = SpreadsheetApp.getActive().getSheetByName('Alkitab');
+    sheet.appendRow([p.no_urut||'', p.tanggal||'', p.user||'', p.nama_alkitab||'',
+      p.ayat||'', p.terang||'', p.catatan||'', p.tema||'',
+      p.tanggal_jawaban||'', p.catatan_jawaban||'']);
     return out({status:'ok'});
   }
-  return out({status:'error', message:'Action tidak dikenal'});
+  return out({status:'error',message:'Unknown action'});
 }
 
 function doGet(e) {
   const sheet = SpreadsheetApp.getActive().getSheetByName('Alkitab');
   const data = sheet.getDataRange().getValues();
   if (data.length < 2) return out({status:'ok', data:[]});
-  const headers = data[0].map(h => h.toString().trim().toLowerCase().replace(/\\s+/g,'_'));
+  const h = data[0].map(x => String(x).trim().toLowerCase().replace(/\\s+/g,'_'));
   const rows = data.slice(1).map(row => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = String(row[i]||'').trim(); });
+    h.forEach((k, i) => { obj[k] = String(row[i]||'').trim(); });
     return obj;
   }).filter(r => r.nama_alkitab || r.tanggal);
   return out({status:'ok', data:rows});
 }
 
 function out(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
+  return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
-}`,
-
-  pertanyaan: `// ═══ APPS SCRIPT: PERTANYAAN ═══
-// Sheet name: Pertanyaan
-// Kolom: waktu | nama | topik | urgensi | pertanyaan | isi_jawaban | nama_penjawab | waktu_penjawab | status | keputusan
-
-// ═══════════════════════════════════════════════════════════════
-// APPS SCRIPT — Menu Pertanyaan Seminar
-// File ini di-paste ke Google Apps Script yang terhubung ke
-// Google Spreadsheet "Pertanyaan"
-//
-// Kolom di Sheet "Pertanyaan":
-//   A: waktu          | B: nama           | C: topik
-//   D: pertanyaan     | E: urgensi        | F: waktu_penjawab
-//   G: nama_penjawab  | H: rating         | I: status
-//   J: isi_jawaban    | K: keputusan      | L: nama_approve
-//
-// Cara deploy:
-//   1. Buka Google Spreadsheet "Pertanyaan"
-//   2. Menu Extensions → Apps Script
-//   3. Paste seluruh kode ini
-//   4. Klik Deploy → New Deployment → Web App
-//   5. Execute as: Me | Who has access: Anyone
-//   6. Copy URL deployment → paste ke APPS_SCRIPT_PERTANYAAN di index.html
-// ═══════════════════════════════════════════════════════════════
-
-// ── KONFIGURASI ─────────────────────────────────────────────────
-const SHEET_NAME = 'Pertanyaan';
-const AWAL_SHEET_NAME = 'Awal'; // sheet login di spreadsheet berbeda (opsional)
-
-// Daftar level yang dianggap admin (boleh ubah keputusan berkali-kali)
-const ADMIN_LEVELS = ['Administrator', 'Penatua', 'Gembala Distrik'];
-
-// ── HEADER ROW ───────────────────────────────────────────────────
-const HEADERS = [
-  'waktu', 'nama', 'topik', 'pertanyaan', 'urgensi',
-  'waktu_penjawab', 'nama_penjawab', 'rating', 'status',
-  'isi_jawaban', 'keputusan', 'nama_approve'
-];
-
-// ── CORS — izinkan semua origin ──────────────────────────────────
-function setCorsHeaders(output) {
-  return output
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-// ── ENTRY POINT GET ─────────────────────────────────────────────
-function doGet(e) {
-  const action = (e.parameter.action || 'get_semua').toLowerCase();
-  let result;
-  try {
-    if (action === 'get_semua')       result = getSemua(e);
-    else if (action === 'get_filter') result = getFilter(e);
-    else                              result = { status: 'error', message: 'Unknown GET action' };
-  } catch (err) {
-    result = { status: 'error', message: err.message };
-  }
-  return setCorsHeaders(
-    ContentService.createTextOutput(JSON.stringify(result))
-  );
-}
-
-// ── ENTRY POINT POST ────────────────────────────────────────────
-function doPost(e) {
-  let params = {};
-  try {
-    // Support both JSON body and URL-encoded form
-    if (e.postData && e.postData.type === 'application/json') {
-      params = JSON.parse(e.postData.contents);
-    } else if (e.postData && e.postData.contents) {
-      // URL-encoded
-      const raw = e.postData.contents;
-      raw.split('&').forEach(pair => {
-        const [k, v] = pair.split('=').map(decodeURIComponent);
-        params[k] = v ? v.replace(/\+/g, ' ') : '';
-      });
-    }
-    // Also merge e.parameter (for compatibility)
-    Object.assign(params, e.parameter || {});
-  } catch (err) {
-    params = e.parameter || {};
-  }
-
-  const action = (params.action || '').toLowerCase();
-  let result;
-  try {
-    if      (action === 'tambah_pertanyaan') result = tambahPertanyaan(params);
-    else if (action === 'update_jawaban')    result = updateJawaban(params);
-    else if (action === 'tambah_rating')     result = tambahRating(params);
-    else if (action === 'update_keputusan')  result = updateKeputusan(params);
-    else if (action === 'update_status')     result = updateStatus(params);
-    else if (action === 'ganti_password')    result = gantiPassword(params);
-    else                                     result = { status: 'error', message: 'Unknown action: ' + action };
-  } catch (err) {
-    result = { status: 'error', message: err.message };
-  }
-
-  return setCorsHeaders(
-    ContentService.createTextOutput(JSON.stringify(result))
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI BACA
-// ═══════════════════════════════════════════════════════════════
-
-function getSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    // Auto-create sheet jika belum ada
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(HEADERS);
-  }
-  // Pastikan header ada
-  const firstRow = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
-  const hasHeader = firstRow[0] === 'waktu';
-  if (!hasHeader) {
-    sheet.insertRowBefore(1);
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-  }
-  return sheet;
-}
-
-function getSemua(e) {
-  const sheet = getSheet();
-  const data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return { status: 'ok', data: [] };
-  const headers = data[0].map(h => String(h).trim().toLowerCase().replace(/ /g, '_'));
-  const rows = data.slice(1).map((row, idx) => {
-    const obj = { _row: idx + 2 }; // row number in sheet (1-indexed, +1 for header)
-    headers.forEach((h, i) => { obj[h] = row[i] !== undefined ? String(row[i]) : ''; });
-    return obj;
-  }).filter(r => r.pertanyaan && r.pertanyaan.trim());
-  return { status: 'ok', data: rows };
-}
-
-function getFilter(e) {
-  const all = getSemua(e);
-  if (all.status !== 'ok') return all;
-  const urgensi   = (e.parameter.urgensi || '').trim();
-  const topik     = (e.parameter.topik   || '').trim();
-  const status    = (e.parameter.status  || '').trim();
-  const nama      = (e.parameter.nama    || '').trim().toLowerCase();
-  const namaJwb   = (e.parameter.nama_penjawab || '').trim().toLowerCase();
-  const filtered = all.data.filter(r => {
-    if (urgensi && r.urgensi !== urgensi) return false;
-    if (topik   && r.topik   !== topik)   return false;
-    if (status  && r.status  !== status)  return false;
-    if (nama    && !(r.nama || '').toLowerCase().includes(nama)) return false;
-    if (namaJwb && !(r.nama_penjawab || '').toLowerCase().includes(namaJwb)) return false;
-    return true;
-  });
-  return { status: 'ok', data: filtered };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI TAMBAH PERTANYAAN
-// ═══════════════════════════════════════════════════════════════
-
-function tambahPertanyaan(params) {
-  const sheet = getSheet();
-  const now = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
-  const row = [
-    params.waktu || now,
-    params.nama  || 'Anonim',
-    params.topik || '-',
-    params.pertanyaan || '',
-    params.urgensi || 'Low',
-    '', // waktu_penjawab
-    '', // nama_penjawab
-    '0', // rating
-    'Pending', // status
-    '', // isi_jawaban
-    '', // keputusan
-    ''  // nama_approve
-  ];
-  sheet.appendRow(row);
-  // Auto-resize kolom D (pertanyaan)
-  try { sheet.autoResizeColumn(4); } catch(e) {}
-  return { status: 'ok', message: 'Pertanyaan berhasil ditambahkan' };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI UPDATE JAWABAN
-// Semua orang bisa mengisi jawaban dan nama_penjawab
-// Keputusan: user biasa hanya bisa isi 1x (dari kosong → isi)
-// Admin (nama_approve level) bisa ubah berkali-kali
-// ═══════════════════════════════════════════════════════════════
-
-function updateJawaban(params) {
-  const sheet    = getSheet();
-  const rowIndex = parseInt(params.row_index);
-  // row_index adalah 0-based index dari array data (bukan row sheet)
-  // Row sheet = rowIndex + 2 (baris 1 = header)
-  const sheetRow = rowIndex + 2;
-
-  const totalRows = sheet.getLastRow();
-  if (sheetRow < 2 || sheetRow > totalRows) {
-    return { status: 'error', message: 'Row tidak valid: ' + sheetRow };
-  }
-
-  const now = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
-
-  // Ambil data existing
-  const existing = sheet.getRange(sheetRow, 1, 1, HEADERS.length).getValues()[0];
-  const colMap = {};
-  HEADERS.forEach((h, i) => { colMap[h] = i; });
-
-  const existingKeputusan = String(existing[colMap['keputusan']] || '').trim();
-  const existingNamaApprove = String(existing[colMap['nama_approve']] || '').trim();
-
-  const namaUser = (params.user || params.nama_penjawab || '').trim();
-  const levelUser = (params.level || '').trim();
-  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelUser.toLowerCase()) ||
-                  namaUser.toLowerCase() === 'admin';
-
-  // Validasi keputusan: user biasa hanya 1x
-  const newKeputusan = (params.keputusan || '').trim();
-  if (newKeputusan) {
-    if (!isAdmin && existingKeputusan && existingNamaApprove) {
-      // Sudah ada keputusan dan bukan admin → tolak perubahan keputusan
-      // tapi tetap izinkan update jawaban/nama_penjawab
-    } else {
-      // Boleh update keputusan
-      sheet.getRange(sheetRow, colMap['keputusan'] + 1).setValue(newKeputusan);
-      sheet.getRange(sheetRow, colMap['nama_approve'] + 1).setValue(namaUser);
-    }
-  }
-
-  // Update kolom jawaban
-  if (params.nama_penjawab) {
-    sheet.getRange(sheetRow, colMap['nama_penjawab'] + 1).setValue(params.nama_penjawab);
-    sheet.getRange(sheetRow, colMap['waktu_penjawab'] + 1).setValue(params.waktu_penjawab || now);
-  }
-  if (params.isi_jawaban !== undefined) {
-    sheet.getRange(sheetRow, colMap['isi_jawaban'] + 1).setValue(params.isi_jawaban);
-  }
-  if (params.status) {
-    sheet.getRange(sheetRow, colMap['status'] + 1).setValue(params.status);
-  }
-
-  return { status: 'ok', message: 'Jawaban berhasil disimpan' };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI RATING
-// Setiap user bisa beri -2 sampai +2 berkali-kali
-// Rating dijumlahkan (bukan rata-rata)
-// ═══════════════════════════════════════════════════════════════
-
-function tambahRating(params) {
-  const sheet    = getSheet();
-  const rowIndex = parseInt(params.row_index);
-  const sheetRow = rowIndex + 2;
-
-  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
-    return { status: 'error', message: 'Row tidak valid' };
-  }
-
-  const nilai = parseInt(params.nilai || '0');
-  // Validasi range -2 sampai +2
-  if (nilai < -2 || nilai > 2 || nilai === 0) {
-    return { status: 'error', message: 'Nilai rating harus -2, -1, 1, atau 2' };
-  }
-
-  const colMap = {};
-  HEADERS.forEach((h, i) => { colMap[h] = i; });
-
-  // Ambil rating saat ini
-  const cell = sheet.getRange(sheetRow, colMap['rating'] + 1);
-  const currentRating = parseFloat(cell.getValue() || '0') || 0;
-  const newRating = currentRating + nilai;
-  cell.setValue(newRating);
-
-  return { status: 'ok', rating: newRating };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI UPDATE KEPUTUSAN (shortcut tanpa jawaban)
-// ═══════════════════════════════════════════════════════════════
-
-function updateKeputusan(params) {
-  const sheet    = getSheet();
-  const rowIndex = parseInt(params.row_index);
-  const sheetRow = rowIndex + 2;
-
-  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
-    return { status: 'error', message: 'Row tidak valid' };
-  }
-
-  const colMap = {};
-  HEADERS.forEach((h, i) => { colMap[h] = i; });
-
-  const existing = sheet.getRange(sheetRow, 1, 1, HEADERS.length).getValues()[0];
-  const existingKeputusan = String(existing[colMap['keputusan']] || '').trim();
-  const existingNamaApprove = String(existing[colMap['nama_approve']] || '').trim();
-
-  const namaUser = (params.user || '').trim();
-  const levelUser = (params.level || '').trim();
-  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelUser.toLowerCase()) ||
-                  namaUser.toLowerCase() === 'admin';
-
-  // Cek apakah boleh ubah
-  if (!isAdmin && existingKeputusan && existingNamaApprove) {
-    return { status: 'error', message: 'Keputusan sudah diisi dan tidak bisa diubah lagi (bukan admin)' };
-  }
-
-  const keputusan = (params.keputusan || '').trim();
-  const VALID_KEPUTUSAN = ['VALID ANSWER', 'NOT VALID ANSWER', 'VALID QUESTION', 'NOT VALID QUESTION'];
-  if (!VALID_KEPUTUSAN.includes(keputusan)) {
-    return { status: 'error', message: 'Keputusan tidak valid: ' + keputusan };
-  }
-
-  sheet.getRange(sheetRow, colMap['keputusan'] + 1).setValue(keputusan);
-  sheet.getRange(sheetRow, colMap['nama_approve'] + 1).setValue(namaUser);
-
-  return { status: 'ok', message: 'Keputusan disimpan: ' + keputusan, is_admin: isAdmin };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI UPDATE STATUS
-// ═══════════════════════════════════════════════════════════════
-
-function updateStatus(params) {
-  const sheet    = getSheet();
-  const rowIndex = parseInt(params.row_index);
-  const sheetRow = rowIndex + 2;
-
-  if (isNaN(rowIndex) || sheetRow < 2 || sheetRow > sheet.getLastRow()) {
-    return { status: 'error', message: 'Row tidak valid' };
-  }
-
-  const colMap = {};
-  HEADERS.forEach((h, i) => { colMap[h] = i; });
-
-  const status = (params.status || '').trim();
-  if (!['Pending', 'Done', 'Cancel'].includes(status)) {
-    return { status: 'error', message: 'Status tidak valid' };
-  }
-
-  sheet.getRange(sheetRow, colMap['status'] + 1).setValue(status);
-  return { status: 'ok', message: 'Status diupdate: ' + status };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// FUNGSI GANTI PASSWORD
-// Disimpan di Spreadsheet "Awal" kolom password
-// Semua user bisa ganti password sendiri
-// Admin bisa ganti password siapapun
-// ═══════════════════════════════════════════════════════════════
-
-function gantiPassword(params) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const awalSheet = ss.getSheetByName(AWAL_SHEET_NAME);
-  if (!awalSheet) {
-    // Cari di spreadsheet lain kalau ada
-    return { status: 'error', message: 'Sheet "Awal" tidak ditemukan di spreadsheet ini. Gunakan AppScript di spreadsheet Awal.' };
-  }
-
-  const requester = (params.requester || '').trim(); // username yang meminta
-  const targetUser = (params.username || requester).trim(); // username yang ingin diubah
-  const newPass = (params.new_password || '').trim();
-  const levelRequester = (params.level || '').trim();
-
-  if (!newPass) return { status: 'error', message: 'Password baru tidak boleh kosong' };
-  if (newPass.length < 3) return { status: 'error', message: 'Password minimal 3 karakter' };
-
-  const isAdmin = ADMIN_LEVELS.some(l => l.toLowerCase() === levelRequester.toLowerCase()) ||
-                  requester.toLowerCase() === 'admin';
-
-  // User biasa hanya boleh ganti password sendiri
-  if (!isAdmin && requester !== targetUser) {
-    return { status: 'error', message: 'Hanya admin yang bisa ganti password orang lain' };
-  }
-
-  const data = awalSheet.getDataRange().getValues();
-  const headers = data[0].map(h => String(h).trim().toLowerCase());
-  const userCol = headers.indexOf('username');
-  const passCol = headers.indexOf('password');
-
-  if (userCol === -1 || passCol === -1) {
-    return { status: 'error', message: 'Kolom username/password tidak ditemukan di sheet Awal' };
-  }
-
-  for (let i = 1; i < data.length; i++) {
-    if (String(data[i][userCol]).trim() === targetUser) {
-      awalSheet.getRange(i + 1, passCol + 1).setValue(newPass);
-      return { status: 'ok', message: 'Password berhasil diganti untuk user: ' + targetUser };
-    }
-  }
-  return { status: 'error', message: 'User tidak ditemukan: ' + targetUser };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// TRIGGER OTOMATIS — Buat header saat pertama kali
-// ═══════════════════════════════════════════════════════════════
-
-function setupSheet() {
-  const sheet = getSheet();
-  // Format header
-  const headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
-  headerRange.setFontWeight('bold');
-  headerRange.setBackground('#1a3a6e');
-  headerRange.setFontColor('#ffffff');
-  headerRange.setHorizontalAlignment('center');
-
-  // Freeze header row
-  sheet.setFrozenRows(1);
-
-  // Set lebar kolom
-  const widths = [160, 120, 150, 400, 90, 160, 120, 70, 90, 400, 160, 120];
-  widths.forEach((w, i) => {
-    try { sheet.setColumnWidth(i + 1, w); } catch(e) {}
-  });
-
-  // Validasi dropdown kolom urgensi (E)
-  const urgRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(['Critical','High','Medium','Low','Intermesso'], true)
-    .build();
-  sheet.getRange(2, 5, 1000, 1).setDataValidation(urgRule);
-
-  // Validasi dropdown kolom status (I)
-  const statusRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(['Pending','Done','Cancel'], true)
-    .build();
-  sheet.getRange(2, 9, 1000, 1).setDataValidation(statusRule);
-
-  // Validasi dropdown kolom keputusan (K)
-  const keputusanRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(['VALID ANSWER','NOT VALID ANSWER','VALID QUESTION','NOT VALID QUESTION'], true)
-    .setAllowInvalid(true)
-    .build();
-  sheet.getRange(2, 11, 1000, 1).setDataValidation(keputusanRule);
-
-  return 'Setup selesai! Sheet Pertanyaan sudah siap digunakan.';
-}
-
-// ═══════════════════════════════════════════════════════════════
-// TEST FUNCTION — Jalankan ini untuk cek koneksi
-// ═══════════════════════════════════════════════════════════════
-
-function testSetup() {
-  const result = setupSheet();
-  Logger.log(result);
-  Logger.log('Sheet name: ' + getSheet().getName());
-  Logger.log('Last row: ' + getSheet().getLastRow());
-  Logger.log('Headers: ' + HEADERS.join(', '));
-  Logger.log('=== SETUP BERHASIL ===');
-}
-`
+}`
 };
 
 function renderPanduan(){
-  const content=document.getElementById('app-content');
-  content.innerHTML=`
+  document.getElementById('app-content').innerHTML=`
     <div class="info-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06);">
-      ⚙️ <b>Panduan Apps Script</b> — Salin kode di bawah ke Google Apps Script masing-masing, lalu deploy sebagai <b>Web App</b> dengan akses <b>Anyone</b>.
-      <br><br>📋 <b>Langkah:</b> Buka Google Sheet → Extensions → Apps Script → New Script → Tempel kode → Deploy as Web App → Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → Copy URL → Tempel ke konstanta di file HTML.
-      <br><br>⚠️ <b>Catatan penting:</b> Mode <code>no-cors</code> digunakan sehingga response tidak bisa dibaca, tapi data <b>tetap tersimpan</b> jika Apps Script benar. Refresh data setelah ~5 detik untuk melihat hasil.
+      ⚙️ <b>Panduan Apps Script</b><br><br>
+      📋 <b>Langkah:</b> Buka Google Sheet → Extensions → Apps Script → New Script → Tempel kode → Deploy as Web App → <b>Execute as: Me</b>, <b>Who has access: Anyone</b> → Copy URL.<br><br>
+      ⚠️ <b>Kenapa tidak tersimpan?</b> Mode <code>no-cors</code> dipakai, data tersimpan tapi response tidak terbaca. Pastikan: (1) Apps Script sudah di-deploy ulang setelah edit, (2) Header baris 1 di sheet <b>persis sama</b> dengan kolom di kode, (3) Akses deploy = <b>Anyone</b>.
     </div>
-
     <div class="as-info">
-      <h3>1️⃣ Apps Script: AWAL (Login)</h3>
-      <p style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Sheet <b>Awal</b> → kolom: <code>username | password | level</code></p>
-      <pre>${AS_CODES.awal}</pre>
-      <button class="as-copy-btn" onclick="copyText(AS_CODES.awal);toast('✅ Kode Awal disalin!')">📋 Salin Kode Awal</button>
-    </div>
-
-    <div class="as-info">
-      <h3>2️⃣ Apps Script: DOA</h3>
-      <p style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Sheet <b>Doa</b> → kolom: <code>no_urut | tanggal | user | permintaan | terang | tanggal_jawaban | status | catatan_jawaban</code></p>
-      <pre>${AS_CODES.doa}</pre>
+      <h3>2️⃣ Apps Script: DOA (Tempel ini ke Apps Script Doa)</h3>
+      <pre>${esc(AS_CODES.doa)}</pre>
       <button class="as-copy-btn" onclick="copyText(AS_CODES.doa);toast('✅ Kode Doa disalin!')">📋 Salin Kode Doa</button>
     </div>
-
     <div class="as-info">
-      <h3>3️⃣ Apps Script: GELISAH</h3>
-      <p style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Sheet <b>Gelisah</b> → kolom: <code>no_urut | tanggal | user | masalah | terang | kategori | tanggal_jawaban | status | catatan_jawaban</code></p>
-      <pre>${AS_CODES.gelisah}</pre>
+      <h3>3️⃣ Apps Script: GELISAH (Tempel ini ke Apps Script Gelisah)</h3>
+      <pre>${esc(AS_CODES.gelisah)}</pre>
       <button class="as-copy-btn" onclick="copyText(AS_CODES.gelisah);toast('✅ Kode Gelisah disalin!')">📋 Salin Kode Gelisah</button>
     </div>
-
     <div class="as-info">
-      <h3>4️⃣ Apps Script: ALKITAB</h3>
-      <p style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Sheet <b>Alkitab</b> → kolom: <code>no_urut | tanggal | user | nama_alkitab | ayat | terang | catatan | tema | tanggal_jawaban | catatan_jawaban</code></p>
-      <pre>${AS_CODES.alkitab}</pre>
+      <h3>4️⃣ Apps Script: ALKITAB (Tempel ini ke Apps Script Alkitab)</h3>
+      <pre>${esc(AS_CODES.alkitab)}</pre>
       <button class="as-copy-btn" onclick="copyText(AS_CODES.alkitab);toast('✅ Kode Alkitab disalin!')">📋 Salin Kode Alkitab</button>
     </div>
-
-    <div class="as-info">
-      <h3>5️⃣ Apps Script: PERTANYAAN</h3>
-      <p style="font-size:.75rem;color:var(--text3);margin-bottom:6px;">Sheet <b>Pertanyaan</b> → kolom: <code>waktu | nama | topik | urgensi | pertanyaan | isi_jawaban | nama_penjawab | waktu_penjawab | status | keputusan</code></p>
-      <pre>${AS_CODES.pertanyaan}</pre>
-      <button class="as-copy-btn" onclick="copyText(AS_CODES.pertanyaan);toast('✅ Kode Pertanyaan disalin!')">📋 Salin Kode Pertanyaan</button>
-    </div>
-
-    <div class="card" style="margin-top:6px;">
-      <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;">🔗 URL yang Aktif</div>
-      <div style="font-size:.75rem;color:var(--text2);line-height:2.2;">
-        <b>Apps Script Awal:</b><br><code style="font-size:.65rem;word-break:break-all;color:var(--accent);">${APPS_SCRIPT_AWAL}</code><br>
-        <b>Apps Script Doa:</b><br><code style="font-size:.65rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_DOA}</code><br>
-        <b>Apps Script Gelisah:</b><br><code style="font-size:.65rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_GELISAH}</code><br>
-        <b>Apps Script Alkitab:</b><br><code style="font-size:.65rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_ALKITAB}</code><br>
-        <b>Apps Script Pertanyaan:</b><br><code style="font-size:.65rem;word-break:break-all;color:var(--accent2);">${APPS_SCRIPT_PERTANYAAN}</code>
+    <div class="card">
+      <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;">🔗 URL Apps Script Aktif</div>
+      <div style="font-size:.75rem;line-height:2.2;color:var(--text2);">
+        <b>Awal:</b><br><code style="font-size:.63rem;word-break:break-all;color:var(--accent);">${APPS_SCRIPT_AWAL}</code><br>
+        <b>Doa:</b><br><code style="font-size:.63rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_DOA}</code><br>
+        <b>Gelisah:</b><br><code style="font-size:.63rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_GELISAH}</code><br>
+        <b>Alkitab:</b><br><code style="font-size:.63rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_ALKITAB}</code><br>
+        <b>Pertanyaan:</b><br><code style="font-size:.63rem;word-break:break-all;color:var(--accent2);">${APPS_SCRIPT_PERTANYAAN}</code>
       </div>
     </div>`;
 }
 
 // ══════════════════════════════════════════════════
-// KEYBOARD
+// KEYBOARD SHORTCUTS
 // ══════════════════════════════════════════════════
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    if(document.getElementById('dash-fullscreen').style.display==='flex')closeDashFullscreen();
-    else if(document.getElementById('fullscreen-overlay').style.display==='flex')closeFullscreen();
-    else if(document.getElementById('detail-modal').style.display==='block')closeDetail();
+    ['doa-fullscreen','gel-fullscreen','alk-fullscreen','dash-fullscreen','fullscreen-overlay'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&el.style.display==='flex')closeFS(id);
+    });
+    if(document.getElementById('detail-modal').style.display==='block')closeDetail();
   }
 });
 </script>
