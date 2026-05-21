@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+Sekarang saya buat file v4.19 dengan semua fix:Ran a command, created a fileRan a command, created a filePlan patchesScriptCreate v4.19 with all fixes appliedhtml<!DOCTYPE html>
 <html lang="id">
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.18</title>
+<title>Buku Harian Rohani v4.19</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -135,8 +135,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .share-btn.share-admin.active{background:var(--accent2);color:#fff;}
 .share-btn.share-private{border-color:var(--border);background:var(--surface);color:var(--text3);}
 .share-btn.share-private.active{background:var(--border);color:var(--text);}
-
-/* ─── SHARE BADGE on cards ─── */
 .share-badge-all{display:inline-flex;align-items:center;gap:3px;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(52,211,153,.15);color:var(--accent3);border:1px solid rgba(52,211,153,.3);}
 .share-badge-admin{display:inline-flex;align-items:center;gap:3px;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(167,139,250,.15);color:var(--accent2);border:1px solid rgba(167,139,250,.3);}
 
@@ -176,7 +174,8 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* ═══════════════════════════════ DETAIL MODAL ═══════════════════════════════ */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:800;overflow-y:auto;}
-.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 400px;}  
+/* FIX v4.19: padding-bottom 600px agar form edit tidak tertutup tombol fixed */
+.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 600px;}
 .modal-close-bar{position:fixed;bottom:0;left:0;width:100%;padding:12px 14px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:7px;z-index:810;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
 .modal-close-btn{flex:1;padding:11px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;}
 .detail-field{background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border);margin-bottom:8px;}
@@ -217,6 +216,9 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 /* ═══════════════════════════════ PDF BUTTON ═══════════════════════════════ */
 .pdf-btn{padding:7px 14px;border-radius:8px;border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:var(--red);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;}
 .pdf-btn:hover{background:rgba(248,113,113,.2);}
+/* TXT download button */
+.txt-btn{padding:7px 14px;border-radius:8px;border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.1);color:var(--accent3);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;}
+.txt-btn:hover{background:rgba(52,211,153,.2);}
 
 /* ═══════════════════════════════ TOAST ═══════════════════════════════ */
 #toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:9px 18px;font-size:.82rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -347,8 +349,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 </head>
 <body data-theme="dark-night">
 
-<!-- ═══════════════════════════════ BODY HTML ═══════════════════════════════ -->
-
 <!-- ANNOUNCEMENT POPUP -->
 <div id="announce-overlay">
   <div id="announce-box">
@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.18 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.19 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -413,7 +413,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
       <button class="icon-btn danger" onclick="doLogout()" title="Keluar">⏻</button>
     </div>
   </header>
-  <!-- ANNOUNCEMENT BANNER -->
   <div id="announce-banner" onclick="showAnnounce()">
     <div class="ann-banner-dot"></div>
     <div class="ann-banner-text" id="announce-banner-text">Ada pengumuman baru</div>
@@ -525,7 +524,6 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 <div id="toast"></div>
 
-
 <script>
 // ══════════════════════════════════════════════════════════════════
 // CONFIG
@@ -554,44 +552,28 @@ const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbxU9W7
 // LEVEL SYSTEM
 // ══════════════════════════════════════════════════════════════════
 const ADMIN_LEVELS = ['Administrator','Gembala Distrik','Penatua'];
-
 function getUserLevel(){ return (currentUser?.level || '').trim(); }
-function isAdminUser(){
-  const l=getUserLevel();
-  return ADMIN_LEVELS.some(a=>l.includes(a)) || (currentUser?.username||'').toLowerCase()==='admin';
-}
-function isLevelAdmin(){ return getUserLevel().includes('Administrator') || (currentUser?.username||'').toLowerCase()==='admin'; }
+function isAdminUser(){ const l=getUserLevel(); return ADMIN_LEVELS.some(a=>l.includes(a))||(currentUser?.username||'').toLowerCase()==='admin'; }
+function isLevelAdmin(){ return getUserLevel().includes('Administrator')||(currentUser?.username||'').toLowerCase()==='admin'; }
 function isLevelPenatua(){ return getUserLevel().includes('Penatua'); }
 function isLevelGemDistr(){ return getUserLevel().includes('Gembala Distrik'); }
-function isLevelGembala(){ return getUserLevel().includes('Gembala') && !getUserLevel().includes('Distrik') && !getUserLevel().includes('Pra'); }
-
-function canViewAllEntries(){
-  return isLevelAdmin() || isLevelGemDistr() || isLevelPenatua();
-}
-function canEditAnswers(){ return isLevelAdmin() || isLevelGemDistr() || isLevelPenatua(); }
-
+function isLevelGembala(){ return getUserLevel().includes('Gembala')&&!getUserLevel().includes('Distrik')&&!getUserLevel().includes('Pra'); }
+function canViewAllEntries(){ return isLevelAdmin()||isLevelGemDistr()||isLevelPenatua(); }
+function canEditAnswers(){ return isLevelAdmin()||isLevelGemDistr()||isLevelPenatua(); }
 function getLevelBadge(){
-  const l = getUserLevel();
-  if(isLevelAdmin()) return `<span class="level-badge level-admin">👑 ${l||'Admin'}</span>`;
-  if(isLevelGemDistr()) return `<span class="level-badge level-gemdistr">⭐ ${l}</span>`;
-  if(isLevelPenatua()) return `<span class="level-badge level-penatua">🏅 ${l}</span>`;
-  if(isLevelGembala()) return `<span class="level-badge level-gembala">🕊️ ${l}</span>`;
+  const l=getUserLevel();
+  if(isLevelAdmin())return `<span class="level-badge level-admin">👑 ${l||'Admin'}</span>`;
+  if(isLevelGemDistr())return `<span class="level-badge level-gemdistr">⭐ ${l}</span>`;
+  if(isLevelPenatua())return `<span class="level-badge level-penatua">🏅 ${l}</span>`;
+  if(isLevelGembala())return `<span class="level-badge level-gembala">🕊️ ${l}</span>`;
   return `<span class="level-badge level-user">👤 ${l||'Pengguna'}</span>`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// SHARE TYPE SYSTEM
-// share_type: '' = private, 'all' = semua bisa lihat, 'admin' = hanya admin
-// ══════════════════════════════════════════════════════════════════
 function canSeeEntry(r){
-  const st = (r.share_type||'').trim().toLowerCase();
-  if(!st || st==='private') {
-    // hanya milik sendiri atau kalau admin bisa lihat semua
-    if(canViewAllEntries()) return true;
-    return !r.user || r.user.toLowerCase() === (currentUser?.username||'').toLowerCase();
-  }
-  if(st==='all') return true;
-  if(st==='admin') return isAdminUser();
+  const st=(r.share_type||'').trim().toLowerCase();
+  if(!st||st==='private'){ if(canViewAllEntries())return true; return !r.user||r.user.toLowerCase()===(currentUser?.username||'').toLowerCase(); }
+  if(st==='all')return true;
+  if(st==='admin')return isAdminUser();
   return true;
 }
 
@@ -600,43 +582,30 @@ function canSeeEntry(r){
 // ══════════════════════════════════════════════════════════════════
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escHtml(s){ return esc(s); }
-function toast(msg,dur=2600){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),dur);
-}
+function toast(msg,dur=2600){ const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur); }
 function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
-function showDetail(html){ document.getElementById('detail-body').innerHTML=html; document.getElementById('detail-modal').style.display='block'; }
-function getTodayStr(){ const n=new Date(),p=x=>String(x).padStart(2,'0'); return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`; }
-function formatDate(s){
-  if(!s)return '-';
-  const d=new Date(s); if(isNaN(d.getTime()))return s;
-  const dy=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],mo=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  return `${dy[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;
-}
-function resetForm(ids){ ids.forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; }); }
-function setLoginStatus(msg,color='var(--text3)'){
-  const el=document.getElementById('login-status'); if(el){el.textContent=msg;el.style.color=color;}
-}
+function showDetail(html){ document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block'; }
+function getTodayStr(){ const n=new Date(),p=x=>String(x).padStart(2,'0');return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`; }
+function formatDate(s){ if(!s)return '-';const d=new Date(s);if(isNaN(d.getTime()))return s;const dy=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],mo=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];return `${dy[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`; }
+function resetForm(ids){ ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
+function setLoginStatus(msg,color='var(--text3)'){ const el=document.getElementById('login-status');if(el){el.textContent=msg;el.style.color=color;} }
 function copyText(text){ navigator.clipboard.writeText(text).then(()=>toast('✅ Teks disalin!')).catch(()=>toast('⚠️ Gagal menyalin')); }
-
 function fmtImg(url){
   if(!url)return '';
   const m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  if(m)return `https://lh3.googleusercontent.com/d/${m[1]}`;
   if(url.includes('id=')){try{const id=new URL(url).searchParams.get('id');if(id)return `https://lh3.googleusercontent.com/d/${id}`;}catch(e){}}
   return url;
 }
-
 function parseCSV(txt){
-  const lines=txt.trim().split('\n'); if(lines.length<2)return[];
+  const lines=txt.trim().split('\n');if(lines.length<2)return[];
   const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase().replace(/\s+/g,'_'));
   return lines.slice(1).map(line=>{
     const cols=[];let cur='',inQ=false;
     for(let c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else cur+=c;}
     cols.push(cur.trim());
     const obj={};
-    headers.forEach((h,i)=>{ obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim(); });
+    headers.forEach((h,i)=>{obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();});
     return obj;
   }).filter(r=>Object.values(r).some(v=>v));
 }
@@ -644,17 +613,17 @@ function parseCSV(txt){
 // ══════════════════════════════════════════════════════════════════
 // IMAGE VIEWER
 // ══════════════════════════════════════════════════════════════════
-let imgViewerZoomed = false;
-function openImgViewer(url, name, caption){
+let imgViewerZoomed=false;
+function openImgViewer(url,name,caption){
   const ov=document.getElementById('img-viewer-overlay'),img=document.getElementById('img-viewer-img');
-  img.src=fmtImg(url)||url; img.classList.remove('zoomed'); imgViewerZoomed=false;
+  img.src=fmtImg(url)||url;img.classList.remove('zoomed');imgViewerZoomed=false;
   document.getElementById('img-viewer-name').textContent=name||'Gambar';
   const cap=document.getElementById('img-viewer-caption');
-  cap.textContent=caption||''; cap.style.display=caption?'block':'none';
+  cap.textContent=caption||'';cap.style.display=caption?'block':'none';
   ov.classList.add('open');
 }
 function closeImgViewer(){ document.getElementById('img-viewer-overlay').classList.remove('open'); }
-function imgViewerZoom(){ const img=document.getElementById('img-viewer-img'); imgViewerZoomed=!imgViewerZoomed; img.classList.toggle('zoomed',imgViewerZoomed); }
+function imgViewerZoom(){ const img=document.getElementById('img-viewer-img');imgViewerZoomed=!imgViewerZoomed;img.classList.toggle('zoomed',imgViewerZoomed); }
 document.getElementById('img-viewer-overlay').addEventListener('click',function(e){if(e.target===this)closeImgViewer();});
 function openImgViewerWithNames(urls,names,idx){ openImgViewer(urls[idx],names[idx],''); }
 
@@ -667,28 +636,21 @@ function closeFS(id){ const el=document.getElementById(id);if(el)el.style.displa
 function openDetailFullscreen(){ openFS('fullscreen-overlay'); }
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
 document.getElementById('fs-a-plus').addEventListener('click',()=>changeFSFont('main',1));
-
 function changeFSFont(key,d){
   fsFontSizes[key]=Math.max(10,Math.min(40,fsFontSizes[key]+d));
   const map={main:['fs-content','fs-font-label'],doa:['doa-fs-content','doa-fs-font-label'],gel:['gel-fs-content','gel-fs-font-label'],alk:['alk-fs-content','alk-fs-font-label']};
   if(map[key]){
     const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);
-    if(el){
-      el.style.fontSize=fsFontSizes[key]+'px';
-      // jika HTML mode, update juga semua child .detail-value dan div konten
-      if(el.dataset.isHtml==='1'){
-        el.querySelectorAll('div[style*="font-size:inherit"]').forEach(c=>{c.style.fontSize=fsFontSizes[key]+'px';});
-      }
-    }
+    if(el){ el.style.fontSize=fsFontSizes[key]+'px'; }
     if(lbl)lbl.textContent=fsFontSizes[key]+'px';
   }
-}  
+}
 ['doa','gel','alk'].forEach(key=>{
   document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
 });
-function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title; const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px'; openFS('fullscreen-overlay'); }
-function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return; const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>'; const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
+function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
+function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
 
 // CLOCK
@@ -703,27 +665,22 @@ document.addEventListener('click',e=>{ if(themePanelOpen&&!e.target.closest('#th
 
 // Starfield
 (function initStarfield(){
-  const canvas=document.getElementById('star-canvas'); if(!canvas)return;
-  const ctx=canvas.getContext('2d'); let stars=[];
+  const canvas=document.getElementById('star-canvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');let stars=[];
   function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
   function createStars(n){stars=[];for(let i=0;i<n;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.3,alpha:Math.random(),speed:Math.random()*.008+.003,phase:Math.random()*Math.PI*2});}
   function draw(t){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.alpha=.2+.7*(.5+.5*Math.sin(t*s.speed+s.phase));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;ctx.fill();});requestAnimationFrame(draw);}
   resize();createStars(160);window.addEventListener('resize',()=>{resize();createStars(160);});requestAnimationFrame(draw);
 })();
-
-// Login bg
-(function(){
-  if(LOGIN_IMAGE_URL){const img=document.getElementById('login-img-bg');img.src=LOGIN_IMAGE_URL;img.style.display='block';}
-})();
+(function(){ if(LOGIN_IMAGE_URL){const img=document.getElementById('login-img-bg');img.src=LOGIN_IMAGE_URL;img.style.display='block';} })();
 
 // ══════════════════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════════════════
-let currentUser=null, cache={}, isDemoMode=false;
+let currentUser=null,cache={},isDemoMode=false;
 const PER_PAGE=10;
 let pageState={Doa:1,Gelisah:1,Alkitab:1,Pertanyaan:1};
-let announcements=[], announcementsLoaded=false;
-
+let announcements=[],announcementsLoaded=false;
 const DEMO={
   Doa:[
     {no_urut:1,tanggal:'2025-01-10',user:'admin',permintaan:'Doa untuk kesehatan keluarga.',terang:'Yesaya 41:10',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh.',link_image:'',keterangan_image:'',share_type:'all'},
@@ -738,12 +695,8 @@ const DEMO={
     {no_urut:2,tanggal:'2025-01-20',user:'admin',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah...',terang:'Kasih Allah.',catatan:'Hidup dalam kasih.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Merasakan kasih Tuhan.',link_image:'',keterangan_image:'',share_type:'admin'},
   ],
   Pertanyaan:[],
-  Pengumuman:[
-    {judul:'Selamat Datang',isi:'Selamat datang di Buku Harian Rohani v4.0! Fitur baru: Share, PDF, Laporan.',waktu:'01/06/2026',author:'Admin',target:'all'},
-  ]
+  Pengumuman:[{judul:'Selamat Datang',isi:'Selamat datang di Buku Harian Rohani v4.19!',waktu:'01/06/2026',author:'Admin',target:'all'}]
 };
-
-// JEMAAT state
 let lastFilteredJemaat=[],jemaatViewMode='grid',jemaatTotalActual=0,totalVisible=false;
 let jemaatFilterIbadah=[],jemaatFilterPelayanan=[],jemaatFilterKelas=[],jemaatFilterGugus=[],jemaatFilterKTM=[],jemaatFilterKTMTahir=[];
 let jemaatFilterIbadahMode='OR',jemaatFilterPelayananMode='OR',jemaatFilterKelasMode='OR',jemaatFilterGugusMode='OR';
@@ -762,56 +715,39 @@ let hpCurrentPage=1,hpFilteredData=[];
 // ══════════════════════════════════════════════════════════════════
 document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-const DEMO_USERS = {
-  'admin':      {password:'admin',     level:'Administrator'},
-  'penatua':    {password:'penatua',   level:'Penatua'},
-  'gemdistr':   {password:'gemdistr',  level:'Gembala Distrik'},
-  'gembala':    {password:'gembala',   level:'Gembala'},
-  'pragembala': {password:'pragembala',level:'Pra Gembala'},
-  'kaumsaleh':  {password:'kaumsaleh', level:'Kaum Saleh'},
-};
-
+const DEMO_USERS={'admin':{password:'admin',level:'Administrator'},'penatua':{password:'penatua',level:'Penatua'},'gemdistr':{password:'gemdistr',level:'Gembala Distrik'},'gembala':{password:'gembala',level:'Gembala'},'pragembala':{password:'pragembala',level:'Pra Gembala'},'kaumsaleh':{password:'kaumsaleh',level:'Kaum Saleh'}};
 async function doLogin(){
   const btn=document.getElementById('login-btn'),errEl=document.getElementById('login-err');
-  errEl.style.display='none'; setLoginStatus('');
+  errEl.style.display='none';setLoginStatus('');
   const user=document.getElementById('l-user').value.trim();
   const pass=document.getElementById('l-pass').value.trim();
   if(!user||!pass){toast('⚠️ Isi username dan password');return;}
-  btn.disabled=true; btn.textContent='⏳ Memverifikasi...';
+  btn.disabled=true;btn.textContent='⏳ Memverifikasi...';
   const demoU=DEMO_USERS[user.toLowerCase()];
-  if(demoU&&demoU.password===pass){
-    isDemoMode=true; currentUser={username:user,level:demoU.level};
-    masukApp(user,demoU.level,''); toast(`✅ Login demo: ${demoU.level}`); return;
-  }
+  if(demoU&&demoU.password===pass){isDemoMode=true;currentUser={username:user,level:demoU.level};masukApp(user,demoU.level,'');toast(`✅ Login demo: ${demoU.level}`);return;}
   try{
     setLoginStatus('🔗 Menghubungkan ke server...');
-    const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),8000);
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),8000);
     const r=await fetch(`${APPS_SCRIPT_AWAL}?action=cek_login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,{signal:ctrl.signal});
-    clearTimeout(t); const data=await r.json();
+    clearTimeout(t);const data=await r.json();
     if(data.status==='ok'){isDemoMode=false;currentUser={username:user,level:data.user?.level||'Pengguna',...(data.user||{})};masukApp(user,currentUser.level,currentUser.tipe);return;}
     else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
   }catch(e){console.warn('AS login gagal:',e.message);}
   try{
     setLoginStatus('📄 Mencoba via CSV...');
-    const ctrl2=new AbortController(); setTimeout(()=>ctrl2.abort(),10000);
+    const ctrl2=new AbortController();setTimeout(()=>ctrl2.abort(),10000);
     const r2=await fetch(URLS.Awal+'&t='+Date.now(),{signal:ctrl2.signal});
     const rows=parseCSV(await r2.text());
-    const found=rows.find(row=>{
-      const u=(row.username||row.user||'').trim().toLowerCase();
-      const p=(row.password||row.pass||'').trim();
-      return u===user.toLowerCase()&&p===pass;
-    });
-    if(found){isDemoMode=false;currentUser={username:user,level:found.level||'Pengguna',tipe:found.tipe||''};masukApp(user,currentUser.level,currentUser.tipe);toast('✅ Login berhasil');return;}  
+    const found=rows.find(row=>{const u=(row.username||row.user||'').trim().toLowerCase();const p=(row.password||row.pass||'').trim();return u===user.toLowerCase()&&p===pass;});
+    if(found){isDemoMode=false;currentUser={username:user,level:found.level||'Pengguna',tipe:found.tipe||''};masukApp(user,currentUser.level,currentUser.tipe);toast('✅ Login berhasil');return;}
     else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
   }catch(e){console.warn('CSV login gagal:',e.message);}
   errEl.style.display='block';
   setLoginStatus('⚠️ Coba: admin/admin','var(--yellow)');
-  btn.disabled=false; btn.textContent='✦ Masuk';
+  btn.disabled=false;btn.textContent='✦ Masuk';
 }
-
-function masukApp(username,level, tipe){
-  currentUser.tipe = tipe||'';
+function masukApp(username,level,tipe){
+  currentUser.tipe=tipe||'';
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-app').style.display='flex';
   document.getElementById('hdr-title').textContent=username;
@@ -819,18 +755,17 @@ function masukApp(username,level, tipe){
   document.getElementById('login-btn').disabled=false;
   document.getElementById('login-btn').textContent='✦ Masuk';
   setLoginStatus('');
-  setupNav(); loadPage('dashboard');
+  setupNav();loadPage('dashboard');
   loadAnnouncements();
 }
-
 function doLogout(){
   if(!confirm('Yakin ingin keluar?'))return;
-  currentUser=null; cache={}; isDemoMode=false; announcements=[];
+  currentUser=null;cache={};isDemoMode=false;announcements=[];
   document.getElementById('main-app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
   ['l-user','l-pass'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('login-err').style.display='none'; setLoginStatus('');
-  document.getElementById('main-nav').innerHTML=''; document.getElementById('app-content').innerHTML='';
+  document.getElementById('login-err').style.display='none';setLoginStatus('');
+  document.getElementById('main-nav').innerHTML='';document.getElementById('app-content').innerHTML='';
   document.getElementById('announce-banner').classList.remove('show');
 }
 
@@ -839,90 +774,43 @@ function doLogout(){
 // ══════════════════════════════════════════════════════════════════
 async function loadAnnouncements(){
   announcementsLoaded=false;
-  if(isDemoMode){
-    announcements=JSON.parse(JSON.stringify(DEMO.Pengumuman||[]));
-    processAnnouncements(); return;
-  }
+  if(isDemoMode){announcements=JSON.parse(JSON.stringify(DEMO.Pengumuman||[]));processAnnouncements();return;}
   try{
     const r=await fetch(URLS.Pengumuman+'&t='+Date.now());
     const rows=parseCSV(await r.text());
-    announcements=rows.filter(r=>(r.judul||r.title||'').trim()).map(r=>({
-      judul:r.judul||r.title||'',
-      isi:r.isi||r.body||r.konten||'',
-      waktu:r.waktu||r.tanggal||'',
-      author:r.author||r.admin||'Admin',
-      target:r.target||'all',
-    }));
+    announcements=rows.filter(r=>(r.judul||r.title||'').trim()).map(r=>({judul:r.judul||r.title||'',isi:r.isi||r.body||r.konten||'',waktu:r.waktu||r.tanggal||'',author:r.author||r.admin||'Admin',target:r.target||'all'}));
     processAnnouncements();
   }catch(e){
-    // fallback: try Apps Script
-    try{
-      const r=await fetch(`${APPS_SCRIPT_PENGUMUMAN}?action=get_pengumuman`);
-      const data=await r.json();
-      announcements=(data.data||[]);
-      processAnnouncements();
-    }catch(e2){ announcements=[]; }
+    try{const r=await fetch(`${APPS_SCRIPT_PENGUMUMAN}?action=get_pengumuman`);const data=await r.json();announcements=(data.data||[]);processAnnouncements();}
+    catch(e2){announcements=[];}
   }
 }
-
 function processAnnouncements(){
   announcementsLoaded=true;
-  // Filter by target
-  const visible=announcements.filter(a=>{
-    const t=(a.target||'all').toLowerCase();
-    if(t==='all')return true;
-    if(t==='admin')return isAdminUser();
-    return true;
-  });
+  const visible=announcements.filter(a=>{const t=(a.target||'all').toLowerCase();if(t==='all')return true;if(t==='admin')return isAdminUser();return true;});
   if(!visible.length)return;
-  // Cek apakah sudah dilihat (pakai localStorage)
   const seen=JSON.parse(localStorage.getItem('bhr_seen_announces')||'[]');
   const unseen=visible.filter((a,i)=>!seen.includes(a.judul+'_'+i));
-
-  // Update banner
   const banner=document.getElementById('announce-banner');
   const bannerText=document.getElementById('announce-banner-text');
   const bannerCount=document.getElementById('announce-banner-count');
-  if(visible.length){
-    banner.classList.add('show');
-    bannerText.textContent=visible[0].judul||'Ada pengumuman baru';
-    bannerCount.textContent=visible.length;
-  }
-
-  // Bell button
+  if(visible.length){banner.classList.add('show');bannerText.textContent=visible[0].judul||'Ada pengumuman baru';bannerCount.textContent=visible.length;}
   const bellBtn=document.getElementById('announce-bell-btn');
-  if(bellBtn){ bellBtn.style.display='flex'; }
-
-  // Auto-show popup if unseen
-  if(unseen.length>0){
-    setTimeout(()=>showAnnounce(visible),600);
-  }
+  if(bellBtn){bellBtn.style.display='flex';}
+  if(unseen.length>0){setTimeout(()=>showAnnounce(visible),600);}
 }
-
 function showAnnounce(list){
-  const visible=(list||announcements).filter(a=>{
-    const t=(a.target||'all').toLowerCase();
-    if(t==='all')return true;
-    if(t==='admin')return isAdminUser();
-    return true;
-  });
-  if(!visible.length){ toast('📢 Tidak ada pengumuman saat ini'); return; }
+  const visible=(list||announcements).filter(a=>{const t=(a.target||'all').toLowerCase();if(t==='all')return true;if(t==='admin')return isAdminUser();return true;});
+  if(!visible.length){toast('📢 Tidak ada pengumuman saat ini');return;}
   const overlay=document.getElementById('announce-overlay');
   const itemsList=document.getElementById('announce-items-list');
   const countLabel=document.getElementById('announce-count-label');
   countLabel.textContent=`${visible.length} pengumuman`;
-  itemsList.innerHTML=visible.map((a,i)=>`
-    <div class="announce-item">
-      <div class="announce-item-title">📢 ${esc(a.judul)}</div>
-      <div class="announce-item-body">${esc(a.isi)}</div>
-      <div class="announce-item-meta">🕐 ${esc(a.waktu||'')} · oleh ${esc(a.author||'Admin')}</div>
-    </div>`).join('');
+  itemsList.innerHTML=visible.map((a,i)=>`<div class="announce-item"><div class="announce-item-title">📢 ${esc(a.judul)}</div><div class="announce-item-body">${esc(a.isi)}</div><div class="announce-item-meta">🕐 ${esc(a.waktu||'')} · oleh ${esc(a.author||'Admin')}</div></div>`).join('');
   overlay.classList.add('open');
 }
-
 function closeAnnounce(){
   document.getElementById('announce-overlay').classList.remove('open');
-  // Mark as seen
   const seen=announcements.map((a,i)=>a.judul+'_'+i);
   localStorage.setItem('bhr_seen_announces',JSON.stringify(seen));
 }
@@ -930,56 +818,28 @@ function closeAnnounce(){
 // ══════════════════════════════════════════════════════════════════
 // NAV
 // ══════════════════════════════════════════════════════════════════
-
 function getMenus(){
   const ALL_MENUS=[
-    {id:'dashboard', label:'🏠 Beranda'},
-    {id:'doa',       label:'🙏 Catatan Doa'},
-    {id:'gelisah',   label:'💭 Kegelisahan'},
-    {id:'alkitab',   label:'📖 Alkitab'},
-    {id:'pertanyaan',label:'❓ Pertanyaan'},
-    {id:'jemaat',    label:'👥 Jemaat'},
-    {id:'hasil',     label:'📋 Hasil'},
-    {id:'laporan',   label:'📊 Laporan'},
-    {id:'pengumuman',label:'📢 Pengumuman'},
-    {id:'panduan',   label:'⚙️ Panduan'},
+    {id:'dashboard',label:'🏠 Beranda'},{id:'doa',label:'🙏 Catatan Doa'},{id:'gelisah',label:'💭 Kegelisahan'},
+    {id:'alkitab',label:'📖 Alkitab'},{id:'pertanyaan',label:'❓ Pertanyaan'},{id:'jemaat',label:'👥 Jemaat'},
+    {id:'hasil',label:'📋 Hasil'},{id:'laporan',label:'📊 Laporan'},{id:'pengumuman',label:'📢 Pengumuman'},{id:'panduan',label:'⚙️ Panduan'},
   ];
-
-  // Jika admin level, tampilkan semua
-  if(isAdminUser()) return ALL_MENUS;
-
-  // Jika tipe kosong/tidak ada → tampilkan menu default (semua kecuali admin-only)
+  if(isAdminUser())return ALL_MENUS;
   const tipeStr=(currentUser?.tipe||'').trim();
-  if(!tipeStr){
-    return ALL_MENUS.filter(m=>!['jemaat','laporan','pengumuman'].includes(m.id));
-  }
-
-  // Parse tipe: pisah koma, trim, lowercase
+  if(!tipeStr)return ALL_MENUS.filter(m=>!['jemaat','laporan','pengumuman'].includes(m.id));
   const allowed=tipeStr.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
-
-  // Dashboard selalu tampil
-  return ALL_MENUS.filter(m=>
-    m.id==='dashboard' || allowed.includes(m.id)
-  );
-}  
-
+  return ALL_MENUS.filter(m=>m.id==='dashboard'||allowed.includes(m.id));
+}
 function setupNav(){
-  const nav=document.getElementById('main-nav'); nav.innerHTML='';
+  const nav=document.getElementById('main-nav');nav.innerHTML='';
   getMenus().forEach(m=>{
-    const btn=document.createElement('button'); btn.textContent=m.label; btn.dataset.id=m.id;
+    const btn=document.createElement('button');btn.textContent=m.label;btn.dataset.id=m.id;
     btn.onclick=()=>{document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');loadPage(m.id);};
     nav.appendChild(btn);
   });
 }
-
 function loadPage(id){
-  const pages={
-    dashboard:renderDashboard, doa:()=>renderModule('Doa'),
-    gelisah:()=>renderModule('Gelisah'), alkitab:()=>renderModule('Alkitab'),
-    pertanyaan:renderPertanyaan, hasil:renderHasilPertanyaan,
-    panduan:renderPanduan, jemaat:renderJemaat,
-    laporan:renderLaporan, pengumuman:renderPengumumanAdmin,
-  };
+  const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:renderJemaat,laporan:renderLaporan,pengumuman:renderPengumumanAdmin};
   pages[id]?.();
   document.querySelectorAll('nav button').forEach(b=>{if(b.dataset.id===id)b.classList.add('active');});
 }
@@ -988,172 +848,112 @@ function loadPage(id){
 // LOAD CACHE
 // ══════════════════════════════════════════════════════════════════
 async function loadCache(mod){
-  if(isDemoMode){ cache[mod]=cache[mod]||JSON.parse(JSON.stringify(DEMO[mod]||[])); return; }
+  if(isDemoMode){cache[mod]=cache[mod]||JSON.parse(JSON.stringify(DEMO[mod]||[]));return;}
   const csvUrl=URLS[mod];
-  if(csvUrl){
-    try{ const r=await fetch(csvUrl+'&t='+Date.now()); cache[mod]=parseCSV(await r.text()); return; }
-    catch(e){ console.warn('CSV gagal',mod,e.message); }
-  }
+  if(csvUrl){try{const r=await fetch(csvUrl+'&t='+Date.now());cache[mod]=parseCSV(await r.text());return;}catch(e){console.warn('CSV gagal',mod,e.message);}}
   cache[mod]=cache[mod]||[];
 }
-
 async function postToAS(url,params){
   const body=Object.entries(params).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(String(v||''))).join('&');
   await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
 }
-
 function getRecordImage(r){ return (r.link_image||r['link_image']||r['link image']||'').trim(); }
 function getRecordImageCaption(r){ return (r.keterangan_image||r['keterangan_image']||r['keterangan image']||'').trim(); }
-
 function buildThumbHtml(r,title){
-  const imgUrl=fmtImg(getRecordImage(r));
-  const cap=getRecordImageCaption(r);
+  const imgUrl=fmtImg(getRecordImage(r));const cap=getRecordImageCaption(r);
   if(!imgUrl)return `<div class="entry-thumb-placeholder">🖼️</div>`;
   return `<img class="entry-thumb" src="${escHtml(imgUrl)}" alt="${escHtml(title)}" loading="lazy" onclick="event.stopPropagation();openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(title)}','${escHtml(cap)}')" onerror="this.style.display='none'">`;
 }
-
 function getShareBadgeHtml(r){
   const st=(r.share_type||'').toLowerCase();
-  if(st==='all') return `<span class="share-badge-all">🌐 Publik</span>`;
-  if(st==='admin') return `<span class="share-badge-admin">🔐 Admin</span>`;
+  if(st==='all')return `<span class="share-badge-all">🌐 Publik</span>`;
+  if(st==='admin')return `<span class="share-badge-admin">🔐 Admin</span>`;
   return '';
 }
 
 // ══════════════════════════════════════════════════════════════════
 // PDF GENERATOR
 // ══════════════════════════════════════════════════════════════════
-function generatePDF(title, lines){
+function generatePDF(title,lines){
   try{
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const margin=15, pageW=210, pageH=297, lineH=7;
-    let y=margin;
-    // Header
-    doc.setFillColor(40,50,80); doc.rect(0,0,pageW,30,'F');
-    doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
-    doc.text('Buku Harian Rohani', margin, 12);
-    doc.setFontSize(10); doc.setFont('helvetica','normal');
-    doc.text(title, margin, 20);
-    doc.setFontSize(8); doc.text('Dicetak: '+new Date().toLocaleString('id-ID'), margin, 27);
-    y=38;
-    doc.setTextColor(30,30,30);
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const margin=15,pageW=210,pageH=297,lineH=7;let y=margin;
+    doc.setFillColor(40,50,80);doc.rect(0,0,pageW,30,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont('helvetica','bold');
+    doc.text('Buku Harian Rohani',margin,12);
+    doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text(title,margin,20);
+    doc.setFontSize(8);doc.text('Dicetak: '+new Date().toLocaleString('id-ID'),margin,27);
+    y=38;doc.setTextColor(30,30,30);
     lines.forEach(line=>{
-      if(y>pageH-margin){ doc.addPage(); y=margin; }
-      if(line.startsWith('===')){ // Section header
-        doc.setFillColor(230,235,245);
-        doc.rect(margin-2,y-4,pageW-2*margin+4,lineH+1,'F');
-        doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(50,70,150);
-        doc.text(line.replace(/=/g,'').trim(), margin, y+2);
-        doc.setTextColor(30,30,30); doc.setFont('helvetica','normal');
-        y+=lineH+2;
-      }else if(line.startsWith('---')){ // Divider
-        doc.setDrawColor(200,200,200); doc.line(margin,y,pageW-margin,y); y+=3;
-      }else{
-        doc.setFontSize(9); doc.setFont('helvetica','normal');
-        const wrapped=doc.splitTextToSize(line||' ',pageW-2*margin);
-        wrapped.forEach(wl=>{
-          if(y>pageH-margin){doc.addPage();y=margin;}
-          doc.text(wl,margin,y); y+=5.5;
-        });
-        if(!line.trim()) y+=1;
-      }
+      if(y>pageH-margin){doc.addPage();y=margin;}
+      if(line.startsWith('===')){doc.setFillColor(230,235,245);doc.rect(margin-2,y-4,pageW-2*margin+4,lineH+1,'F');doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(50,70,150);doc.text(line.replace(/=/g,'').trim(),margin,y+2);doc.setTextColor(30,30,30);doc.setFont('helvetica','normal');y+=lineH+2;}
+      else if(line.startsWith('---')){doc.setDrawColor(200,200,200);doc.line(margin,y,pageW-margin,y);y+=3;}
+      else{doc.setFontSize(9);doc.setFont('helvetica','normal');const wrapped=doc.splitTextToSize(line||' ',pageW-2*margin);wrapped.forEach(wl=>{if(y>pageH-margin){doc.addPage();y=margin;}doc.text(wl,margin,y);y+=5.5;});if(!line.trim())y+=1;}
     });
-    // Footer
     const pageCount=doc.internal.getNumberOfPages();
-    for(let i=1;i<=pageCount;i++){
-      doc.setPage(i); doc.setFontSize(7); doc.setTextColor(150,150,150);
-      doc.text(`Halaman ${i}/${pageCount} · Buku Harian Rohani v4.0`,pageW/2,pageH-5,{align:'center'});
-    }
+    for(let i=1;i<=pageCount;i++){doc.setPage(i);doc.setFontSize(7);doc.setTextColor(150,150,150);doc.text(`Halaman ${i}/${pageCount} · Buku Harian Rohani v4.19`,pageW/2,pageH-5,{align:'center'});}
     doc.save(`BHR_${title.replace(/\s+/g,'_')}_${getTodayStr()}.pdf`);
     toast('✅ PDF berhasil diunduh!');
-  }catch(e){ console.error(e); toast('⚠️ Gagal generate PDF. Pastikan library jsPDF dimuat.'); }
+  }catch(e){console.error(e);toast('⚠️ Gagal generate PDF.');}
 }
-
-function generateDoaPDF(r){
-  generatePDF(`Doa_${r.no_urut||''}`, [
-    '=== CATATAN DOA ===',
-    `No. Urut   : ${r.no_urut||'-'}`,
-    `Tanggal    : ${formatDate(r.tanggal)}`,
-    `Pengguna   : ${r.user||'-'}`,
-    `Status     : ${r.status||'-'}`,
-    '---',
-    '=== PERMINTAAN DOA ===',
-    r.permintaan||'-',
-    '',
-    '=== TERANG YANG DIDAPAT ===',
-    r.terang||'-',
-    '',
-    '=== JAWABAN DOA ===',
-    `Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,
-    r.catatan_jawaban||'-',
-  ]);
-}
-function generateGelisahPDF(r){
-  generatePDF(`Gelisah_${r.no_urut||''}`, [
-    '=== CATATAN KEGELISAHAN ===',
-    `No. Urut   : ${r.no_urut||'-'}`,
-    `Tanggal    : ${formatDate(r.tanggal)}`,
-    `Kategori   : ${r.kategori||'-'}`,
-    `Status     : ${r.status||'-'}`,
-    '---',
-    '=== ISI KEGELISAHAN ===',
-    r.masalah||'-',
-    '',
-    '=== TERANG YANG DIDAPAT ===',
-    r.terang||'-',
-    '',
-    '=== PENYELESAIAN ===',
-    `Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,
-    r.catatan_jawaban||'-',
-  ]);
-}
-function generateAlkitabPDF(r){
-  generatePDF(`Alkitab_${r.nama_alkitab||r.no_urut||''}`, [
-    '=== CATATAN ALKITAB ===',
-    `No. Urut   : ${r.no_urut||'-'}`,
-    `Tanggal    : ${formatDate(r.tanggal)}`,
-    `Tema       : ${r.tema||'-'}`,
-    '---',
-    `Referensi  : ${r.nama_alkitab||'-'}`,
-    '',
-    '=== AYAT / BACAAN ===',
-    r.ayat||'-',
-    '',
-    '=== TERANG YANG DIDAPAT ===',
-    r.terang||'-',
-    '',
-    '=== CATATAN / APLIKASI ===',
-    r.catatan||'-',
-    '',
-    '=== TERBUKTI ===',
-    `Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,
-    r.catatan_jawaban||'-',
-  ]);
-}
+function generateDoaPDF(r){ generatePDF(`Doa_${r.no_urut||''}`,[`=== CATATAN DOA ===`,`No. Urut   : ${r.no_urut||'-'}`,`Tanggal    : ${formatDate(r.tanggal)}`,`Pengguna   : ${r.user||'-'}`,`Status     : ${r.status||'-'}`,'---','=== PERMINTAAN DOA ===',r.permintaan||'-','','=== TERANG YANG DIDAPAT ===',r.terang||'-','','=== JAWABAN DOA ===',`Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,r.catatan_jawaban||'-']); }
+function generateGelisahPDF(r){ generatePDF(`Gelisah_${r.no_urut||''}`,[`=== CATATAN KEGELISAHAN ===`,`No. Urut   : ${r.no_urut||'-'}`,`Tanggal    : ${formatDate(r.tanggal)}`,`Kategori   : ${r.kategori||'-'}`,`Status     : ${r.status||'-'}`,'---','=== ISI KEGELISAHAN ===',r.masalah||'-','','=== TERANG YANG DIDAPAT ===',r.terang||'-','','=== PENYELESAIAN ===',`Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,r.catatan_jawaban||'-']); }
+function generateAlkitabPDF(r){ generatePDF(`Alkitab_${r.nama_alkitab||r.no_urut||''}`,[`=== CATATAN ALKITAB ===`,`No. Urut   : ${r.no_urut||'-'}`,`Tanggal    : ${formatDate(r.tanggal)}`,`Tema       : ${r.tema||'-'}`,'---',`Referensi  : ${r.nama_alkitab||'-'}`,'','=== AYAT / BACAAN ===',r.ayat||'-','','=== TERANG YANG DIDAPAT ===',r.terang||'-','','=== CATATAN / APLIKASI ===',r.catatan||'-','','=== TERBUKTI ===',`Tanggal    : ${formatDate(r.tanggal_jawaban)||'-'}`,r.catatan_jawaban||'-']); }
 function generateModulePDF(mod){
   const data=filterByShareAndOwnership(cache[mod]||[]);
   if(!data.length){toast('⚠️ Tidak ada data untuk di-export');return;}
-
-  // Build lines per record
   const allLines=['=== LAPORAN '+mod.toUpperCase()+' ===',`Total: ${data.length} catatan`,`Dicetak oleh: ${currentUser?.username||'-'}`,'---'];
-  data.forEach((r,i)=>{
-    allLines.push(`${i+1}. ${r.permintaan||r.masalah||r.nama_alkitab||'-'}`);
-    allLines.push(`   Tanggal: ${formatDate(r.tanggal)} | ${r.user||''}`);
-    if(r.terang) allLines.push(`   Terang: ${r.terang}`);
-    allLines.push('');
-  });
+  data.forEach((r,i)=>{allLines.push(`${i+1}. ${r.permintaan||r.masalah||r.nama_alkitab||'-'}`);allLines.push(`   Tanggal: ${formatDate(r.tanggal)} | ${r.user||''}`);if(r.terang)allLines.push(`   Terang: ${r.terang}`);allLines.push('');});
   generatePDF(`Laporan_${mod}`,allLines);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// [NEW v4.19] DOWNLOAD TXT — simpan catatan Alkitab sebagai file .txt
+// nama file = referensi alkitab (karakter aman), isi lengkap semua field
+// ══════════════════════════════════════════════════════════════════
+function downloadAlkitabTxt(r){
+  const isi=[
+    `📖 CATATAN ALKITAB — Buku Harian Rohani`,
+    `${'═'.repeat(40)}`,
+    `Referensi  : ${r.nama_alkitab||'-'}`,
+    `Tanggal    : ${formatDate(r.tanggal)}`,
+    `Tema       : ${r.tema||'-'}`,
+    `Penulis    : ${r.user||'-'}`,
+    ``,
+    `📜 AYAT / BACAAN:`,
+    r.ayat||'(belum diisi)',
+    ``,
+    `✨ TERANG YANG DIDAPAT:`,
+    r.terang||'(belum diisi)',
+    ``,
+    `📝 CATATAN / APLIKASI:`,
+    r.catatan||'(belum diisi)',
+    ``,
+    `${'─'.repeat(40)}`,
+    `Tgl Terjawab : ${r.tanggal_jawaban?formatDate(r.tanggal_jawaban):'(belum)'}`,
+    `Catatan Jwb  : ${r.catatan_jawaban||'(belum diisi)'}`,
+    ``,
+    `Diekspor dari Buku Harian Rohani v4.19 · ${new Date().toLocaleString('id-ID')}`,
+  ].join('\n');
+  const safeName=(r.nama_alkitab||'Alkitab').replace(/[^a-zA-Z0-9 \-_]/g,'_').trim().replace(/\s+/g,'_');
+  const blob=new Blob([isi],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`${safeName}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  toast('✅ File .txt diunduh: '+safeName+'.txt');
 }
 
 // ══════════════════════════════════════════════════════════════════
 // FILTER & RENDER HELPERS
 // ══════════════════════════════════════════════════════════════════
-function filterByShareAndOwnership(data){
-  return data.filter(r=>canSeeEntry(r));
-}
-
+function filterByShareAndOwnership(data){ return data.filter(r=>canSeeEntry(r)); }
 function renderPagination(containerId,current,total,onPageFn){
-  const el=document.getElementById(containerId); if(!el||total<=1){if(el)el.innerHTML='';return;}
+  const el=document.getElementById(containerId);if(!el||total<=1){if(el)el.innerHTML='';return;}
   let html=`<button class="pg-btn" ${current===1?'disabled':''} onclick="(${onPageFn.toString()})(${current-1})">‹</button>`;
   for(let i=1;i<=total;i++){
     if(total>7&&Math.abs(i-current)>2&&i!==1&&i!==total){if(i===2||i===total-1)html+=`<span style="color:var(--text3);padding:0 3px;">…</span>`;continue;}
@@ -1162,41 +962,13 @@ function renderPagination(containerId,current,total,onPageFn){
   html+=`<button class="pg-btn" ${current===total?'disabled':''} onclick="(${onPageFn.toString()})(${current+1})">›</button>`;
   el.innerHTML=html;
 }
-
-// ══════════════════════════════════════════════════════════════════
-// SHARE BUTTONS HTML
-// ══════════════════════════════════════════════════════════════════
 function buildShareOptionsHtml(formId){
-  const label = canViewAllEntries()
-    ? 'Atur Visibilitas Catatan'
-    : 'Bagikan Catatan';
-  return `
-  <div class="share-options-wrap">
-    <div class="share-options-title">👁️ ${label}</div>
-    <div class="share-btn-row">
-      <button class="share-btn share-private active" id="${formId}-share-private" onclick="setShareMode('${formId}','')">
-        🔒 Pribadi
-      </button>
-      <button class="share-btn share-all" id="${formId}-share-all" onclick="setShareMode('${formId}','all')">
-        🌐 Share for All
-      </button>
-      <button class="share-btn share-admin" id="${formId}-share-admin" onclick="setShareMode('${formId}','admin')">
-        🔐 Share for Admin
-      </button>
-    </div>
-    <input type="hidden" id="${formId}-share-type" value="">
-    <div style="font-size:.65rem;color:var(--text3);margin-top:6px;">
-      ${canViewAllEntries()?'Admin dapat melihat semua catatan.':'Share for All = semua user dapat lihat · Share for Admin = hanya admin dan gembala'}
-    </div>
-  </div>`;
+  const label=canViewAllEntries()?'Atur Visibilitas Catatan':'Bagikan Catatan';
+  return `<div class="share-options-wrap"><div class="share-options-title">👁️ ${label}</div><div class="share-btn-row"><button class="share-btn share-private active" id="${formId}-share-private" onclick="setShareMode('${formId}','')">🔒 Pribadi</button><button class="share-btn share-all" id="${formId}-share-all" onclick="setShareMode('${formId}','all')">🌐 Share for All</button><button class="share-btn share-admin" id="${formId}-share-admin" onclick="setShareMode('${formId}','admin')">🔐 Share for Admin</button></div><input type="hidden" id="${formId}-share-type" value=""><div style="font-size:.65rem;color:var(--text3);margin-top:6px;">${canViewAllEntries()?'Admin dapat melihat semua catatan.':'Share for All = semua user dapat lihat · Share for Admin = hanya admin dan gembala'}</div></div>`;
 }
-
-function setShareMode(formId, mode){
+function setShareMode(formId,mode){
   document.getElementById(formId+'-share-type').value=mode;
-  ['private','all','admin'].forEach(m=>{
-    const btn=document.getElementById(`${formId}-share-${m}`);
-    if(btn) btn.classList.toggle('active', (mode==='' && m==='private')||(mode===m));
-  });
+  ['private','all','admin'].forEach(m=>{const btn=document.getElementById(`${formId}-share-${m}`);if(btn)btn.classList.toggle('active',(mode===''&&m==='private')||(mode===m));});
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1207,10 +979,7 @@ async function renderDashboard(){
   const now=new Date(),p=x=>String(x).padStart(2,'0');
   const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  const levelNote=canViewAllEntries()
-    ?`<div class="info-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06);margin-bottom:10px;">👁️ Mode <b>${getUserLevel()}</b>: Anda melihat seluruh catatan semua pengguna yang dibagikan.</div>`
-    :`<div class="info-box" style="margin-bottom:10px;">👤 Mode <b>${getUserLevel()}</b>: Catatan milik sendiri + yang dibagikan publik.</div>`;
-
+  const levelNote=canViewAllEntries()?`<div class="info-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06);margin-bottom:10px;">👁️ Mode <b>${getUserLevel()}</b>: Anda melihat seluruh catatan semua pengguna yang dibagikan.</div>`:`<div class="info-box" style="margin-bottom:10px;">👤 Mode <b>${getUserLevel()}</b>: Catatan milik sendiri + yang dibagikan publik.</div>`;
   content.innerHTML=`
     ${isDemoMode?'<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--yellow);text-align:center;margin-bottom:10px;">⚠️ Mode Demo — data tidak tersimpan ke server</div>':''}
     ${levelNote}
@@ -1230,7 +999,6 @@ async function renderDashboard(){
       <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>
       <div class="shimmer"></div><div class="shimmer" style="height:55px;opacity:.6;"></div>
     </div>`;
-
   const clkT=setInterval(()=>{const el=document.getElementById('dash-clk');if(!el){clearInterval(clkT);return;}const n=new Date();el.textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;},1000);
   await Promise.allSettled([loadCache('Doa'),loadCache('Gelisah'),loadCache('Alkitab')]);
   const doaData=filterByShareAndOwnership(cache.Doa||[]);
@@ -1244,7 +1012,6 @@ async function renderDashboard(){
   const recentEl=document.getElementById('dash-recent');
   if(recentEl)recentEl.innerHTML=`<div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📌 Catatan Terbaru</div>`+(allRecent.length?allRecent.map(r=>`<div class="recent-entry" onclick='openFromDash(${JSON.stringify(r)})'><div class="re-icon">${icons[r._mod]||'📄'}</div><div class="re-body"><div class="re-title">${esc((r.permintaan||r.nama_alkitab||r.masalah||'Tanpa Judul').slice(0,50))}</div><div class="re-sub">${r._mod} · ${formatDate(r.tanggal)}${r.user?' · '+esc(r.user):''}${getShareBadgeHtml(r)?'&nbsp;'+getShareBadgeHtml(r):''}</div></div></div>`).join(''):`<div class="empty-state"><div class="icon">📭</div><p>Belum ada catatan.</p></div>`);
 }
-
 function openFromDash(r){if(r._mod==='Doa')openDoaDetail(r);else if(r._mod==='Gelisah')openGelisahDetail(r);else if(r._mod==='Alkitab')openAlkitabDetail(r);}
 
 // ══════════════════════════════════════════════════════════════════
@@ -1269,23 +1036,13 @@ function renderModule(mod){
     </div>
     <div class="filter-bar">
       <div class="filter-bar-title">🔍 Filter &amp; Pencarian</div>
-      <div class="filter-search-wrap">
-        <span class="filter-search-icon">🔍</span>
-        <input type="text" class="filter-search-input" id="${ml}-search" placeholder="Cari kata kunci..." oninput="filterModule('${mod}')">
-      </div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="${ml}-search" placeholder="Cari kata kunci..." oninput="filterModule('${mod}')"></div>
       <input type="date" class="filter-input" id="${ml}-date-from" style="max-width:145px;" onchange="filterModule('${mod}')" title="Dari tanggal">
       <input type="date" class="filter-input" id="${ml}-date-to" style="max-width:145px;" onchange="filterModule('${mod}')" title="Sampai tanggal">
-      <select class="filter-input" id="${ml}-answered" style="max-width:140px;" onchange="filterModule('${mod}')">
-        <option value="">Semua Status</option><option value="answered">✅ Terjawab</option><option value="pending">⏳ Pending</option>
-      </select>
+      <select class="filter-input" id="${ml}-answered" style="max-width:140px;" onchange="filterModule('${mod}')"><option value="">Semua Status</option><option value="answered">✅ Terjawab</option><option value="pending">⏳ Pending</option></select>
       ${mod==='Gelisah'?`<select class="filter-input" id="gel-kat" style="max-width:130px;" onchange="filterModule('Gelisah')"><option value="">Semua Kategori</option><option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option><option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option><option>Iman</option><option>Lainnya</option></select>`:''}
       ${mod==='Alkitab'?`<select class="filter-input" id="alk-tema-f" style="max-width:130px;" onchange="filterModule('Alkitab')"><option value="">Semua Tema</option><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select>`:''}
-      <select class="filter-input" id="${ml}-share-filter" style="max-width:130px;" onchange="filterModule('${mod}')">
-        <option value="">Semua Visibilitas</option>
-        <option value="all">🌐 Publik</option>
-        <option value="admin">🔐 Admin</option>
-        <option value="private">🔒 Pribadi</option>
-      </select>
+      <select class="filter-input" id="${ml}-share-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua Visibilitas</option><option value="all">🌐 Publik</option><option value="admin">🔐 Admin</option><option value="private">🔒 Pribadi</option></select>
       <select class="filter-input" id="${ml}-img-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua</option><option value="has_img">🖼️ Ada Gambar</option><option value="no_img">📋 Tanpa Gambar</option></select>
       <button class="btn-clear" onclick="clearFilter('${mod}')">✕ Reset</button>
     </div>
@@ -1294,16 +1051,13 @@ function renderModule(mod){
     <div id="${ml}-pagination" class="pagination"></div>`;
   loadAndRenderList(mod);
 }
-
 function clearFilter(mod){
   const ml=mod.toLowerCase();
   [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`${ml}-img-filter`,`${ml}-share-filter`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   filterModule(mod);
 }
-
-async function loadAndRenderList(mod){ await loadCache(mod); filterModule(mod); }
-async function refreshModule(mod){ delete cache[mod]; toast('⏳ Memuat ulang...'); await loadCache(mod); filterModule(mod); toast('✅ Data diperbarui'); }
-
+async function loadAndRenderList(mod){ await loadCache(mod);filterModule(mod); }
+async function refreshModule(mod){ delete cache[mod];toast('⏳ Memuat ulang...');await loadCache(mod);filterModule(mod);toast('✅ Data diperbarui'); }
 function filterModule(mod){
   const ml=mod.toLowerCase();
   const search=(document.getElementById(`${ml}-search`)?.value||'').toLowerCase();
@@ -1322,10 +1076,7 @@ function filterModule(mod){
   if(answered==='pending')data=data.filter(r=>!(r.tanggal_jawaban||'').trim());
   if(imgFilter==='has_img')data=data.filter(r=>(r.link_image||r['link image']||'').trim());
   if(imgFilter==='no_img')data=data.filter(r=>!(r.link_image||r['link image']||'').trim());
-  if(shareFilter){
-    if(shareFilter==='private') data=data.filter(r=>!(r.share_type||'').trim()||(r.share_type||'')==='private');
-    else data=data.filter(r=>(r.share_type||'').toLowerCase()===shareFilter);
-  }
+  if(shareFilter){if(shareFilter==='private')data=data.filter(r=>!(r.share_type||'').trim()||(r.share_type||'')==='private');else data=data.filter(r=>(r.share_type||'').toLowerCase()===shareFilter);}
   if(mod==='Gelisah'&&gelKat)data=data.filter(r=>(r.kategori||'')===gelKat);
   if(mod==='Alkitab'&&alkTema)data=data.filter(r=>(r.tema||'')===alkTema);
   data.reverse();
@@ -1345,7 +1096,6 @@ function filterModule(mod){
   renderList(mod,data.slice(start,start+PER_PAGE));
   renderPagination(`${ml}-pagination`,pageState[mod],totalPages,p=>{pageState[mod]=p;filterModule(mod);document.getElementById(`${ml}-list`)?.scrollIntoView({behavior:'smooth'});});
 }
-
 function renderList(mod,data){
   const listEl=document.getElementById(mod.toLowerCase()+'-list');if(!listEl)return;
   if(!data.length){listEl.innerHTML=`<div class="empty-state"><div class="icon">${{Doa:'🙏',Gelisah:'💭',Alkitab:'📖'}[mod]}</div><p>Tidak ada catatan yang cocok.</p></div>`;return;}
@@ -1358,18 +1108,11 @@ function renderList(mod,data){
 // DOA MODULE
 // ══════════════════════════════════════════════════════════════════
 function buildDoaForm(){
-  return `<div class="form-card">
-    <div class="form-title">🙏 Tambah Catatan Doa</div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="doa-tgl" value="${getTodayStr()}"></div>
-      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="doa-no" placeholder="Auto" min="1"></div>
-    </div>
+  return `<div class="form-card"><div class="form-title">🙏 Tambah Catatan Doa</div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="doa-tgl" value="${getTodayStr()}"></div><div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="doa-no" placeholder="Auto" min="1"></div></div>
     <div class="form-field"><label class="form-label">Permintaan Doa</label><textarea class="form-textarea" id="doa-permintaan" rows="3" placeholder="Tulis permintaan doamu..."></textarea></div>
     <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="doa-terang" rows="2" placeholder="Firman / wahyu / perasaan saat berdoa..."></textarea></div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="doa-tgl-jwb"></div>
-      <div class="form-field"><label class="form-label">Status</label><select class="form-select" id="doa-status"><option>Berdoa</option><option>Terjawab</option><option>Proses</option></select></div>
-    </div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="doa-tgl-jwb"></div><div class="form-field"><label class="form-label">Status</label><select class="form-select" id="doa-status"><option>Berdoa</option><option>Terjawab</option><option>Proses</option></select></div></div>
     <div class="form-field"><label class="form-label">Catatan Jawaban Doa</label><textarea class="form-textarea" id="doa-catatan-jwb" rows="2" placeholder="Bagaimana doa ini dijawab?"></textarea></div>
     <div class="form-field"><label class="form-label">🖼️ Link Gambar (Google Drive)</label><input type="url" class="form-input" id="doa-link-image" placeholder="https://drive.google.com/file/d/..."></div>
     <div class="form-field"><label class="form-label">Keterangan Gambar</label><input type="text" class="form-input" id="doa-ket-image" placeholder="Deskripsi gambar..."></div>
@@ -1378,51 +1121,28 @@ function buildDoaForm(){
     <div id="doa-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
   </div>`;
 }
-
 function buildDoaCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
   const j=JSON.stringify(r).replace(/'/g,'&#39;');
   const imgThumb=buildThumbHtml(r,r.permintaan||'Doa');
   return `<div class="entry-card" onclick='openDoaDetail(${j})'>
-    <div class="entry-card-header">
-      <div class="entry-card-icon">🙏</div>
-      <div style="width:3px;border-radius:3px;background:var(--accent);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
-      <div class="entry-card-meta">
-        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div>
-        <div class="entry-card-title">${esc((r.permintaan||'Tanpa Judul').slice(0,60))}</div>
-        ${r.terang?`<div class="entry-card-body">✨ ${esc(r.terang.slice(0,80))}</div>`:''}
-      </div>
-      ${imgThumb}
-    </div>
-    <div class="entry-card-footer">
-      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'⏳ Berdoa'}</span>
-      ${getShareBadgeHtml(r)}
-      ${getRecordImage(r)?`<span style="font-size:.65rem;color:var(--accent2);">🖼️</span>`:''}
-    </div>
+    <div class="entry-card-header"><div class="entry-card-icon">🙏</div><div style="width:3px;border-radius:3px;background:var(--accent);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
+    <div class="entry-card-meta"><div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div><div class="entry-card-title">${esc((r.permintaan||'Tanpa Judul').slice(0,60))}</div>${r.terang?`<div class="entry-card-body">✨ ${esc(r.terang.slice(0,80))}</div>`:''}</div>${imgThumb}</div>
+    <div class="entry-card-footer"><span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'⏳ Berdoa'}</span>${getShareBadgeHtml(r)}${getRecordImage(r)?`<span style="font-size:.65rem;color:var(--accent2);">🖼️</span>`:''}</div>
   </div>`;
 }
-
 function openDoaDetail(r){
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const txt=`📖 CATATAN DOA #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal: ${formatDate(r.tanggal)}\n📊 Status: ${r.status||'-'}\n\n🙏 PERMINTAAN DOA:\n${r.permintaan||'-'}\n\n✨ TERANG:\n${r.terang||'-'}\n\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan: ${r.catatan_jawaban||'-'}`;
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
   showDetail(`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <span style="font-size:1.6rem;">🙏</span>
-      <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Doa</div>
-      <div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}${r.user?` · ${esc(r.user)}`:''} ${getShareBadgeHtml(r)}</div></div>
-    </div>
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
-      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div>
-    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><span style="font-size:1.6rem;">🙏</span><div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Doa</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}${r.user?` · ${esc(r.user)}`:''} ${getShareBadgeHtml(r)}</div></div></div>
+    <div class="detail-grid"><div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div><div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div></div>
     <div class="detail-field"><div class="detail-label">🙏 Permintaan Doa</div><div class="detail-value">${esc(r.permintaan||'-')}</div></div>
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${esc(r.terang)}</div></div>`:''}
     <div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
-    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div>
-      <img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Doa #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'">
-    </div>`:''}
+    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Doa #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
       <button class="btn" onclick="openEntryFullscreen('Doa #${esc(String(r.no_urut||'-'))}',${JSON.stringify(txt)})">⛶ FS</button>
@@ -1431,116 +1151,61 @@ function openDoaDetail(r){
     </div>
     <div id="doa-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
-
 function toggleDoaEditForm(r){
   const el=document.getElementById('doa-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
   el.style.display='block';
   const st=r.share_type||'';
-  el.innerHTML=`<div class="edit-section">
-    <div class="edit-section-title">✏️ Edit Catatan Doa</div>
-    <label class="edit-label">Catatan Jawaban Doa</label>
-    <textarea class="edit-textarea" id="doa-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
-    <label class="edit-label">Tanggal Jawaban</label>
-    <input class="edit-input" type="date" id="doa-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
-    <label class="edit-label">Status</label>
-    <select class="edit-input" id="doa-edit-status">
-      <option ${r.status==='Berdoa'?'selected':''}>Berdoa</option>
-      <option ${r.status==='Terjawab'?'selected':''}>Terjawab</option>
-      <option ${r.status==='Proses'?'selected':''}>Proses</option>
-    </select>
-    <label class="edit-label">🖼️ Link Gambar</label>
-    <input class="edit-input" type="url" id="doa-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}" placeholder="https://drive.google.com/file/d/...">
-    <label class="edit-label">Keterangan Gambar</label>
-    <input class="edit-input" type="text" id="doa-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}" placeholder="Deskripsi gambar...">
-    <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label>
-    <select class="edit-input" id="doa-edit-share-type">
-      <option value="" ${!st?'selected':''}>🔒 Pribadi</option>
-      <option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option>
-      <option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option>
-    </select>
-    <div style="display:flex;gap:7px;margin-top:4px;">
-      <button class="btn accent3" onclick="saveDoaEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button>
-      <button class="btn" onclick="document.getElementById('doa-edit-form').style.display='none'" style="padding:10px;">✕</button>
-    </div>
+  el.innerHTML=`<div class="edit-section"><div class="edit-section-title">✏️ Edit Catatan Doa</div>
+    <label class="edit-label">Catatan Jawaban Doa</label><textarea class="edit-textarea" id="doa-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
+    <label class="edit-label">Tanggal Jawaban</label><input class="edit-input" type="date" id="doa-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
+    <label class="edit-label">Status</label><select class="edit-input" id="doa-edit-status"><option ${r.status==='Berdoa'?'selected':''}>Berdoa</option><option ${r.status==='Terjawab'?'selected':''}>Terjawab</option><option ${r.status==='Proses'?'selected':''}>Proses</option></select>
+    <label class="edit-label">🖼️ Link Gambar</label><input class="edit-input" type="url" id="doa-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}" placeholder="https://drive.google.com/file/d/...">
+    <label class="edit-label">Keterangan Gambar</label><input class="edit-input" type="text" id="doa-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}">
+    <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label><select class="edit-input" id="doa-edit-share-type"><option value="" ${!st?'selected':''}>🔒 Pribadi</option><option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option><option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option></select>
+    <div style="display:flex;gap:7px;margin-top:4px;"><button class="btn accent3" onclick="saveDoaEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('doa-edit-form').style.display='none'" style="padding:10px;">✕</button></div>
   </div>`;
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
-
 async function saveDoaEdit(r){
-  const updates={
-    catatan_jawaban:document.getElementById('doa-edit-catatan-jwb')?.value.trim()||'',
-    tanggal_jawaban:document.getElementById('doa-edit-tgl-jwb')?.value||'',
-    status:document.getElementById('doa-edit-status')?.value||'Berdoa',
-    link_image:document.getElementById('doa-edit-link-image')?.value.trim()||'',
-    keterangan_image:document.getElementById('doa-edit-ket-image')?.value.trim()||'',
-    share_type:document.getElementById('doa-edit-share-type')?.value||'',
-  };
+  const updates={catatan_jawaban:document.getElementById('doa-edit-catatan-jwb')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-edit-tgl-jwb')?.value||'',status:document.getElementById('doa-edit-status')?.value||'Berdoa',link_image:document.getElementById('doa-edit-link-image')?.value.trim()||'',keterangan_image:document.getElementById('doa-edit-ket-image')?.value.trim()||'',share_type:document.getElementById('doa-edit-share-type')?.value||''};
   const idx=(cache.Doa||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
   if(idx>=0)Object.assign(cache.Doa[idx],updates);
   toast('⏳ Menyimpan...');
-  if(!isDemoMode){
-    try{await postToAS(APPS_SCRIPT_DOA,{action:'update_doa',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}
-    catch(e){toast('✅ Tersimpan lokal');}
-  }else{toast('✅ Tersimpan (demo)');}
+  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_DOA,{action:'update_doa',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}catch(e){toast('✅ Tersimpan lokal');}}
+  else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Doa');
 }
-
 async function submitDoa(){
   const btn=document.getElementById('doa-submit-btn'),msg=document.getElementById('doa-status-msg');
   const tgl=document.getElementById('doa-tgl')?.value;
   const permintaan=document.getElementById('doa-permintaan')?.value.trim();
   if(!tgl||!permintaan){toast('⚠️ Tanggal dan permintaan wajib diisi');return;}
   const shareType=document.getElementById('doa-form-share-type')?.value||'';
-  const newEntry={
-    no_urut:document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1),
-    tanggal:tgl,user:currentUser?.username||'',
-    permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',
-    tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',
-    status:document.getElementById('doa-status')?.value||'Berdoa',
-    catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||'',
-    link_image:document.getElementById('doa-link-image')?.value.trim()||'',
-    keterangan_image:document.getElementById('doa-ket-image')?.value.trim()||'',
-    share_type:shareType,
-  };
-  if(isDemoMode){
-    if(!cache.Doa)cache.Doa=[];cache.Doa.push(newEntry);
-    toast('✅ Tersimpan (demo)');if(msg)msg.textContent='✅ Tersimpan (demo)';
-    resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb','doa-link-image','doa-ket-image']);
-    filterModule('Doa');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
-  }
+  const newEntry={no_urut:document.getElementById('doa-no')?.value||((cache.Doa||[]).length+1),tanggal:tgl,user:currentUser?.username||'',permintaan,terang:document.getElementById('doa-terang')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-tgl-jwb')?.value||'',status:document.getElementById('doa-status')?.value||'Berdoa',catatan_jawaban:document.getElementById('doa-catatan-jwb')?.value.trim()||'',link_image:document.getElementById('doa-link-image')?.value.trim()||'',keterangan_image:document.getElementById('doa-ket-image')?.value.trim()||'',share_type:shareType};
+  if(isDemoMode){if(!cache.Doa)cache.Doa=[];cache.Doa.push(newEntry);toast('✅ Tersimpan (demo)');if(msg)msg.textContent='✅ Tersimpan (demo)';resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb','doa-link-image','doa-ket-image']);filterModule('Doa');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;}
   btn.disabled=true;btn.textContent='⏳ Menyimpan...';
   if(msg){msg.textContent='⏳ Mengirim...';msg.style.color='var(--text3)';}
   try{
     await postToAS(APPS_SCRIPT_DOA,{action:'tambah',sheet:'Doa',...newEntry});
     toast('✅ Catatan doa tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
     resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb','doa-link-image','doa-ket-image']);
-    document.getElementById('doa-tgl').value=getTodayStr();
-    setShareMode('doa-form','');
+    document.getElementById('doa-tgl').value=getTodayStr();setShareMode('doa-form','');
     setTimeout(async()=>{delete cache.Doa;await loadCache('Doa');filterModule('Doa');if(msg)msg.textContent='';},5000);
-  }catch(e){
-    toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}
-  }finally{btn.disabled=false;btn.textContent='🙏 Simpan Catatan Doa';}
+  }catch(e){toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}}
+  finally{btn.disabled=false;btn.textContent='🙏 Simpan Catatan Doa';}
 }
 
 // ══════════════════════════════════════════════════════════════════
 // GELISAH MODULE
 // ══════════════════════════════════════════════════════════════════
 function buildGelisahForm(){
-  return `<div class="form-card">
-    <div class="form-title">💭 Tambah Catatan Kegelisahan</div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="gel-tgl" value="${getTodayStr()}"></div>
-      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="gel-no" placeholder="Auto" min="1"></div>
-    </div>
+  return `<div class="form-card"><div class="form-title">💭 Tambah Catatan Kegelisahan</div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="gel-tgl" value="${getTodayStr()}"></div><div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="gel-no" placeholder="Auto" min="1"></div></div>
     <div class="form-field"><label class="form-label">Kegelisahan / Masalah</label><textarea class="form-textarea" id="gel-masalah" rows="3" placeholder="Apa yang membuatmu gelisah hari ini?"></textarea></div>
     <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="gel-terang" rows="2" placeholder="Jawaban / firman / kedamaian..."></textarea></div>
-    <div class="form-field"><label class="form-label">Kategori</label>
-      <select class="form-select" id="gel-kategori"><option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option><option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option><option>Iman</option><option>Lainnya</option></select>
-    </div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="gel-tgl-jwb"></div>
-      <div class="form-field"><label class="form-label">Status</label><select class="form-select" id="gel-status"><option>Gelisah</option><option>Proses</option><option>Damai</option></select></div>
-    </div>
+    <div class="form-field"><label class="form-label">Kategori</label><select class="form-select" id="gel-kategori"><option>Keluarga</option><option>Pekerjaan</option><option>Kesehatan</option><option>Hubungan</option><option>Keuangan</option><option>Masa Depan</option><option>Iman</option><option>Lainnya</option></select></div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal Jawaban</label><input type="date" class="form-input" id="gel-tgl-jwb"></div><div class="form-field"><label class="form-label">Status</label><select class="form-select" id="gel-status"><option>Gelisah</option><option>Proses</option><option>Damai</option></select></div></div>
     <div class="form-field"><label class="form-label">Catatan Penyelesaian</label><textarea class="form-textarea" id="gel-catatan-jwb" rows="2" placeholder="Bagaimana kegelisahan ini diselesaikan?"></textarea></div>
     <div class="form-field"><label class="form-label">🖼️ Link Gambar (Google Drive)</label><input type="url" class="form-input" id="gel-link-image" placeholder="https://drive.google.com/file/d/..."></div>
     <div class="form-field"><label class="form-label">Keterangan Gambar</label><input type="text" class="form-input" id="gel-ket-image" placeholder="Deskripsi gambar..."></div>
@@ -1549,7 +1214,6 @@ function buildGelisahForm(){
     <div id="gel-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
   </div>`;
 }
-
 function buildGelisahCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
   const katColors={Keluarga:'#f97316',Pekerjaan:'#3b82f6',Kesehatan:'#10b981',Hubungan:'#ec4899',Keuangan:'#f59e0b',Iman:'#a78bfa',default:'var(--text3)'};
@@ -1557,48 +1221,23 @@ function buildGelisahCard(r){
   const j=JSON.stringify(r).replace(/'/g,'&#39;');
   const imgThumb=buildThumbHtml(r,r.masalah||'Gelisah');
   return `<div class="entry-card" onclick='openGelisahDetail(${j})'>
-    <div class="entry-card-header">
-      <div class="entry-card-icon">💭</div>
-      <div style="width:3px;border-radius:3px;background:var(--accent2);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
-      <div class="entry-card-meta">
-        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div>
-        <div class="entry-card-title">${esc((r.masalah||'Tanpa Judul').slice(0,60))}</div>
-        ${r.terang?`<div class="entry-card-body">✨ ${esc(r.terang.slice(0,80))}</div>`:''}
-      </div>
-      ${imgThumb}
-    </div>
-    <div class="entry-card-footer">
-      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Damai':'💭 Proses'}</span>
-      ${r.kategori?`<span style="font-size:.65rem;font-weight:700;color:${katColor};">${esc(r.kategori)}</span>`:''}
-      ${getShareBadgeHtml(r)}
-    </div>
+    <div class="entry-card-header"><div class="entry-card-icon">💭</div><div style="width:3px;border-radius:3px;background:var(--accent2);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
+    <div class="entry-card-meta"><div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div><div class="entry-card-title">${esc((r.masalah||'Tanpa Judul').slice(0,60))}</div>${r.terang?`<div class="entry-card-body">✨ ${esc(r.terang.slice(0,80))}</div>`:''}</div>${imgThumb}</div>
+    <div class="entry-card-footer"><span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Damai':'💭 Proses'}</span>${r.kategori?`<span style="font-size:.65rem;font-weight:700;color:${katColor};">${esc(r.kategori)}</span>`:''}${getShareBadgeHtml(r)}</div>
   </div>`;
 }
-
 function openGelisahDetail(r){
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const txt=`💭 CATATAN KEGELISAHAN #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal: ${formatDate(r.tanggal)}\n🏷 Kategori: ${r.kategori||'-'}\n📊 Status: ${r.status||'-'}\n\n💭 ISI:\n${r.masalah||'-'}\n\n✨ TERANG:\n${r.terang||'-'}\n\n📅 Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan: ${r.catatan_jawaban||'-'}`;
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
   showDetail(`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <span style="font-size:1.6rem;">💭</span>
-      <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Kegelisahan</div>
-      <div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}${r.user?` · ${esc(r.user)}`:''} ${getShareBadgeHtml(r)}</div></div>
-    </div>
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
-      <div class="detail-field"><div class="detail-label">Kategori</div><div class="detail-value">${esc(r.kategori||'-')}</div></div>
-    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><span style="font-size:1.6rem;">💭</span><div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">#${r.no_urut||'-'} Catatan Kegelisahan</div><div style="font-size:.75rem;color:var(--text3);">${formatDate(r.tanggal)}${r.user?` · ${esc(r.user)}`:''} ${getShareBadgeHtml(r)}</div></div></div>
+    <div class="detail-grid"><div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div><div class="detail-field"><div class="detail-label">Kategori</div><div class="detail-value">${esc(r.kategori||'-')}</div></div></div>
     <div class="detail-field"><div class="detail-label">💭 Isi Kegelisahan</div><div class="detail-value">${esc(r.masalah||'-')}</div></div>
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value verse-highlight">${esc(r.terang)}</div></div>`:''}
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div>
-      <div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div>
-    </div>
+    <div class="detail-grid"><div class="detail-field"><div class="detail-label">Status</div><div class="detail-value">${esc(r.status||'-')}</div></div><div class="detail-field"><div class="detail-label">Tgl Jawaban</div><div class="detail-value">${formatDate(r.tanggal_jawaban)||'-'}</div></div></div>
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Penyelesaian</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
-    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div>
-      <img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Gelisah #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'">
-    </div>`:''}
+    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Gelisah #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
       <button class="btn" onclick="openEntryFullscreen('Gelisah #${esc(String(r.no_urut||'-'))}',${JSON.stringify(txt)})">⛶ FS</button>
@@ -1607,116 +1246,62 @@ function openGelisahDetail(r){
     </div>
     <div id="gel-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
-
 function toggleGelisahEditForm(r){
   const el=document.getElementById('gel-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
   el.style.display='block';
   const st=r.share_type||'';
-  el.innerHTML=`<div class="edit-section">
-    <div class="edit-section-title">✏️ Edit Catatan Kegelisahan</div>
-    <label class="edit-label">Catatan Penyelesaian</label>
-    <textarea class="edit-textarea" id="gel-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
-    <label class="edit-label">Tanggal Jawaban</label>
-    <input class="edit-input" type="date" id="gel-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
-    <label class="edit-label">Status</label>
-    <select class="edit-input" id="gel-edit-status">
-      <option ${r.status==='Gelisah'?'selected':''}>Gelisah</option>
-      <option ${r.status==='Proses'?'selected':''}>Proses</option>
-      <option ${r.status==='Damai'?'selected':''}>Damai</option>
-    </select>
-    <label class="edit-label">🖼️ Link Gambar</label>
-    <input class="edit-input" type="url" id="gel-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}">
-    <label class="edit-label">Keterangan Gambar</label>
-    <input class="edit-input" type="text" id="gel-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}">
-    <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label>
-    <select class="edit-input" id="gel-edit-share-type">
-      <option value="" ${!st?'selected':''}>🔒 Pribadi</option>
-      <option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option>
-      <option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option>
-    </select>
-    <div style="display:flex;gap:7px;margin-top:4px;">
-      <button class="btn accent3" onclick="saveGelisahEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button>
-      <button class="btn" onclick="document.getElementById('gel-edit-form').style.display='none'" style="padding:10px;">✕</button>
-    </div>
+  el.innerHTML=`<div class="edit-section"><div class="edit-section-title">✏️ Edit Catatan Kegelisahan</div>
+    <label class="edit-label">Catatan Penyelesaian</label><textarea class="edit-textarea" id="gel-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
+    <label class="edit-label">Tanggal Jawaban</label><input class="edit-input" type="date" id="gel-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
+    <label class="edit-label">Status</label><select class="edit-input" id="gel-edit-status"><option ${r.status==='Gelisah'?'selected':''}>Gelisah</option><option ${r.status==='Proses'?'selected':''}>Proses</option><option ${r.status==='Damai'?'selected':''}>Damai</option></select>
+    <label class="edit-label">🖼️ Link Gambar</label><input class="edit-input" type="url" id="gel-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}">
+    <label class="edit-label">Keterangan Gambar</label><input class="edit-input" type="text" id="gel-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}">
+    <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label><select class="edit-input" id="gel-edit-share-type"><option value="" ${!st?'selected':''}>🔒 Pribadi</option><option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option><option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option></select>
+    <div style="display:flex;gap:7px;margin-top:4px;"><button class="btn accent3" onclick="saveGelisahEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('gel-edit-form').style.display='none'" style="padding:10px;">✕</button></div>
   </div>`;
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
-
 async function saveGelisahEdit(r){
-  const updates={
-    catatan_jawaban:document.getElementById('gel-edit-catatan-jwb')?.value.trim()||'',
-    tanggal_jawaban:document.getElementById('gel-edit-tgl-jwb')?.value||'',
-    status:document.getElementById('gel-edit-status')?.value||'Gelisah',
-    link_image:document.getElementById('gel-edit-link-image')?.value.trim()||'',
-    keterangan_image:document.getElementById('gel-edit-ket-image')?.value.trim()||'',
-    share_type:document.getElementById('gel-edit-share-type')?.value||'',
-  };
+  const updates={catatan_jawaban:document.getElementById('gel-edit-catatan-jwb')?.value.trim()||'',tanggal_jawaban:document.getElementById('gel-edit-tgl-jwb')?.value||'',status:document.getElementById('gel-edit-status')?.value||'Gelisah',link_image:document.getElementById('gel-edit-link-image')?.value.trim()||'',keterangan_image:document.getElementById('gel-edit-ket-image')?.value.trim()||'',share_type:document.getElementById('gel-edit-share-type')?.value||''};
   const idx=(cache.Gelisah||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
   if(idx>=0)Object.assign(cache.Gelisah[idx],updates);
   toast('⏳ Menyimpan...');
-  if(!isDemoMode){
-    try{await postToAS(APPS_SCRIPT_GELISAH,{action:'update_gelisah',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}
-    catch(e){toast('✅ Tersimpan lokal');}
-  }else{toast('✅ Tersimpan (demo)');}
+  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_GELISAH,{action:'update_gelisah',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}catch(e){toast('✅ Tersimpan lokal');}}
+  else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Gelisah');
 }
-
 async function submitGelisah(){
   const btn=document.getElementById('gel-submit-btn'),msg=document.getElementById('gel-status-msg');
   const tgl=document.getElementById('gel-tgl')?.value;
   const masalah=document.getElementById('gel-masalah')?.value.trim();
   if(!tgl||!masalah){toast('⚠️ Tanggal dan kegelisahan wajib diisi');return;}
   const shareType=document.getElementById('gel-form-share-type')?.value||'';
-  const newEntry={
-    no_urut:document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1),
-    tanggal:tgl,user:currentUser?.username||'',
-    masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',
-    kategori:document.getElementById('gel-kategori')?.value||'',
-    tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',
-    status:document.getElementById('gel-status')?.value||'Gelisah',
-    catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||'',
-    link_image:document.getElementById('gel-link-image')?.value.trim()||'',
-    keterangan_image:document.getElementById('gel-ket-image')?.value.trim()||'',
-    share_type:shareType,
-  };
-  if(isDemoMode){
-    if(!cache.Gelisah)cache.Gelisah=[];cache.Gelisah.push(newEntry);
-    toast('✅ Tersimpan (demo)');resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb','gel-link-image','gel-ket-image']);
-    filterModule('Gelisah');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
-  }
+  const newEntry={no_urut:document.getElementById('gel-no')?.value||((cache.Gelisah||[]).length+1),tanggal:tgl,user:currentUser?.username||'',masalah,terang:document.getElementById('gel-terang')?.value.trim()||'',kategori:document.getElementById('gel-kategori')?.value||'',tanggal_jawaban:document.getElementById('gel-tgl-jwb')?.value||'',status:document.getElementById('gel-status')?.value||'Gelisah',catatan_jawaban:document.getElementById('gel-catatan-jwb')?.value.trim()||'',link_image:document.getElementById('gel-link-image')?.value.trim()||'',keterangan_image:document.getElementById('gel-ket-image')?.value.trim()||'',share_type:shareType};
+  if(isDemoMode){if(!cache.Gelisah)cache.Gelisah=[];cache.Gelisah.push(newEntry);toast('✅ Tersimpan (demo)');resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb','gel-link-image','gel-ket-image']);filterModule('Gelisah');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;}
   btn.disabled=true;btn.textContent='⏳ Menyimpan...';
   if(msg){msg.textContent='⏳ Mengirim...';msg.style.color='var(--text3)';}
   try{
     await postToAS(APPS_SCRIPT_GELISAH,{action:'tambah',sheet:'Gelisah',...newEntry});
     toast('✅ Tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
     resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb','gel-link-image','gel-ket-image']);
-    document.getElementById('gel-tgl').value=getTodayStr(); setShareMode('gel-form','');
+    document.getElementById('gel-tgl').value=getTodayStr();setShareMode('gel-form','');
     setTimeout(async()=>{delete cache.Gelisah;await loadCache('Gelisah');filterModule('Gelisah');if(msg)msg.textContent='';},5000);
-  }catch(e){
-    toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}
-  }finally{btn.disabled=false;btn.textContent='💭 Simpan Catatan Kegelisahan';}
+  }catch(e){toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}}
+  finally{btn.disabled=false;btn.textContent='💭 Simpan Catatan Kegelisahan';}
 }
 
 // ══════════════════════════════════════════════════════════════════
 // ALKITAB MODULE
 // ══════════════════════════════════════════════════════════════════
 function buildAlkitabForm(){
-  return `<div class="form-card">
-    <div class="form-title" style="color:var(--accent3);">📖 Tambah Catatan Alkitab</div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="alk-tgl" value="${getTodayStr()}"></div>
-      <div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="alk-no" placeholder="Auto" min="1"></div>
-    </div>
+  return `<div class="form-card"><div class="form-title" style="color:var(--accent3);">📖 Tambah Catatan Alkitab</div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="alk-tgl" value="${getTodayStr()}"></div><div class="form-field"><label class="form-label">No. Urut</label><input type="number" class="form-input" id="alk-no" placeholder="Auto" min="1"></div></div>
     <div class="form-field"><label class="form-label">Referensi Alkitab</label><input type="text" class="form-input" id="alk-nama" placeholder="cth: Yohanes 3:16, Mazmur 23..."></div>
     <div class="form-field"><label class="form-label">Ayat / Bacaan</label><textarea class="form-textarea" id="alk-ayat" rows="3" placeholder="Tulis atau tempel ayat yang dibaca..."></textarea></div>
     <div class="form-field"><label class="form-label">Terang yang Didapat</label><textarea class="form-textarea" id="alk-terang" rows="3" placeholder="Wahyu, pemahaman..."></textarea></div>
     <div class="form-field"><label class="form-label">Catatan / Aplikasi</label><textarea class="form-textarea" id="alk-catatan" rows="2" placeholder="Bagaimana menerapkan firman ini?"></textarea></div>
-    <div class="form-row">
-      <div class="form-field"><label class="form-label">Tanggal Terjawab</label><input type="date" class="form-input" id="alk-tgl-jwb"></div>
-      <div class="form-field"><label class="form-label">Tema</label>
-        <select class="form-select" id="alk-tema"><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select>
-      </div>
-    </div>
+    <div class="form-row"><div class="form-field"><label class="form-label">Tanggal Terjawab</label><input type="date" class="form-input" id="alk-tgl-jwb"></div><div class="form-field"><label class="form-label">Tema</label><select class="form-select" id="alk-tema"><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select></div></div>
     <div class="form-field"><label class="form-label">Catatan Jawaban Alkitab</label><textarea class="form-textarea" id="alk-catatan-jwb" rows="2" placeholder="Bagaimana firman ini terbukti?"></textarea></div>
     <div class="form-field"><label class="form-label">🖼️ Link Gambar (Google Drive)</label><input type="url" class="form-input" id="alk-link-image" placeholder="https://drive.google.com/file/d/..."></div>
     <div class="form-field"><label class="form-label">Keterangan Gambar</label><input type="text" class="form-input" id="alk-ket-image" placeholder="Deskripsi gambar..."></div>
@@ -1725,27 +1310,14 @@ function buildAlkitabForm(){
     <div id="alk-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
   </div>`;
 }
-
 function buildAlkitabCard(r){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
   const j=JSON.stringify(r).replace(/'/g,'&#39;');
   const imgThumb=buildThumbHtml(r,r.nama_alkitab||'Alkitab');
   return `<div class="entry-card" onclick='openAlkitabDetail(${j})'>
-    <div class="entry-card-header">
-      <div class="entry-card-icon">📖</div>
-      <div style="width:3px;border-radius:3px;background:var(--accent3);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
-      <div class="entry-card-meta">
-        <div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div>
-        <div class="entry-card-title">${esc((r.nama_alkitab||'Tanpa Judul').slice(0,60))}</div>
-        ${r.ayat?`<div class="entry-card-body" style="font-style:italic;">"${esc(r.ayat.slice(0,80))}"</div>`:''}
-      </div>
-      ${imgThumb}
-    </div>
-    <div class="entry-card-footer">
-      <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'📖 Berlanjut'}</span>
-      ${r.tema?`<span style="font-size:.65rem;color:var(--accent3);font-weight:700;">#${esc(r.tema)}</span>`:''}
-      ${getShareBadgeHtml(r)}
-    </div>
+    <div class="entry-card-header"><div class="entry-card-icon">📖</div><div style="width:3px;border-radius:3px;background:var(--accent3);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
+    <div class="entry-card-meta"><div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div><div class="entry-card-title">${esc((r.nama_alkitab||'Tanpa Judul').slice(0,60))}</div>${r.ayat?`<div class="entry-card-body" style="font-style:italic;">"${esc(r.ayat.slice(0,80))}"</div>`:''}</div>${imgThumb}</div>
+    <div class="entry-card-footer"><span class="badge ${hasAnswer?'badge-answered':'badge-pending'}">${hasAnswer?'✅ Terjawab':'📖 Berlanjut'}</span>${r.tema?`<span style="font-size:.65rem;color:var(--accent3);font-weight:700;">#${esc(r.tema)}</span>`:''}${getShareBadgeHtml(r)}</div>
   </div>`;
 }
 
@@ -1753,52 +1325,43 @@ function openAlkitabDetail(r){
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
   showDetail(`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <span style="font-size:1.6rem;">📖</span>
-      <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">${esc(r.nama_alkitab||'Catatan Alkitab')}</div>
-      <div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user?' · '+esc(r.user):''} ${getShareBadgeHtml(r)}</div></div>
-    </div>
-    <div class="detail-grid">
-      <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
-      <div class="detail-field"><div class="detail-label">Tema</div><div class="detail-value">${esc(r.tema||'-')}</div></div>
-    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><span style="font-size:1.6rem;">📖</span><div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">${esc(r.nama_alkitab||'Catatan Alkitab')}</div><div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user?' · '+esc(r.user):''} ${getShareBadgeHtml(r)}</div></div></div>
+    <div class="detail-grid"><div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div><div class="detail-field"><div class="detail-label">Tema</div><div class="detail-value">${esc(r.tema||'-')}</div></div></div>
     ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${esc(r.ayat)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
     ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${esc(r.terang)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
     ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${esc(r.catatan)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
     ${r.tanggal_jawaban?`<div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)}</div></div>`:''}
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
-    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div>
-      <img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(r.nama_alkitab||'Alkitab')}','${escHtml(imgCap)}')" onerror="this.style.display='none'">
-    </div>`:''}
+    ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(r.nama_alkitab||'Alkitab')}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn accent" onclick="openAlkitabFullscreen(${JSON.stringify(r).replace(/"/g,'&quot;')})">⛶ FS</button>
       <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
+      <button class="txt-btn" onclick="downloadAlkitabTxt(${JSON.stringify(r).replace(/"/g,'&quot;')})">⬇️ .txt</button>
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
     </div>
     <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
+
 function openAlkitabFullscreen(r){
   const sections=[
-    {label:'📖 Referensi Alkitab', val:r.nama_alkitab},
-    {label:'Tanggal',             val:formatDate(r.tanggal)},
-    {label:'Tema',                val:r.tema},
-    {label:'📜 Ayat / Bacaan',    val:r.ayat,     style:'background:var(--glow);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 8px 8px 0;font-family:"Lora",serif;font-style:italic;line-height:1.8;'},
-    {label:'✨ Terang yang Didapat',val:r.terang},
-    {label:'📝 Catatan / Aplikasi',val:r.catatan},
-    {label:'Tgl Terjawab',        val:r.tanggal_jawaban?formatDate(r.tanggal_jawaban):''},
-    {label:'📝 Catatan Jawaban',   val:r.catatan_jawaban},
+    {label:'📖 Referensi Alkitab',val:r.nama_alkitab},{label:'Tanggal',val:formatDate(r.tanggal)},{label:'Tema',val:r.tema},
+    {label:'📜 Ayat / Bacaan',val:r.ayat,style:'background:var(--glow);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 8px 8px 0;font-family:"Lora",serif;font-style:italic;line-height:1.8;'},
+    {label:'✨ Terang yang Didapat',val:r.terang},{label:'📝 Catatan / Aplikasi',val:r.catatan},
+    {label:'Tgl Terjawab',val:r.tanggal_jawaban?formatDate(r.tanggal_jawaban):''},{label:'📝 Catatan Jawaban',val:r.catatan_jawaban},
   ];
-  const html=sections.filter(s=>(s.val||'').trim()).map(s=>`
-    <div style="margin-bottom:16px;">
-      <div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div>
-      <div style="${s.style||'line-height:1.8;color:var(--text);'}">${esc(s.val)}</div>
-    </div>`).join('');
+  const html=sections.filter(s=>(s.val||'').trim()).map(s=>`<div style="margin-bottom:16px;"><div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div><div style="${s.style||'line-height:1.8;color:var(--text);'}">${esc(s.val)}</div></div>`).join('');
   document.getElementById('fs-title').textContent=r.nama_alkitab||'Catatan Alkitab';
   const c=document.getElementById('fs-content');
-  c.innerHTML=html; c.style.fontSize=fsFontSizes.main+'px'; c.style.whiteSpace='normal';
+  c.innerHTML=html;c.style.fontSize=fsFontSizes.main+'px';c.style.whiteSpace='normal';
   c.dataset.isHtml='1';
   openFS('fullscreen-overlay');
 }
+
+// ══════════════════════════════════════════════════════════════════
+// [FIX v4.19] toggleAlkitabEditForm
+// FIX 1: tombol Simpan pakai &quot; bukan '"' 
+// FIX 2: scrollIntoView otomatis saat form dibuka
+// ══════════════════════════════════════════════════════════════════
 function toggleAlkitabEditForm(r){
   const el=document.getElementById('alk-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
@@ -1833,7 +1396,10 @@ function toggleAlkitabEditForm(r){
       <button class="btn" onclick="document.getElementById('alk-edit-form').style.display='none'" style="padding:10px;">✕</button>
     </div>
   </div>`;
+  // FIX v4.19: scroll ke form edit agar semua field terlihat, tidak tertutup tombol fixed
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
+
 async function saveAlkitabEdit(r){
   const updates={
     nama_alkitab:document.getElementById('alk-edit-nama')?.value.trim()||r.nama_alkitab||'',
@@ -1850,13 +1416,11 @@ async function saveAlkitabEdit(r){
   if(idx>=0)Object.assign(cache.Alkitab[idx],updates);
   toast('⏳ Menyimpan...');
   if(!isDemoMode){
-    try{
-      await postToAS(APPS_SCRIPT_ALKITAB,{action:'update_alkitab',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});
-      toast('✅ Perubahan tersimpan!');
-    }catch(e){toast('✅ Tersimpan lokal');}
+    try{await postToAS(APPS_SCRIPT_ALKITAB,{action:'update_alkitab',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}
+    catch(e){toast('✅ Tersimpan lokal');}
   }else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Alkitab');
-}  
+}
 
 async function submitAlkitab(){
   const btn=document.getElementById('alk-submit-btn'),msg=document.getElementById('alk-status-msg');
@@ -1864,39 +1428,23 @@ async function submitAlkitab(){
   const nama=document.getElementById('alk-nama')?.value.trim();
   if(!tgl||!nama){toast('⚠️ Tanggal dan referensi alkitab wajib diisi');return;}
   const shareType=document.getElementById('alk-form-share-type')?.value||'';
-  const newEntry={
-    no_urut:document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1),
-    tanggal:tgl,user:currentUser?.username||'',nama_alkitab:nama,
-    ayat:document.getElementById('alk-ayat')?.value.trim()||'',
-    terang:document.getElementById('alk-terang')?.value.trim()||'',
-    catatan:document.getElementById('alk-catatan')?.value.trim()||'',
-    tema:document.getElementById('alk-tema')?.value||'',
-    tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',
-    catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||'',
-    link_image:document.getElementById('alk-link-image')?.value.trim()||'',
-    keterangan_image:document.getElementById('alk-ket-image')?.value.trim()||'',
-    share_type:shareType,
-  };
-  if(isDemoMode){
-    if(!cache.Alkitab)cache.Alkitab=[];cache.Alkitab.push(newEntry);
-    toast('✅ Tersimpan (demo)');resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama','alk-link-image','alk-ket-image']);
-    filterModule('Alkitab');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
-  }
+  const newEntry={no_urut:document.getElementById('alk-no')?.value||((cache.Alkitab||[]).length+1),tanggal:tgl,user:currentUser?.username||'',nama_alkitab:nama,ayat:document.getElementById('alk-ayat')?.value.trim()||'',terang:document.getElementById('alk-terang')?.value.trim()||'',catatan:document.getElementById('alk-catatan')?.value.trim()||'',tema:document.getElementById('alk-tema')?.value||'',tanggal_jawaban:document.getElementById('alk-tgl-jwb')?.value||'',catatan_jawaban:document.getElementById('alk-catatan-jwb')?.value.trim()||'',link_image:document.getElementById('alk-link-image')?.value.trim()||'',keterangan_image:document.getElementById('alk-ket-image')?.value.trim()||'',share_type:shareType};
+  if(isDemoMode){if(!cache.Alkitab)cache.Alkitab=[];cache.Alkitab.push(newEntry);toast('✅ Tersimpan (demo)');resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama','alk-link-image','alk-ket-image']);filterModule('Alkitab');setTimeout(()=>{if(msg)msg.textContent='';},3000);return;}
   btn.disabled=true;btn.textContent='⏳ Menyimpan...';
   if(msg){msg.textContent='⏳ Mengirim...';msg.style.color='var(--text3)';}
   try{
     await postToAS(APPS_SCRIPT_ALKITAB,{action:'tambah',sheet:'Alkitab',...newEntry});
     toast('✅ Tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
     resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama','alk-link-image','alk-ket-image']);
-    document.getElementById('alk-tgl').value=getTodayStr(); setShareMode('alk-form','');
+    document.getElementById('alk-tgl').value=getTodayStr();setShareMode('alk-form','');
     setTimeout(async()=>{delete cache.Alkitab;await loadCache('Alkitab');filterModule('Alkitab');if(msg)msg.textContent='';},5000);
-  }catch(e){
-    toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}
-  }finally{btn.disabled=false;btn.textContent='📖 Simpan Catatan Alkitab';}
+  }catch(e){toast('⚠️ Gagal menyimpan');if(msg){msg.textContent='⚠️ Gagal.';msg.style.color='var(--red)';}}
+  finally{btn.disabled=false;btn.textContent='📖 Simpan Catatan Alkitab';}
 }
 
-
-
+// ══════════════════════════════════════════════════════════════════
+// PENGUMUMAN SYSTEM
+// ══════════════════════════════════════════════════════════════════
 async function submitPengumuman(){
   const judul=document.getElementById('ann-judul')?.value.trim();
   const isi=document.getElementById('ann-isi')?.value.trim();
@@ -1908,14 +1456,9 @@ async function submitPengumuman(){
   const newAnn={judul,isi,waktu,author:currentUser?.username||'Admin',target};
   if(!cache.Pengumuman)cache.Pengumuman=[];
   cache.Pengumuman.unshift(newAnn);
-  // Update global announcements
   announcements=cache.Pengumuman;
   processAnnouncements();
-  if(isDemoMode){
-    toast('✅ Pengumuman dibuat (demo)');
-    document.getElementById('ann-judul').value='';document.getElementById('ann-isi').value='';
-    renderPengumumanList();return;
-  }
+  if(isDemoMode){toast('✅ Pengumuman dibuat (demo)');document.getElementById('ann-judul').value='';document.getElementById('ann-isi').value='';renderPengumumanList();return;}
   try{
     await postToAS(APPS_SCRIPT_PENGUMUMAN,{action:'tambah_pengumuman',judul,isi,waktu,author:currentUser?.username||'Admin',target});
     toast('✅ Pengumuman berhasil dikirim!');
@@ -1925,15 +1468,14 @@ async function submitPengumuman(){
   }catch(e){toast('✅ Pengumuman tersimpan lokal');renderPengumumanList();}
   setTimeout(()=>{if(status)status.textContent='';},3000);
 }
-
 async function deletePengumuman(idx){
   if(!confirm('Hapus pengumuman ini?'))return;
   (cache.Pengumuman||[]).splice(idx,1);
   announcements=cache.Pengumuman||[];
-  renderPengumumanList();
-  processAnnouncements();
+  renderPengumumanList();processAnnouncements();
   toast('✅ Pengumuman dihapus');
 }
+
 // ══════════════════════════════════════════════════════════════════
 // PERTANYAAN MODULE
 // ══════════════════════════════════════════════════════════════════
@@ -1941,48 +1483,31 @@ function renderPertanyaan(){
   const content=document.getElementById('app-content');
   content.innerHTML=`
     <div class="info-box">❓ <b>Menu Pertanyaan</b> — Sampaikan pertanyaan rohanimu kepada pemimpin.</div>
-    <div class="form-card">
-      <div class="form-title" style="color:var(--accent2);">❓ Ajukan Pertanyaan</div>
+    <div class="form-card"><div class="form-title" style="color:var(--accent2);">❓ Ajukan Pertanyaan</div>
       <div class="form-field"><label class="form-label">Nama (opsional)</label><input type="text" class="form-input" id="ptny-nama" placeholder="Nama kamu atau anonim..." value="${esc(currentUser?.username||'')}"></div>
-      <div class="form-row">
-        <div class="form-field"><label class="form-label">Topik</label><select class="form-select" id="ptny-topik">${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select></div>
-        <div class="form-field"><label class="form-label">Urgensi</label><select class="form-select" id="ptny-urgensi"><option value="Low">🟢 Santai</option><option value="Medium" selected>🔵 Normal</option><option value="High">🟡 Penting</option><option value="Critical">🔴 Mendesak</option><option value="Intermesso">🟣 Intermesso</option></select></div>
-      </div>
+      <div class="form-row"><div class="form-field"><label class="form-label">Topik</label><select class="form-select" id="ptny-topik">${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select></div><div class="form-field"><label class="form-label">Urgensi</label><select class="form-select" id="ptny-urgensi"><option value="Low">🟢 Santai</option><option value="Medium" selected>🔵 Normal</option><option value="High">🟡 Penting</option><option value="Critical">🔴 Mendesak</option><option value="Intermesso">🟣 Intermesso</option></select></div></div>
       <div class="form-field"><label class="form-label">Pertanyaan / Kesulitan</label><textarea class="form-textarea" id="ptny-isi" rows="4" placeholder="Tulis pertanyaan atau kesulitanmu di sini..."></textarea><div id="ptny-char" style="font-size:.68rem;color:var(--text3);text-align:right;margin-top:3px;">0 karakter</div></div>
       <button class="form-submit" style="background:linear-gradient(135deg,var(--accent2),var(--accent3));" onclick="submitPertanyaan()" id="ptny-submit-btn">❓ Kirim Pertanyaan</button>
       <div id="ptny-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
     </div>
     <div class="ptny-stats-bar" id="ptny-stats"></div>
-    <div class="section-header">
-      <span class="section-title">❓ Daftar Pertanyaan</span>
-      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="ptny-count">—</span><button class="btn" onclick="loadPertanyaanList()">🔄</button></div>
-    </div>
-    <div class="filter-bar">
-      <div class="filter-bar-title">🔍 Filter Pertanyaan</div>
-      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="ptny-search" placeholder="Cari pertanyaan..." oninput="applyPtnyFilter()"></div>
-      <select class="filter-input" id="ptny-f-topik" onchange="applyPtnyFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
-      <select class="filter-input" id="ptny-f-urgensi" onchange="applyPtnyFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
-    </div>
+    <div class="section-header"><span class="section-title">❓ Daftar Pertanyaan</span><div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="ptny-count">—</span><button class="btn" onclick="loadPertanyaanList()">🔄</button></div></div>
+    <div class="filter-bar"><div class="filter-bar-title">🔍 Filter Pertanyaan</div><div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="ptny-search" placeholder="Cari pertanyaan..." oninput="applyPtnyFilter()"></div><select class="filter-input" id="ptny-f-topik" onchange="applyPtnyFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select><select class="filter-input" id="ptny-f-urgensi" onchange="applyPtnyFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select></div>
     <div id="ptny-list"></div><div id="ptny-pagination" class="pagination"></div>`;
   document.getElementById('ptny-isi').addEventListener('input',function(){document.getElementById('ptny-char').textContent=this.value.length+' karakter';});
   loadPertanyaanList();
 }
-
 function loadPertanyaanList(){
   const listEl=document.getElementById('ptny-list');if(!listEl)return;
   listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat pertanyaan...</div>';
   if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderPtnyStats();applyPtnyFilter();return;}
-  fetch(URLS.Pertanyaan+'&t='+Date.now())
-    .then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderPtnyStats();applyPtnyFilter();})
-    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data. Coba lagi.</p></div>';});
+  fetch(URLS.Pertanyaan+'&t='+Date.now()).then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderPtnyStats();applyPtnyFilter();}).catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data. Coba lagi.</p></div>';});
 }
-
 function renderPtnyStats(){
   const el=document.getElementById('ptny-stats');if(!el)return;
   const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
   el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
 }
-
 function applyPtnyFilter(){
   const search=(document.getElementById('ptny-search')?.value||'').toLowerCase();
   const filterTopik=document.getElementById('ptny-f-topik')?.value||'';
@@ -1997,7 +1522,6 @@ function applyPtnyFilter(){
   const cnt=document.getElementById('ptny-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
   renderPtnyPage();
 }
-
 function renderPtnyPage(){
   const total=ptnyFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
   if(ptnyCurrentPage>totalPages)ptnyCurrentPage=1;
@@ -2005,7 +1529,6 @@ function renderPtnyPage(){
   renderPertanyaanCards(ptnyFilteredData.slice(start,start+PER_PAGE),'ptny-list');
   renderPagination('ptny-pagination',ptnyCurrentPage,totalPages,p=>{ptnyCurrentPage=p;renderPtnyPage();document.getElementById('ptny-list')?.scrollIntoView({behavior:'smooth'});});
 }
-
 function renderPertanyaanCards(data,containerId){
   const container=document.getElementById(containerId);if(!container)return;
   if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan.</p></div>';return;}
@@ -2016,18 +1539,13 @@ function renderPertanyaanCards(data,containerId){
     const waktu=item.waktu||item.tanggal||'',penjawab=item.nama_penjawab||'';
     const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
     return `<div class="ptny-card" style="border-left:4px solid ${uc};">
-      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
-        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
-        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Terjawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
-      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span class="ptny-urgensi ${urgensi}">${urgensi}</span><span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Terjawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}</div>
       <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
       <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi.slice(0,200))}${isi.length>200?'...':''}</div>
       ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' oleh '+esc(penjawab):''}</div><div>${esc(jawaban.slice(0,150))}${jawaban.length>150?'...':''}</div></div>`:''}
     </div>`;
   }).join('');
 }
-
 async function submitPertanyaan(){
   const btn=document.getElementById('ptny-submit-btn'),msg=document.getElementById('ptny-status-msg');
   const nama=document.getElementById('ptny-nama')?.value.trim()||'Anonim';
@@ -2037,13 +1555,7 @@ async function submitPertanyaan(){
   if(!isi){toast('⚠️ Pertanyaan tidak boleh kosong');return;}
   if(isi.length<10){toast('⚠️ Pertanyaan terlalu singkat (min 10 karakter)');return;}
   btn.disabled=true;btn.textContent='⏳ Mengirim...';
-  if(isDemoMode){
-    ptnyAllData.unshift({nama,topik,urgensi,pertanyaan:isi,isi_jawaban:'',waktu:new Date().toLocaleString('id-ID')});
-    toast('✅ Pertanyaan tersimpan (demo)');if(msg){msg.textContent='✅ Terkirim! (demo)';msg.style.color='var(--accent3)';}
-    const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
-    renderPtnyStats();applyPtnyFilter();btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';
-    setTimeout(()=>{if(msg)msg.textContent='';},3000);return;
-  }
+  if(isDemoMode){ptnyAllData.unshift({nama,topik,urgensi,pertanyaan:isi,isi_jawaban:'',waktu:new Date().toLocaleString('id-ID')});toast('✅ Pertanyaan tersimpan (demo)');if(msg){msg.textContent='✅ Terkirim! (demo)';msg.style.color='var(--accent3)';}const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}renderPtnyStats();applyPtnyFilter();btn.disabled=false;btn.textContent='❓ Kirim Pertanyaan';setTimeout(()=>{if(msg)msg.textContent='';},3000);return;}
   const now=new Date(),pp=x=>String(x).padStart(2,'0');
   const waktu=`${pp(now.getDate())}/${pp(now.getMonth()+1)}/${now.getFullYear()} ${pp(now.getHours())}:${pp(now.getMinutes())}`;
   try{
@@ -2062,36 +1574,22 @@ function renderHasilPertanyaan(){
   const content=document.getElementById('app-content');
   content.innerHTML=`
     <div class="ptny-stats-bar" id="hp-stats"></div>
-    <div class="section-header">
-      <span class="section-title">📋 Hasil Pertanyaan</span>
-      <div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="hp-count">—</span><button class="btn" onclick="loadHasilList()">🔄 Refresh</button></div>
-    </div>
-    <div class="filter-bar">
-      <div class="filter-bar-title">🔍 Filter Hasil</div>
-      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="hp-search" placeholder="Cari..." oninput="applyHpFilter()"></div>
-      <select class="filter-input" id="hp-f-topik" onchange="applyHpFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select>
-      <select class="filter-input" id="hp-f-urgensi" onchange="applyHpFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select>
-      <select class="filter-input" id="hp-f-status" onchange="applyHpFilter()"><option value="">Semua Status</option><option value="answered">✅ Dijawab</option><option value="pending">⏳ Pending</option></select>
-    </div>
+    <div class="section-header"><span class="section-title">📋 Hasil Pertanyaan</span><div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="hp-count">—</span><button class="btn" onclick="loadHasilList()">🔄 Refresh</button></div></div>
+    <div class="filter-bar"><div class="filter-bar-title">🔍 Filter Hasil</div><div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="hp-search" placeholder="Cari..." oninput="applyHpFilter()"></div><select class="filter-input" id="hp-f-topik" onchange="applyHpFilter()"><option value="">Semua Topik</option>${TOPIK_OPTIONS.map(t=>`<option>${t}</option>`).join('')}</select><select class="filter-input" id="hp-f-urgensi" onchange="applyHpFilter()"><option value="">Semua Urgensi</option>${URGENSI_OPTIONS.map(u=>`<option>${u}</option>`).join('')}</select><select class="filter-input" id="hp-f-status" onchange="applyHpFilter()"><option value="">Semua Status</option><option value="answered">✅ Dijawab</option><option value="pending">⏳ Pending</option></select></div>
     <div id="hp-list"></div><div id="hp-pagination" class="pagination"></div>`;
   loadHasilList();
 }
-
 function loadHasilList(){
   const listEl=document.getElementById('hp-list');if(!listEl)return;
   listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat...</div>';
   if(isDemoMode){ptnyAllData=JSON.parse(JSON.stringify(DEMO.Pertanyaan||[]));renderHpStats();applyHpFilter();return;}
-  fetch(URLS.Pertanyaan+'&t='+Date.now())
-    .then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderHpStats();applyHpFilter();})
-    .catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>';});
+  fetch(URLS.Pertanyaan+'&t='+Date.now()).then(r=>r.text()).then(txt=>{ptnyAllData=parseCSV(txt).filter(x=>(x.pertanyaan||x.isi||'').trim());renderHpStats();applyHpFilter();}).catch(()=>{if(listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat data.</p></div>';});
 }
-
 function renderHpStats(){
   const el=document.getElementById('hp-stats');if(!el)return;
   const total=ptnyAllData.length,dijawab=ptnyAllData.filter(d=>(d.isi_jawaban||d.jawaban||'').trim()).length,mendesak=ptnyAllData.filter(d=>(d.urgensi||'').toLowerCase()==='critical').length;
   el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${dijawab}</div><div class="ptny-stat-label">Terjawab</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${total-dijawab}</div><div class="ptny-stat-label">Pending</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--red);">${mendesak}</div><div class="ptny-stat-label">Mendesak</div></div>`;
 }
-
 function applyHpFilter(){
   const search=(document.getElementById('hp-search')?.value||'').toLowerCase();
   const filterTopik=document.getElementById('hp-f-topik')?.value||'';
@@ -2109,7 +1607,6 @@ function applyHpFilter(){
   const cnt=document.getElementById('hp-count');if(cnt)cnt.textContent=data.length+' pertanyaan';
   renderHpPage();
 }
-
 function renderHpPage(){
   const total=hpFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
   if(hpCurrentPage>totalPages)hpCurrentPage=1;
@@ -2117,7 +1614,6 @@ function renderHpPage(){
   renderHasilCards(hpFilteredData.slice(start,start+PER_PAGE),'hp-list');
   renderPagination('hp-pagination',hpCurrentPage,totalPages,p=>{hpCurrentPage=p;renderHpPage();document.getElementById('hp-list')?.scrollIntoView({behavior:'smooth'});});
 }
-
 function renderHasilCards(data,containerId){
   const container=document.getElementById(containerId);if(!container)return;
   if(!data||!data.length){container.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada pertanyaan ditemukan.</p></div>';return;}
@@ -2130,12 +1626,7 @@ function renderHasilCards(data,containerId){
     const keputusan=item.keputusan||'',status=item.status||'Pending';
     const hasAnswer=jawaban.trim()!=='',uc=urgColor[urgensi]||'var(--text3)';
     return `<div class="ptny-card" style="border-left:4px solid ${uc};">
-      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-        <span class="ptny-urgensi ${urgensi}">${urgensi}</span>
-        <span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>
-        ${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Dijawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}
-        ${status?`<span style="font-size:.65rem;background:var(--surface2);color:var(--text3);padding:1px 7px;border-radius:8px;">${esc(status)}</span>`:''}
-      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span class="ptny-urgensi ${urgensi}">${urgensi}</span><span style="font-size:.72rem;font-weight:700;color:${uc};">${esc(topik)}</span>${hasAnswer?'<span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:1px 7px;border-radius:8px;font-weight:700;">✅ Dijawab</span>':'<span style="font-size:.65rem;background:rgba(251,191,36,.15);color:var(--yellow);padding:1px 7px;border-radius:8px;">⏳ Pending</span>'}${status?`<span style="font-size:.65rem;background:var(--surface2);color:var(--text3);padding:1px 7px;border-radius:8px;">${esc(status)}</span>`:''}</div>
       <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;">👤 ${esc(nama)} ${waktu?'· 🕐 '+esc(waktu):''}</div>
       <div style="font-size:.9rem;color:var(--text);line-height:1.5;padding:10px;background:var(--surface2);border-radius:8px;margin-bottom:6px;">${esc(isi)}</div>
       ${hasAnswer?`<div class="ptny-answer-box"><div class="ptny-answer-label">💬 Jawaban${penjawab?' — oleh '+esc(penjawab):''}</div><div>${esc(jawaban)}</div></div>`:''}
@@ -2145,10 +1636,7 @@ function renderHasilCards(data,containerId){
         <input id="hp-j-nama-${origIdx}" type="text" placeholder="Nama Penjawab..." value="${esc(currentUser?.username||'')}">
         <textarea id="hp-j-isi-${origIdx}" rows="3" placeholder="Isi jawaban tertulis..."></textarea>
         <select id="hp-j-kep-${origIdx}"><option value="">— Keputusan —</option><option>VALID ANSWER</option><option>NOT VALID ANSWER</option><option>VALID QUESTION</option><option>NOT VALID QUESTION</option></select>
-        <div style="display:flex;gap:5px;margin-top:4px;">
-          <button class="btn accent" onclick="submitJawaban(${origIdx})" style="flex:1;padding:9px;font-size:.82rem;">✅ Simpan Jawaban</button>
-          <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='none'" style="padding:9px;">✕</button>
-        </div>
+        <div style="display:flex;gap:5px;margin-top:4px;"><button class="btn accent" onclick="submitJawaban(${origIdx})" style="flex:1;padding:9px;font-size:.82rem;">✅ Simpan Jawaban</button><button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='none'" style="padding:9px;">✕</button></div>
       </div>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
         <button class="btn" onclick="document.getElementById('hp-jawab-${origIdx}').style.display='block'" style="font-size:.75rem;border-color:var(--accent);color:var(--accent);">✍️ Jawab / Edit</button>
@@ -2157,43 +1645,27 @@ function renderHasilCards(data,containerId){
     </div>`;
   }).join('');
 }
-
 async function submitJawaban(idx){
   const namaPenjawab=document.getElementById(`hp-j-nama-${idx}`)?.value?.trim()||currentUser?.username||'Anon';
   const isiJawaban=document.getElementById(`hp-j-isi-${idx}`)?.value?.trim()||'';
   const keputusan=document.getElementById(`hp-j-kep-${idx}`)?.value||'';
-  if(isDemoMode){
-    if(ptnyAllData[idx]){ptnyAllData[idx].isi_jawaban=isiJawaban;ptnyAllData[idx].nama_penjawab=namaPenjawab;ptnyAllData[idx].keputusan=keputusan;ptnyAllData[idx].status='Done';}
-    toast('✅ Jawaban tersimpan (demo)');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';
-    renderHpStats();applyHpFilter();return;
-  }
+  if(isDemoMode){if(ptnyAllData[idx]){ptnyAllData[idx].isi_jawaban=isiJawaban;ptnyAllData[idx].nama_penjawab=namaPenjawab;ptnyAllData[idx].keputusan=keputusan;ptnyAllData[idx].status='Done';}toast('✅ Jawaban tersimpan (demo)');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';renderHpStats();applyHpFilter();return;}
   const now=new Date().toLocaleString('id-ID');
-  try{
-    await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});
-    toast('✅ Jawaban disimpan!');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';
-    setTimeout(()=>loadHasilList(),1500);
-  }catch(e){toast('⚠️ Gagal menyimpan jawaban.');}
+  try{await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'update_jawaban',row_index:idx,nama_penjawab:namaPenjawab,isi_jawaban:isiJawaban,waktu_penjawab:now,status:'Done',keputusan,user:currentUser?.username||''});toast('✅ Jawaban disimpan!');const row=document.getElementById(`hp-jawab-${idx}`);if(row)row.style.display='none';setTimeout(()=>loadHasilList(),1500);}
+  catch(e){toast('⚠️ Gagal menyimpan jawaban.');}
 }
 
 // ══════════════════════════════════════════════════════════════════
 // LAPORAN ADMIN
 // ══════════════════════════════════════════════════════════════════
 async function renderLaporan(){
-  if(!isAdminUser()){
-    document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas. Hanya Administrator.</p></div>';return;
-  }
+  if(!isAdminUser()){document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas. Hanya Administrator.</p></div>';return;}
   document.getElementById('app-content').innerHTML=`
-    <div class="laporan-card">
-      <div class="laporan-title">📊 Generate Laporan Penggunaan</div>
-      <div class="form-row" style="margin-bottom:12px;">
-        <div class="form-field"><label class="form-label">Dari Tanggal</label><input type="date" class="form-input" id="laporan-from" value="${getTodayStr().substring(0,7)+'-01'}"></div>
-        <div class="form-field"><label class="form-label">Sampai Tanggal</label><input type="date" class="form-input" id="laporan-to" value="${getTodayStr()}"></div>
-      </div>
+    <div class="laporan-card"><div class="laporan-title">📊 Generate Laporan Penggunaan</div>
+      <div class="form-row" style="margin-bottom:12px;"><div class="form-field"><label class="form-label">Dari Tanggal</label><input type="date" class="form-input" id="laporan-from" value="${getTodayStr().substring(0,7)+'-01'}"></div><div class="form-field"><label class="form-label">Sampai Tanggal</label><input type="date" class="form-input" id="laporan-to" value="${getTodayStr()}"></div></div>
       <button class="form-submit" onclick="loadLaporanData()" id="laporan-btn">📊 Generate Laporan</button>
-    </div>
-    <div id="laporan-result"></div>`;
+    </div><div id="laporan-result"></div>`;
 }
-
 async function loadLaporanData(){
   const btn=document.getElementById('laporan-btn');
   const from=document.getElementById('laporan-from')?.value||'';
@@ -2218,8 +1690,7 @@ async function loadLaporanData(){
   const gelTerjawab=gelFiltered.filter(r=>(r.tanggal_jawaban||'').trim()).length;
   const alkTerjawab=alkFiltered.filter(r=>(r.tanggal_jawaban||'').trim()).length;
   result.innerHTML=`
-    <div class="laporan-card">
-      <div class="laporan-title">📋 Ringkasan ${from?formatDate(from):'Semua'} – ${to?formatDate(to):'Sekarang'}</div>
+    <div class="laporan-card"><div class="laporan-title">📋 Ringkasan ${from?formatDate(from):'Semua'} – ${to?formatDate(to):'Sekarang'}</div>
       <div class="laporan-stat-grid" style="grid-template-columns:repeat(4,1fr);">
         <div class="laporan-stat"><div class="laporan-stat-num">${doaFiltered.length}</div><div class="laporan-stat-label">🙏 Doa</div></div>
         <div class="laporan-stat"><div class="laporan-stat-num">${gelFiltered.length}</div><div class="laporan-stat-label">💭 Gelisah</div></div>
@@ -2235,49 +1706,16 @@ async function loadLaporanData(){
         <button class="btn" onclick="copyLaporanText(${JSON.stringify({from,to,doaLen:doaFiltered.length,gelLen:gelFiltered.length,alkLen:alkFiltered.length,uniqueUsers,shareAdminCount}).replace(/"/g,'&quot;')})">📋 Copy Laporan</button>
       </div>
     </div>
-    <div class="laporan-card">
-      <div class="laporan-title">👤 Statistik per Pengguna</div>
-      ${Object.entries(userStats).sort((a,b)=>(b[1].doa+b[1].gelisah+b[1].alkitab)-(a[1].doa+a[1].gelisah+a[1].alkitab)).map(([user,stats])=>`
-        <div class="user-row">
-          <div class="user-row-name">👤 ${esc(user)}</div>
-          <div class="user-row-counts">
-            <span class="user-count-badge" title="Doa">🙏${stats.doa}</span>
-            <span class="user-count-badge" title="Gelisah">💭${stats.gelisah}</span>
-            <span class="user-count-badge" title="Alkitab">📖${stats.alkitab}</span>
-            ${stats.shareAdmin?`<span class="user-count-badge" style="color:var(--accent2);">🔐${stats.shareAdmin}</span>`:''}
-            ${stats.shareAll?`<span class="user-count-badge" style="color:var(--accent3);">🌐${stats.shareAll}</span>`:''}
-          </div>
-        </div>`).join('')}
+    <div class="laporan-card"><div class="laporan-title">👤 Statistik per Pengguna</div>
+      ${Object.entries(userStats).sort((a,b)=>(b[1].doa+b[1].gelisah+b[1].alkitab)-(a[1].doa+a[1].gelisah+a[1].alkitab)).map(([user,stats])=>`<div class="user-row"><div class="user-row-name">👤 ${esc(user)}</div><div class="user-row-counts"><span class="user-count-badge" title="Doa">🙏${stats.doa}</span><span class="user-count-badge" title="Gelisah">💭${stats.gelisah}</span><span class="user-count-badge" title="Alkitab">📖${stats.alkitab}</span>${stats.shareAdmin?`<span class="user-count-badge" style="color:var(--accent2);">🔐${stats.shareAdmin}</span>`:''}${stats.shareAll?`<span class="user-count-badge" style="color:var(--accent3);">🌐${stats.shareAll}</span>`:''}</div></div>`).join('')}
     </div>`;
 }
-
 function copyLaporanText(d){
   const text=`📊 LAPORAN BUKU HARIAN ROHANI\n${'═'.repeat(30)}\nPeriode: ${d.from||'semua'} s/d ${d.to||'sekarang'}\nDibuat: ${new Date().toLocaleString('id-ID')}\n\n🙏 Doa: ${d.doaLen||0}\n💭 Gelisah: ${d.gelLen||0}\n📖 Alkitab: ${d.alkLen||0}\n👥 Pengguna Aktif: ${(d.uniqueUsers||[]).length}\n🔐 Share Admin: ${d.shareAdminCount||0}\n\nPengguna: ${(d.uniqueUsers||[]).join(', ')}`;
   copyText(text);
 }
-
 function generateLaporanPDF(d){
-  const lines=[
-    '=== LAPORAN BUKU HARIAN ROHANI ===',
-    `Periode   : ${d.from||'semua'} s/d ${d.to||'sekarang'}`,
-    `Dibuat    : ${new Date().toLocaleString('id-ID')}`,
-    `Dibuat oleh: ${currentUser?.username||'-'}`,
-    '---',
-    '=== RINGKASAN ===',
-    `Total Doa           : ${d.doaLen||0}`,
-    `Total Kegelisahan   : ${d.gelLen||0}`,
-    `Total Alkitab       : ${d.alkLen||0}`,
-    `Total               : ${d.total||0}`,
-    `Total Pengguna Aktif: ${(d.uniqueUsers||[]).length}`,
-    `Share for Admin     : ${d.shareAdminCount||0}`,
-    `Share for All       : ${d.shareAllCount||0}`,
-    '',
-    '=== STATISTIK PER PENGGUNA ===',
-    ...Object.entries(d.userStats||{}).map(([user,stats])=>`${user}: Doa=${stats.doa} Gelisah=${stats.gelisah} Alkitab=${stats.alkitab} ShareAdmin=${stats.shareAdmin} ShareAll=${stats.shareAll}`),
-    '',
-    '=== DAFTAR PENGGUNA AKTIF ===',
-    ...(d.uniqueUsers||[]).map((u,i)=>`${i+1}. ${u}`),
-  ];
+  const lines=['=== LAPORAN BUKU HARIAN ROHANI ===',`Periode   : ${d.from||'semua'} s/d ${d.to||'sekarang'}`,`Dibuat    : ${new Date().toLocaleString('id-ID')}`,`Dibuat oleh: ${currentUser?.username||'-'}`,'---','=== RINGKASAN ===',`Total Doa           : ${d.doaLen||0}`,`Total Kegelisahan   : ${d.gelLen||0}`,`Total Alkitab       : ${d.alkLen||0}`,`Total               : ${d.total||0}`,`Total Pengguna Aktif: ${(d.uniqueUsers||[]).length}`,`Share for Admin     : ${d.shareAdminCount||0}`,`Share for All       : ${d.shareAllCount||0}`,'','=== STATISTIK PER PENGGUNA ===',...Object.entries(d.userStats||{}).map(([user,stats])=>`${user}: Doa=${stats.doa} Gelisah=${stats.gelisah} Alkitab=${stats.alkitab}`),'','=== DAFTAR PENGGUNA AKTIF ===',...(d.uniqueUsers||[]).map((u,i)=>`${i+1}. ${u}`)];
   generatePDF(`Laporan_${d.from||'all'}_sd_${d.to||'now'}`,lines);
 }
 
@@ -2285,32 +1723,20 @@ function generateLaporanPDF(d){
 // PENGUMUMAN ADMIN MENU
 // ══════════════════════════════════════════════════════════════════
 async function renderPengumumanAdmin(){
-  if(!isAdminUser()){
-    document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas.</p></div>';return;
-  }
+  if(!isAdminUser()){document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas.</p></div>';return;}
   await loadCache('Pengumuman');
   document.getElementById('app-content').innerHTML=`
-    <div class="announce-form-card">
-      <div class="form-title" style="color:var(--accent);">📢 Buat Pengumuman Baru</div>
+    <div class="announce-form-card"><div class="form-title" style="color:var(--accent);">📢 Buat Pengumuman Baru</div>
       <div class="form-field"><label class="form-label">Judul Pengumuman</label><input type="text" class="form-input" id="ann-judul" placeholder="Judul singkat pengumuman..."></div>
       <div class="form-field"><label class="form-label">Isi Pengumuman</label><textarea class="form-textarea" id="ann-isi" rows="4" placeholder="Tulis isi pengumuman lengkap..."></textarea></div>
-      <div class="form-field"><label class="form-label">Target Penerima</label>
-        <select class="form-select" id="ann-target">
-          <option value="all">🌐 Semua Pengguna</option>
-          <option value="admin">🔐 Admin &amp; Gembala saja</option>
-        </select>
-      </div>
+      <div class="form-field"><label class="form-label">Target Penerima</label><select class="form-select" id="ann-target"><option value="all">🌐 Semua Pengguna</option><option value="admin">🔐 Admin &amp; Gembala saja</option></select></div>
       <button class="form-submit" onclick="submitPengumuman()">📢 Kirim Pengumuman</button>
       <div id="ann-status" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
     </div>
-    <div class="section-header">
-      <span class="section-title">📋 Daftar Pengumuman</span>
-      <button class="btn" onclick="loadCache('Pengumuman').then(()=>renderPengumumanList())">🔄</button>
-    </div>
+    <div class="section-header"><span class="section-title">📋 Daftar Pengumuman</span><button class="btn" onclick="loadCache('Pengumuman').then(()=>renderPengumumanList())">🔄</button></div>
     <div id="ann-list"></div>`;
   renderPengumumanList();
 }
-
 function renderPengumumanList(){
   const list=document.getElementById('ann-list');if(!list)return;
   const data=cache.Pengumuman||DEMO.Pengumuman||[];
