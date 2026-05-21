@@ -4,7 +4,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.16</title>
+<title>Buku Harian Rohani v4.17</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -176,7 +176,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* ═══════════════════════════════ DETAIL MODAL ═══════════════════════════════ */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:800;overflow-y:auto;}
-.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 120px;}
+.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 200px;}  
 .modal-close-bar{position:fixed;bottom:0;left:0;width:100%;padding:12px 14px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:7px;z-index:810;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
 .modal-close-btn{flex:1;padding:11px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;}
 .detail-field{background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border);margin-bottom:8px;}
@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.16 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.17 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -1829,7 +1829,7 @@ function toggleAlkitabEditForm(r){
       <option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option>
     </select>
     <div style="display:flex;gap:7px;margin-top:4px;">
-      <button class="btn accent3" onclick="saveAlkitabEdit(${JSON.stringify(r).replace(/"/g,'"')})" style="flex:1;padding:10px;">💾 Simpan</button>
+      <button class="btn accent3" onclick="saveAlkitabEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button>
       <button class="btn" onclick="document.getElementById('alk-edit-form').style.display='none'" style="padding:10px;">✕</button>
     </div>
   </div>`;
