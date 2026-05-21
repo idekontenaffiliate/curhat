@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.14 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.15 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -667,11 +667,22 @@ function closeFS(id){ const el=document.getElementById(id);if(el)el.style.displa
 function openDetailFullscreen(){ openFS('fullscreen-overlay'); }
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
 document.getElementById('fs-a-plus').addEventListener('click',()=>changeFSFont('main',1));
+
 function changeFSFont(key,d){
   fsFontSizes[key]=Math.max(10,Math.min(40,fsFontSizes[key]+d));
   const map={main:['fs-content','fs-font-label'],doa:['doa-fs-content','doa-fs-font-label'],gel:['gel-fs-content','gel-fs-font-label'],alk:['alk-fs-content','alk-fs-font-label']};
-  if(map[key]){const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);if(el&&el.dataset.isHtml!=='1')el.style.fontSize=fsFontSizes[key]+'px';if(lbl)lbl.textContent=fsFontSizes[key]+'px';}
-}
+  if(map[key]){
+    const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);
+    if(el){
+      el.style.fontSize=fsFontSizes[key]+'px';
+      // jika HTML mode, update juga semua child .detail-value dan div konten
+      if(el.dataset.isHtml==='1'){
+        el.querySelectorAll('div[style*="font-size:inherit"]').forEach(c=>{c.style.fontSize=fsFontSizes[key]+'px';});
+      }
+    }
+    if(lbl)lbl.textContent=fsFontSizes[key]+'px';
+  }
+}  
 ['doa','gel','alk'].forEach(key=>{
   document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
@@ -1760,9 +1771,9 @@ function openAlkitabDetail(r){
       <img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(r.nama_alkitab||'Alkitab')}','${escHtml(imgCap)}')" onerror="this.style.display='none'">
     </div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn accent" onclick="openAlkitabFullscreen(${JSON.stringify(r).replace(/"/g,'"')})">⛶ FS</button>
-      <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'"')})">📄 PDF</button>
-      ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'"')})">✏️ Edit</button>`:''}
+      <button class="btn accent" onclick="openAlkitabFullscreen(${JSON.stringify(r).replace(/"/g,'&quot;')})">⛶ FS</button>
+      <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
+      ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
     </div>
     <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
@@ -1780,7 +1791,7 @@ function openAlkitabFullscreen(r){
   const html=sections.filter(s=>(s.val||'').trim()).map(s=>`
     <div style="margin-bottom:16px;">
       <div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div>
-      <div style="${s.style||'font-size:inherit;line-height:1.8;color:var(--text);'}">${esc(s.val)}</div>
+      <div style="${s.style||'line-height:1.8;color:var(--text);'}">${esc(s.val)}</div>
     </div>`).join('');
   document.getElementById('fs-title').textContent=r.nama_alkitab||'Catatan Alkitab';
   const c=document.getElementById('fs-content');
