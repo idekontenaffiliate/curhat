@@ -395,7 +395,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.13 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:'JetBrains Mono',monospace;">v4.14 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -1740,35 +1740,54 @@ function buildAlkitabCard(r){
 
 function openAlkitabDetail(r){
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
-  const txt=`📖 CATATAN ALKITAB #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal: ${formatDate(r.tanggal)}\n📌 Referensi: ${r.nama_alkitab||'-'}\n🏷 Tema: ${r.tema||'-'}\n\n📜 AYAT:\n${r.ayat||'-'}\n\n✨ TERANG:\n${r.terang||'-'}\n\n📝 CATATAN:\n${r.catatan||'-'}\n\n📅 Terjawab: ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan Jwb: ${r.catatan_jawaban||'-'}`;
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
   showDetail(`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
       <span style="font-size:1.6rem;">📖</span>
       <div><div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:700;">${esc(r.nama_alkitab||'Catatan Alkitab')}</div>
-      <div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user?` · ${esc(r.user)}`:''} ${getShareBadgeHtml(r)}</div></div>
+      <div style="font-size:.75rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user?' · '+esc(r.user):''} ${getShareBadgeHtml(r)}</div></div>
     </div>
     <div class="detail-grid">
       <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value">${formatDate(r.tanggal)}</div></div>
       <div class="detail-field"><div class="detail-label">Tema</div><div class="detail-value">${esc(r.tema||'-')}</div></div>
     </div>
-    ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${esc(r.ayat)}</div></div>`:''}
-    ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${esc(r.terang)}</div></div>`:''}
-    ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${esc(r.catatan)}</div></div>`:''}
+    ${r.ayat?`<div class="detail-field"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value verse-highlight">${esc(r.ayat)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">📜 Ayat / Bacaan</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
+    ${r.terang?`<div class="detail-field"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value">${esc(r.terang)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">✨ Terang yang Didapat</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
+    ${r.catatan?`<div class="detail-field"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value">${esc(r.catatan)}</div></div>`:'<div class="detail-field" style="opacity:.5"><div class="detail-label">📝 Catatan / Aplikasi</div><div class="detail-value" style="font-style:italic;color:var(--text3);">Belum diisi</div></div>'}
     ${r.tanggal_jawaban?`<div class="detail-field"><div class="detail-label">Tgl Terjawab</div><div class="detail-value">${formatDate(r.tanggal_jawaban)}</div></div>`:''}
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div>
       <img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(r.nama_alkitab||'Alkitab')}','${escHtml(imgCap)}')" onerror="this.style.display='none'">
     </div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('${esc(r.nama_alkitab||'Alkitab')}',${JSON.stringify(txt)})">⛶ FS</button>
-      <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
-      ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
+      <button class="btn accent" onclick="openAlkitabFullscreen(${JSON.stringify(r).replace(/"/g,'"')})">⛶ FS</button>
+      <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'"')})">📄 PDF</button>
+      ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'"')})">✏️ Edit</button>`:''}
     </div>
     <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
-
+function openAlkitabFullscreen(r){
+  const sections=[
+    {label:'📖 Referensi Alkitab', val:r.nama_alkitab},
+    {label:'Tanggal',             val:formatDate(r.tanggal)},
+    {label:'Tema',                val:r.tema},
+    {label:'📜 Ayat / Bacaan',    val:r.ayat,     style:'background:var(--glow);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 8px 8px 0;font-family:"Lora",serif;font-style:italic;line-height:1.8;'},
+    {label:'✨ Terang yang Didapat',val:r.terang},
+    {label:'📝 Catatan / Aplikasi',val:r.catatan},
+    {label:'Tgl Terjawab',        val:r.tanggal_jawaban?formatDate(r.tanggal_jawaban):''},
+    {label:'📝 Catatan Jawaban',   val:r.catatan_jawaban},
+  ];
+  const html=sections.filter(s=>(s.val||'').trim()).map(s=>`
+    <div style="margin-bottom:16px;">
+      <div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div>
+      <div style="${s.style||'font-size:inherit;line-height:1.8;color:var(--text);'}">${esc(s.val)}</div>
+    </div>`).join('');
+  document.getElementById('fs-title').textContent=r.nama_alkitab||'Catatan Alkitab';
+  const c=document.getElementById('fs-content');
+  c.innerHTML=html; c.style.fontSize=fsFontSizes.main+'px'; c.style.whiteSpace='normal';
+  c.dataset.isHtml='1';
+  openFS('fullscreen-overlay');
+}
 function toggleAlkitabEditForm(r){
   const el=document.getElementById('alk-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
