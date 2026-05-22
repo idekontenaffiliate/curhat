@@ -701,10 +701,11 @@ let lastFilteredJemaat=[],jemaatViewMode='grid',jemaatTotalActual=0,totalVisible
 let jemaatFilterIbadah=[],jemaatFilterPelayanan=[],jemaatFilterKelas=[],jemaatFilterGugus=[],jemaatFilterKTM=[],jemaatFilterKTMTahir=[];
 let jemaatFilterIbadahMode='OR',jemaatFilterPelayananMode='OR',jemaatFilterKelasMode='OR',jemaatFilterGugusMode='OR';
 let db_jemaat=null;
-const KELAS_OPTIONS=['Kelas A','Kelas B','Kelas C','Kelas D','Kelas E'];
-const GUGUS_OPTIONS=['Gugus 1','Gugus 2','Gugus 3','Gugus 4','Gugus 5'];
-const IBADAH_OPTIONS=['Minggu Pagi','Minggu Sore','Rabu','Jumat','Sabtu'];
-const PELAYANAN_OPTIONS=['Worship','Multimedia','Usher','Diakonia','Pengajaran','Doa'];
+const KELAS_OPTIONS=['KUSUMA PELOPOR A - GENTENG (D.H. KUSUMA BANGSA)','KUSUMA PELOPOR B - GENTENG (D.H. KUSUMA BANGSA)','KUSUMA PENYERBU - GENTENG (D.H. KUSUMA BANGSA)','KUSUMA PEJUANG - GENTENG (D.H. KUSUMA BANGSA)','KUSUMA SATRIA - GENTENG (D.H. KUSUMA BANGSA)','Remaja Minggu Pagi', ,'Remaja Sabtu Malam', 'Pemuda Sabtu Malam'];
+const GUGUS_OPTIONS=['lebak','kusuma','tambak','ngagel','dharmahusuda','nirwana'];
+const IBADAH_OPTIONS=['SPR','SPR Pagi','SPR Sore','Anak','Remaja','Pemuda','BIS SPR'];
+// const PELAYANAN_OPTIONS=['Worship','Multimedia','Usher','Diakonia','Pengajaran','Doa'];
+const PELAYANAN_OPTIONS=['SPR','Gugus','Remaja','Konsumsi','Antar Jemput','CGM','Penjengukan'];
 const TOPIK_OPTIONS=['Iman & Doktrin','Kehidupan Rohani','Alkitab','Doa','Pelayanan','Keluarga & Pernikahan','Masalah Pribadi','Lainnya'];
 const URGENSI_OPTIONS=['Low','Medium','High','Critical','Intermesso'];
 let ptnyAllData=[],ptnyFilteredData=[],ptnyCurrentPage=1;
@@ -839,7 +840,7 @@ function setupNav(){
   });
 }
 function loadPage(id){
-  const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:renderJemaat,laporan:renderLaporan,pengumuman:renderPengumumanAdmin};
+  const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:,laporan:renderLaporan,pengumuman:renderPengumumanAdmin};
   pages[id]?.();
   document.querySelectorAll('nav button').forEach(b=>{if(b.dataset.id===id)b.classList.add('active');});
 }
