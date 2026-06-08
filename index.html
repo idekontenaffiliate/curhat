@@ -1,11 +1,11 @@
-<!-- v4.24 | Buku Harian Rohani | Patch dari v4.23 -->
-<!-- Perubahan: Hapus 1 tombol FS Alkitab, tombol Hapus soft-delete Alkitab, fix pengumuman ke Apps Script terpisah -->
+<!-- v4.22 | Buku Harian Rohani | Patch dari v4.21 -->
+<!-- Perubahan: Hapus tombol FS di modal Alkitab, fix tutup/A-/A+ fullscreen, font selector, filter hapus -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.24</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>Buku Harian Rohani v4.22</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ═══════════════════════════════ THEMES ═══════════════════════════════ */
@@ -365,9 +365,9 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
   <div class="login-cross">✝</div>
   <div class="verse-ticker"><div class="verse-ticker-inner">
-    <b>✦</b><span>"Janganlah takut, sebab Aku menyertai engkau." — Yesaya 41:10</span>
     <b>✦</b><span>"Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku." — Filipi 4:13</span>
     <b>✦</b><span>"Tuhan adalah gembalaku, takkan kekurangan aku." — Mazmur 23:1</span>
+    <b>✦</b><span>"Janganlah takut, sebab Aku menyertai engkau." — Yesaya 41:10</span>
     <b>✦</b><span>"Aku tahu rancangan-Ku tentang kamu, firman TUHAN." — Yeremia 29:11</span>
     <b>✦</b><span>"Mintalah, maka akan diberikan kepadamu." — Matius 7:7</span>
   </div></div>
@@ -381,7 +381,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.24 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.22 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -453,7 +453,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 <div id="dash-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🏠 Beranda</div><div class="fs-controls"><button class="fs-btn" onclick="closeFS(\'dash-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="dash-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><select id="alk-fs-font-family" style="font-size:.68rem;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;max-width:110px;" onchange="changeAlkFSFont(this.value)"><option value="\'Nunito\',sans-serif">Nunito</option><option value="\'Lora\',serif">Lora</option><option value="\'Georgia\',serif">Georgia</option><option value="\'Times New Roman\',serif">Times New Roman</option><option value="\'Courier New\',monospace">Courier New</option><option value="\'JetBrains Mono\',monospace">JetBrains Mono</option><option value="\'Roboto\',sans-serif">Roboto</option><option value="Arial,sans-serif">Arial</option></select><button class="fs-btn" id="alk-fs-close-btn" style="background:rgba(248,113,113,.2);border-color:rgba(248,113,113,.4);color:var(--red);">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <!-- JEMAAT POPUP -->
 
 <div id="jemaat-popup-overlay"><div id="jemaat-popup"><div id="jemaat-popup-body"></div></div></div>
@@ -476,12 +476,13 @@ const URLS = {
                 };
 
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
-const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbziIKGUYKMMO8L4xrTYtMbPcoGisS_GS-CAkjwez-F2iyXDbj5naL3IvZpXfn8X5OtuOw/exec";
+const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbywU3BwLOxZdC0IgDkEGPNVEZceLvNVzf8ZE-XxtocP9rVU59m2LAEvphPyZiD7wztutg/exec";
 const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycbwaVo4xcxrikcu2NPA569JAdhgch9M4uaEnBayMFjEboadDerZ-4diuXPke0o7uctlaAg/exec";
 const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbzH0z6FWzWp9Sn0MV2s33uZwzm4Kiz7cVgAa62j-jgtZ8XnlXYjrJIIG5yWJVFNuGr-ig/exec";
 const APPS_SCRIPT_PERTANYAAN   = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 const APPS_SCRIPT_JEMAAT       = "https://script.google.com/macros/s/AKfycbwHrBsYjYcZ_lwqqp8zvgTQwazzHDTlsNA1cvuuKSldsinW24uRDel0sHAM2dlJV7104g/exec";
 const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbwSk-aSnxIL5cazFQBeu4FGsJkV0XEYXY88QdHeA1dCs-h6WVfsLJjwuEsE3nQdaUvm/exec";
+
 
 // ══════════════════════════════════════════════════════════════════
 // LEVEL SYSTEM
@@ -519,7 +520,7 @@ function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 function escHtml(s){ return esc(s); }
 function toast(msg,dur=2600){ const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur); }
 function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
-function showDetail(html){ document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block'; }
+function showDetail(html,hideFS=false){ document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block';const fsBtn=document.getElementById('detail-fs-btn');if(fsBtn)fsBtn.style.display=hideFS?'none':''; }
 function getTodayStr(){ const n=new Date(),p=x=>String(x).padStart(2,'0');return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`; }
 function formatDate(s){ if(!s)return '-';const d=new Date(s);if(isNaN(d.getTime()))return s;const dy=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],mo=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];return `${dy[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`; }
 function resetForm(ids){ ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
@@ -580,10 +581,23 @@ function changeFSFont(key,d){
     if(lbl)lbl.textContent=fsFontSizes[key]+'px';
   }
 }
-['doa','gel','alk'].forEach(key=>{
+['doa','gel'].forEach(key=>{
   document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
 });
+// ALK fullscreen — listener dipasang setelah DOM siap
+(function initAlkFSListeners(){
+  const minus=document.getElementById('alk-fs-a-minus');
+  const plus=document.getElementById('alk-fs-a-plus');
+  const closeBtn=document.getElementById('alk-fs-close-btn');
+  if(minus)minus.addEventListener('click',()=>changeFSFont('alk',-1));
+  if(plus)plus.addEventListener('click',()=>changeFSFont('alk',1));
+  if(closeBtn)closeBtn.addEventListener('click',()=>closeFS('alk-fullscreen'));
+})();
+function changeAlkFSFont(fontFamily){
+  const el=document.getElementById('alk-fs-content');
+  if(el)el.style.fontFamily=fontFamily;
+}
 function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
 function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
@@ -1006,6 +1020,7 @@ function renderModule(mod){
       ${mod==='Alkitab'?`<select class="filter-input" id="alk-tema-f" style="max-width:130px;" onchange="filterModule('Alkitab')"><option value="">Semua Tema</option><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select>`:''}
       <select class="filter-input" id="${ml}-share-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua Visibilitas</option><option value="all">🌐 Publik</option><option value="admin">🔐 Admin</option><option value="private">🔒 Pribadi</option></select>
       <select class="filter-input" id="${ml}-img-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua</option><option value="has_img">🖼️ Ada Gambar</option><option value="no_img">📋 Tanpa Gambar</option></select>
+      <select class="filter-input" id="${ml}-deleted-filter" style="max-width:145px;" onchange="filterModule('${mod}')"><option value="">Aktif saja</option><option value="include_deleted">📋 Semua termasuk dihapus</option><option value="only_deleted">🗑 Hanya yang dihapus</option></select>
       <button class="btn-clear" onclick="clearFilter('${mod}')">✕ Reset</button>
     </div>
     <div id="${ml}-active-filters" style="margin-bottom:8px;"></div>
@@ -1015,7 +1030,7 @@ function renderModule(mod){
 }
 function clearFilter(mod){
   const ml=mod.toLowerCase();
-  [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`${ml}-img-filter`,`${ml}-share-filter`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`${ml}-img-filter`,`${ml}-share-filter`,`${ml}-deleted-filter`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   filterModule(mod);
 }
 async function loadAndRenderList(mod){ await loadCache(mod);filterModule(mod); }
@@ -1028,9 +1043,14 @@ function filterModule(mod){
   const answered=document.getElementById(`${ml}-answered`)?.value||'';
   const imgFilter=document.getElementById(`${ml}-img-filter`)?.value||'';
   const shareFilter=document.getElementById(`${ml}-share-filter`)?.value||'';
+  const deletedFilter=document.getElementById(`${ml}-deleted-filter`)?.value||'';
   const gelKat=document.getElementById('gel-kat')?.value||'';
   const alkTema=document.getElementById('alk-tema-f')?.value||'';
-  let data=filterByShareAndOwnership([...(cache[mod]||[])]).filter(r=>(r.deleted||'').toLowerCase()!=='y');
+  let data=filterByShareAndOwnership([...(cache[mod]||[])]);
+  // Filter deleted: default = aktif saja (exclude deleted=y)
+  if(deletedFilter==='only_deleted') data=data.filter(r=>(r.deleted||'').toLowerCase()==='y');
+  else if(deletedFilter==='include_deleted') { /* tampilkan semua */ }
+  else data=data.filter(r=>(r.deleted||'').toLowerCase()!=='y'); // default: aktif saja
   if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
   if(dateFrom)data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
   if(dateTo)data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
@@ -1302,7 +1322,7 @@ function openAlkitabDetail(r){
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
       ${canEditThis?`<button class="btn" style="background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.4);color:var(--red);" onclick="markAlkitabDeleted(${JSON.stringify(r).replace(/"/g,'&quot;')})">🗑 Hapus</button>`:''}
     </div>
-    <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`);
+    <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`,true);
 }
 
 function openAlkitabFullscreen(r){
@@ -1313,11 +1333,11 @@ function openAlkitabFullscreen(r){
     {label:'Tgl Terjawab',val:r.tanggal_jawaban?formatDate(r.tanggal_jawaban):''},{label:'📝 Catatan Jawaban',val:r.catatan_jawaban},
   ];
   const html=sections.filter(s=>(s.val||'').trim()).map(s=>`<div style="margin-bottom:16px;"><div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div><div style="${s.style||'line-height:1.8;color:var(--text);'}">${esc(s.val)}</div></div>`).join('');
-  document.getElementById('fs-title').textContent=r.nama_alkitab||'Catatan Alkitab';
-  const c=document.getElementById('fs-content');
-  c.innerHTML=html;c.style.fontSize=fsFontSizes.main+'px';c.style.whiteSpace='normal';
-  c.dataset.isHtml='1';
-  openFS('fullscreen-overlay');
+  const fsTitle=document.getElementById('alk-fs-content');
+  if(fsTitle){fsTitle.innerHTML=html;fsTitle.style.fontSize=fsFontSizes.alk+'px';}
+  const lbl=document.getElementById('alk-fs-font-label');
+  if(lbl)lbl.textContent=fsFontSizes.alk+'px';
+  openFS('alk-fullscreen');
 }
 
 // ══════════════════════════════════════════════════════════════════
