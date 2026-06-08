@@ -204,6 +204,27 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .fs-btn{padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:\'Nunito\',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;}
 .fs-content{flex:1;overflow-y:auto;padding:24px 20px;font-family:\'Lora\',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;}
 
+/* ── FULLSCREEN MODULE (Doa / Gelisah / Alkitab) ── */
+.fs-module-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0;background:var(--bg);}
+.fs-module-inner{max-width:900px;margin:0 auto;padding:20px 16px 60px;}
+.fs-module-content .entry-card{border-radius:14px;padding:18px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s;}
+.fs-module-content .entry-card:hover{border-color:var(--accent);box-shadow:0 4px 20px var(--glow);}
+.fs-module-content .entry-card-title{font-size:1rem;white-space:normal;-webkit-line-clamp:unset;overflow:visible;}
+.fs-module-content .entry-card-body{font-size:.9rem;-webkit-line-clamp:unset;display:block;overflow:visible;}
+.fs-module-content .badge{font-size:.7rem;padding:3px 10px;}
+.fs-module-content .filter-bar{border-radius:12px;margin-bottom:14px;}
+.fs-module-content .section-header{margin-bottom:14px;}
+.fs-stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.fs-stat-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.fs-stat-num{font-family:\'JetBrains Mono\',monospace;font-size:1.6rem;font-weight:700;color:var(--accent);}
+.fs-stat-lbl{font-size:.68rem;color:var(--text3);margin-top:3px;}
+@media(min-width:600px){
+  .fs-module-inner{padding:28px 32px 80px;}
+  .fs-stats-bar{grid-template-columns:repeat(3,1fr);}
+  .fs-module-content .entry-card{padding:22px;}
+  .fs-module-content .entry-card-body{font-size:.95rem;line-height:1.75;}
+}
+
 /* ═══════════════════════════════ EDIT FORM ═══════════════════════════════ */
 .edit-section{background:rgba(124,158,240,.06);border:1px solid rgba(124,158,240,.25);border-radius:10px;padding:12px;margin-bottom:10px;}
 .edit-section-title{font-size:.7rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
@@ -451,9 +472,39 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="fs-content" id="fs-content"></div>
 </div>
 <div id="dash-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🏠 Beranda</div><div class="fs-controls"><button class="fs-btn" onclick="closeFS(\'dash-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="dash-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="doa-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">🙏 Catatan Doa</div>
+    <div class="fs-controls">
+      <button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-module-content" id="doa-fs-content">
+    <div class="fs-module-inner" id="doa-fs-inner"></div>
+  </div>
+</div>
+<div id="gel-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">💭 Curhat &amp; Kegelisahan</div>
+    <div class="fs-controls">
+      <button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-module-content" id="gel-fs-content">
+    <div class="fs-module-inner" id="gel-fs-inner"></div>
+  </div>
+</div>
+<div id="alk-fullscreen" class="fs-overlay">
+  <div class="fs-toolbar">
+    <div class="fs-title">📖 Renungan Alkitab</div>
+    <div class="fs-controls">
+      <button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button>
+    </div>
+  </div>
+  <div class="fs-module-content" id="alk-fs-content">
+    <div class="fs-module-inner" id="alk-fs-inner"></div>
+  </div>
+</div>
 <!-- JEMAAT POPUP -->
 
 <div id="jemaat-popup-overlay"><div id="jemaat-popup"><div id="jemaat-popup-body"></div></div></div>
@@ -580,12 +631,31 @@ function changeFSFont(key,d){
     if(lbl)lbl.textContent=fsFontSizes[key]+'px';
   }
 }
-['doa','gel','alk'].forEach(key=>{
-  document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
-  document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
-});
 function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
-function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
+function openModuleFullscreen(mod){
+  const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};
+  const key=map[mod];if(!key)return;
+  // Ambil konten dari list + filter bar + section header
+  const listEl=document.getElementById(mod.toLowerCase()+'-list');
+  const filterEl=document.querySelector('#app-content .filter-bar');
+  const secHeader=document.querySelector('#app-content .section-header');
+  // Hitung statistik cepat dari data cache
+  const data=(cache[mod]||[]);
+  const total=data.length;
+  const answered=data.filter(r=>r.status==='Terjawab'||r.status==='Damai'||r.tanggal_jawaban).length;
+  const pending=total-answered;
+  const statsHtml=`<div class="fs-stats-bar">
+    <div class="fs-stat-item"><div class="fs-stat-num">${total}</div><div class="fs-stat-lbl">Total Entri</div></div>
+    <div class="fs-stat-item"><div class="fs-stat-num" style="color:var(--accent3)">${answered}</div><div class="fs-stat-lbl">Terjawab / Damai</div></div>
+    <div class="fs-stat-item"><div class="fs-stat-num" style="color:var(--yellow)">${pending}</div><div class="fs-stat-lbl">Sedang Berdoa</div></div>
+  </div>`;
+  const filterHtml=filterEl?filterEl.outerHTML:'';
+  const secHtml=secHeader?secHeader.outerHTML:'';
+  const listHtml=listEl?listEl.outerHTML:'<p style="color:var(--text3);text-align:center;padding:40px">Tidak ada data.</p>';
+  const inner=document.getElementById(key+'-fs-inner');
+  if(inner) inner.innerHTML=statsHtml+filterHtml+secHtml+listHtml;
+  openFS(key+'-fullscreen');
+}
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
 
 // CLOCK
