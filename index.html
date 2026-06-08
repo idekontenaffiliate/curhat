@@ -538,7 +538,7 @@ const URLS = {
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
 const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbziIKGUYKMMO8L4xrTYtMbPcoGisS_GS-CAkjwez-F2iyXDbj5naL3IvZpXfn8X5OtuOw/exec";
 const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycbwaVo4xcxrikcu2NPA569JAdhgch9M4uaEnBayMFjEboadDerZ-4diuXPke0o7uctlaAg/exec";
-const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbzU2_q3mb9osFYvySX4o2tKDDm-YiDlAoTNdhps50JFdsYliIOk2XvAkX8coMeJEQdoMA/exec";
+const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbyFN-ezQbhJKyEBHj9UUfW3RwtC2IyZEg50VlTzjNehGMNl7TCWvaYRQjEraU_qdfqHFQ/exec";
 const APPS_SCRIPT_PERTANYAAN   = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 const APPS_SCRIPT_JEMAAT       = "https://script.google.com/macros/s/AKfycbwHrBsYjYcZ_lwqqp8zvgTQwazzHDTlsNA1cvuuKSldsinW24uRDel0sHAM2dlJV7104g/exec";
 const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
@@ -674,7 +674,7 @@ function openModuleFullscreen(mod){
   } else {
     if(mod==='Doa') listHtml=data.map(buildDoaCard).join('');
     else if(mod==='Gelisah') listHtml=data.map(buildGelisahCard).join('');
-    else if(mod==='Alkitab') listHtml=data.map(buildAlkitabCard).join('');
+    else if(mod==='Alkitab') listHtml=data.map(r=>buildAlkitabCard(r,true)).join('');
   }
 
   const inner=document.getElementById(key+'-fs-inner');
@@ -1372,10 +1372,29 @@ function buildAlkitabForm(){
     <div id="alk-status-msg" style="margin-top:8px;font-size:.78rem;text-align:center;color:var(--text3);"></div>
   </div>`;
 }
-function buildAlkitabCard(r){
+function buildAlkitabCard(r, fullscreenMode=false){
   const hasAnswer=(r.tanggal_jawaban||'').trim();
   const j=JSON.stringify(r).replace(/'/g,'&#39;');
   const imgThumb=buildThumbHtml(r,r.nama_alkitab||'Alkitab');
+  if(fullscreenMode){
+    // Kartu lengkap untuk tampilan fullscreen
+    return `<div class="entry-card alk-fs-card" onclick='openAlkitabDetail(${j})' style="margin-bottom:14px;cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="font-size:1.3rem;">📖</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;color:var(--accent3);">${esc(r.nama_alkitab||'Tanpa Referensi')}</div>
+          <div style="font-size:.68rem;color:var(--text3);">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''} ${r.tema?`<b style="color:var(--accent3);">#${esc(r.tema)}</b>`:''}</div>
+        </div>
+        <span class="badge ${hasAnswer?'badge-answered':'badge-pending'}" style="flex-shrink:0;">${hasAnswer?'✅':'📖'}</span>
+      </div>
+      ${r.ayat?`<div style="background:var(--glow);border-left:3px solid var(--accent3);padding:10px 14px;border-radius:0 8px 8px 0;font-family:'Lora',serif;font-style:italic;color:var(--text);line-height:1.75;margin-bottom:8px;font-size:.9em;">"${esc(r.ayat)}"</div>`:''}
+      ${r.terang?`<div style="margin-bottom:6px;"><div style="font-size:.62rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;">✨ Terang yang Didapat</div><div style="font-size:.88em;color:var(--text);line-height:1.7;">${esc(r.terang)}</div></div>`:''}
+      ${r.catatan?`<div style="margin-bottom:6px;"><div style="font-size:.62rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;">📝 Catatan / Aplikasi</div><div style="font-size:.85em;color:var(--text2);line-height:1.65;">${esc(r.catatan)}</div></div>`:''}
+      ${hasAnswer?`<div style="margin-top:8px;padding:8px 10px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);border-radius:8px;font-size:.8em;color:var(--accent3);">✅ Terjawab: ${formatDate(r.tanggal_jawaban)}${r.catatan_jawaban?' — '+esc(r.catatan_jawaban.slice(0,80)):''}</div>`:''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${getShareBadgeHtml(r)}${getRecordImage(r)?`<span style="font-size:.65rem;color:var(--accent2);">🖼️</span>`:''}</div>
+    </div>`;
+  }
+  // Kartu ringkas untuk tampilan normal
   return `<div class="entry-card" onclick='openAlkitabDetail(${j})'>
     <div class="entry-card-header"><div class="entry-card-icon">📖</div><div style="width:3px;border-radius:3px;background:var(--accent3);align-self:stretch;flex-shrink:0;margin-right:2px;"></div>
     <div class="entry-card-meta"><div class="entry-card-no">#${r.no_urut||'-'} · ${formatDate(r.tanggal)}${r.user&&canViewAllEntries()?` · <span style="color:var(--accent2)">${escHtml(r.user)}</span>`:''}</div><div class="entry-card-title">${esc((r.nama_alkitab||'Tanpa Judul').slice(0,60))}</div>${r.ayat?`<div class="entry-card-body" style="font-style:italic;">"${esc(r.ayat.slice(0,80))}"</div>`:''}</div>${imgThumb}</div>
@@ -1439,6 +1458,10 @@ function toggleAlkitabEditForm(r){
     <textarea class="edit-textarea" id="alk-edit-terang" rows="3">${escHtml(r.terang||'')}</textarea>
     <label class="edit-label">📝 Catatan / Aplikasi</label>
     <textarea class="edit-textarea" id="alk-edit-catatan" rows="2">${escHtml(r.catatan||'')}</textarea>
+    <label class="edit-label">Tema</label>
+    <select class="edit-input" id="alk-edit-tema">
+      ${['Iman','Kasih','Pengharapan','Berkat','Kekuatan','Hikmat','Pertobatan','Penyembahan','Lainnya'].map(t=>`<option ${(r.tema||'')==t?'selected':''}>${t}</option>`).join('')}
+    </select>
     <label class="edit-label">Catatan Jawaban Alkitab</label>
     <textarea class="edit-textarea" id="alk-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
     <label class="edit-label">Tanggal Terjawab</label>
@@ -1473,13 +1496,22 @@ async function saveAlkitabEdit(r){
     link_image:document.getElementById('alk-edit-link-image')?.value.trim()||'',
     keterangan_image:document.getElementById('alk-edit-ket-image')?.value.trim()||'',
     share_type:document.getElementById('alk-edit-share-type')?.value||'',
+    tema:document.getElementById('alk-edit-tema')?.value||r.tema||'',
   };
   const idx=(cache.Alkitab||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
   if(idx>=0)Object.assign(cache.Alkitab[idx],updates);
   toast('⏳ Menyimpan...');
   if(!isDemoMode){
-    try{await postToAS(APPS_SCRIPT_ALKITAB,{action:'update_alkitab',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}
-    catch(e){toast('✅ Tersimpan lokal');}
+    try{
+      await postToAS(APPS_SCRIPT_ALKITAB,{
+        action:'update_alkitab',
+        user:currentUser?.username||'',
+        no_urut:r.no_urut||'',
+        tanggal:r.tanggal||'',
+        ...updates
+      });
+      toast('✅ Perubahan tersimpan!');
+    }catch(e){toast('✅ Tersimpan lokal');}
   }else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Alkitab');
 }
