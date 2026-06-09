@@ -1,11 +1,11 @@
-<!-- v4.25 E | Buku Harian Rohani | Patch dari v4.24 -->
+<!-- v4.26 | Buku Harian Rohani | Patch dari v4.24 -->
 <!-- Perubahan: History log ke Google Sheets, tombol Kembali/FS pindah ke atas, update Apps Script Gelisah -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.25 E</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>Buku Harian Rohani v4.26</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ═══════════════════════════════ THEMES ═══════════════════════════════ */
@@ -382,7 +382,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25 E · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.26 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -443,6 +443,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="fs-toolbar">
     <div class="fs-title" id="fs-title">Detail</div>
     <div class="fs-controls">
+      <select class="fs-btn" onchange="setFSFontFamily('fs-content',this.value)" title="Jenis font"><option value="'Lora',serif">Lora</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="fs-a-minus">A−</button>
       <button class="fs-btn" id="fs-a-minus">A−</button>
       <span id="fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">16px</span>
       <button class="fs-btn" id="fs-a-plus">A+</button>
@@ -452,9 +453,9 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="fs-content" id="fs-content"></div>
 </div>
 <div id="dash-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🏠 Beranda</div><div class="fs-controls"><button class="fs-btn" onclick="closeFS(\'dash-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="dash-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('doa-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('doa-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('gel-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('gel-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('gel-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('gel-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <!-- JEMAAT POPUP -->
 
 <div id="jemaat-popup-overlay"><div id="jemaat-popup"><div id="jemaat-popup-body"></div></div></div>
@@ -474,6 +475,7 @@ const URLS = {
   Pertanyaan:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNlkzeC1qTvHxfCcut_PKzEYGqYruH1ns9FbmF2Kuju3K0FodjsOcvIwzk6MAvuzJZewjwASu_wRlZ/pub?output=csv",
   Jemaat:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSI_5dVogArMM6hfMUrTpsXCVj-7rGmD2aqklSRufNHUHN_JzOYOgZ2Qz1TZszE7kH9XTaSa1kOv6N2/pub?output=csv",
   Pengumuman:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRviVem3s9xJ8LP8joSs2s2lTDHl307foO_HKgCC1KthOxOJ5as3FxnODXxTsoVZN1dAYx71mcbubA_/pub?output=csv",
+  History:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXO2FoPlaIwediUPln4Ifemy_f3pR3O-a0Zlvn1VexMGr1OO8VL58g1pTgBCqVGIT9SGCA3f2A7MCH/pub?output=csv",
 };
 
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
@@ -590,7 +592,9 @@ function openImgViewerWithNames(urls,names,idx){ openImgViewer(urls[idx],names[i
 // ══════════════════════════════════════════════════════════════════
 let fsFontSizes={main:16,doa:15,gel:15,alk:15};
 function openFS(id){ const el=document.getElementById(id);if(!el)return;el.style.display='flex'; }
-function closeFS(id){ const el=document.getElementById(id);if(el)el.style.display='none'; }
+function closeFS(id){ const el=document.getElementById(id);if(el){el.style.display='none';} if(document.fullscreenElement){try{document.exitFullscreen();}catch(e){}} }
+function setFSFontFamily(id,val){const el=document.getElementById(id);if(el)el.style.fontFamily=val;}
+function setFSFontWeight(id,val){const el=document.getElementById(id);if(el)el.style.fontWeight=val;}  
 function openDetailFullscreen(){
   const body=document.getElementById('detail-body');
   const c=document.getElementById('fs-content');
@@ -857,18 +861,20 @@ function closeAnnounce(){
 // ══════════════════════════════════════════════════════════════════
 // NAV
 // ══════════════════════════════════════════════════════════════════
+
 function getMenus(){
   const ALL_MENUS=[
     {id:'dashboard',label:'🏠 Beranda'},{id:'doa',label:'🙏 Catatan Doa'},{id:'gelisah',label:'💭 Kegelisahan'},
     {id:'alkitab',label:'📖 Alkitab'},{id:'pertanyaan',label:'❓ Pertanyaan'},{id:'jemaat',label:'👥 Jemaat'},
-    {id:'hasil',label:'📋 Hasil'},{id:'laporan',label:'📊 Laporan'},{id:'pengumuman',label:'📢 Pengumuman'},{id:'panduan',label:'⚙️ Panduan'},
+    {id:'hasil',label:'📋 Hasil'},{id:'laporan',label:'📊 Laporan'},{id:'pengumuman',label:'📢 Pengumuman'},
+    {id:'history',label:'🕘 History'},{id:'panduan',label:'⚙️ Panduan'},
   ];
-  if(isAdminUser())return ALL_MENUS;
+  if(isAdminUser())return ALL_MENUS.filter(m=>m.id!=='history'||isLevelAdmin());
   const tipeStr=(currentUser?.tipe||'').trim();
-  if(!tipeStr)return ALL_MENUS.filter(m=>!['jemaat','laporan','pengumuman'].includes(m.id));
+  if(!tipeStr)return ALL_MENUS.filter(m=>!['jemaat','laporan','pengumuman','history'].includes(m.id));
   const allowed=tipeStr.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
-  return ALL_MENUS.filter(m=>m.id==='dashboard'||allowed.includes(m.id));
-}
+  return ALL_MENUS.filter(m=>m.id==='dashboard'||(m.id!=='history'&&allowed.includes(m.id)));
+}  
 function setupNav(){
   const nav=document.getElementById('main-nav');nav.innerHTML='';
   getMenus().forEach(m=>{
@@ -878,8 +884,9 @@ function setupNav(){
   });
 }
 function loadPage(id){
-  const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:renderJemaat,laporan:renderLaporan,pengumuman:renderPengumumanAdmin};
-  const menuLabels={dashboard:'🏠 Beranda',doa:'🙏 Catatan Doa',gelisah:'💭 Kegelisahan',alkitab:'📖 Alkitab',pertanyaan:'❓ Pertanyaan',hasil:'📋 Hasil',panduan:'⚙️ Panduan',jemaat:'👥 Jemaat',laporan:'📊 Laporan',pengumuman:'📢 Pengumuman'};
+  const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:renderJemaat,laporan:renderLaporan,pengumuman:renderPengumumanAdmin,history:renderHistory};
+  const menuLabels={dashboard:'🏠 Beranda',doa:'🙏 Catatan Doa',gelisah:'💭 Kegelisahan',alkitab:'📖 Alkitab',pertanyaan:'❓ Pertanyaan',hasil:'📋 Hasil',panduan:'⚙️ Panduan',jemaat:'👥 Jemaat',laporan:'📊 Laporan',pengumuman:'📢 Pengumuman',history:'🕘 History'};
+  
   pages[id]?.();
   document.querySelectorAll('nav button').forEach(b=>{if(b.dataset.id===id)b.classList.add('active');});
   if(currentUser) logHistory(menuLabels[id]||id, 'buka menu', `menu: ${id}`);
@@ -2351,7 +2358,109 @@ function jsonRes(obj) {
       </div>
     </div>`;
 }
-
+// ══════════════════════════════════════════════════════════════════
+// HISTORY (Admin) — lihat siapa saja yang memakai aplikasi
+// ══════════════════════════════════════════════════════════════════
+let historyAllData=[],historyFilteredData=[],historyCurrentPage=1;
+async function renderHistory(){
+  if(!isLevelAdmin()){document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Akses terbatas. Hanya Administrator.</p></div>';return;}
+  document.getElementById('app-content').innerHTML=`
+    <div class="info-box">🕘 <b>Riwayat Aktivitas</b> — siapa saja yang memakai aplikasi.</div>
+    <div class="ptny-stats-bar" id="hist-stats"></div>
+    <div class="section-header"><span class="section-title">🕘 History Pengguna</span><div style="display:flex;gap:6px;align-items:center;"><span class="section-count" id="hist-count">—</span><button class="btn" onclick="loadHistoryData()">🔄 Refresh</button></div></div>
+    <div class="filter-bar">
+      <div class="filter-bar-title">🔍 Filter &amp; Pencarian</div>
+      <div class="filter-search-wrap"><span class="filter-search-icon">🔍</span><input type="text" class="filter-search-input" id="hist-search" placeholder="Cari nama / aksi / detail..." oninput="applyHistoryFilter()"></div>
+      <input type="date" class="filter-input" id="hist-date-from" style="max-width:150px;" onchange="applyHistoryFilter()" title="Dari tanggal">
+      <input type="date" class="filter-input" id="hist-date-to" style="max-width:150px;" onchange="applyHistoryFilter()" title="Sampai tanggal">
+      <select class="filter-input" id="hist-menu" style="max-width:160px;" onchange="applyHistoryFilter()"><option value="">Semua Menu</option></select>
+      <button class="btn-clear" onclick="clearHistoryFilter()">✕ Reset</button>
+    </div>
+    <div id="hist-list"></div><div id="hist-pagination" class="pagination"></div>`;
+  loadHistoryData();
+}
+function clearHistoryFilter(){
+  ['hist-search','hist-date-from','hist-date-to','hist-menu'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  applyHistoryFilter();
+}
+function loadHistoryData(){
+  const listEl=document.getElementById('hist-list');if(!listEl)return;
+  listEl.innerHTML='<div class="loading-state"><div class="spinner"></div><br>Memuat history...</div>';
+  if(isDemoMode){
+    try{historyAllData=JSON.parse(localStorage.getItem('activity_log')||'[]').slice().reverse();}catch(e){historyAllData=[];}
+    populateHistoryMenuFilter();renderHistoryStats();applyHistoryFilter();return;
+  }
+  fetch(APPS_SCRIPT_HISTORY+'?action=get_history&limit=1000&t='+Date.now())
+    .then(r=>r.json())
+    .then(d=>{historyAllData=(d.data||[]);populateHistoryMenuFilter();renderHistoryStats();applyHistoryFilter();})
+    .catch(()=>{
+      try{historyAllData=JSON.parse(localStorage.getItem('activity_log')||'[]').slice().reverse();}catch(e){historyAllData=[];}
+      populateHistoryMenuFilter();renderHistoryStats();applyHistoryFilter();
+      if(!historyAllData.length&&listEl)listEl.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Gagal memuat history dari server.</p></div>';
+    });
+}
+function histDateISO(r){
+  const ts=(r.timestamp_iso||r.timestamp||'').trim();
+  if(ts&&ts.length>=10&&ts[4]==='-')return ts.slice(0,10);
+  const tg=(r.tanggal||'').trim();
+  const m=tg.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(m)return `${m[3]}-${m[2]}-${m[1]}`;
+  return '';
+}
+function populateHistoryMenuFilter(){
+  const sel=document.getElementById('hist-menu');if(!sel)return;
+  const menus=[...new Set(historyAllData.map(r=>(r.menu||'').trim()).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Semua Menu</option>'+menus.map(m=>`<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
+}
+function renderHistoryStats(){
+  const el=document.getElementById('hist-stats');if(!el)return;
+  const total=historyAllData.length;
+  const users=new Set(historyAllData.map(r=>(r.username||'').toLowerCase()).filter(Boolean)).size;
+  const today=getTodayStr();
+  const todayCount=historyAllData.filter(r=>histDateISO(r)===today).length;
+  const logins=historyAllData.filter(r=>(r.aksi||'').toLowerCase().includes('masuk')).length;
+  el.innerHTML=`<div class="ptny-stat-card"><div class="ptny-stat-num">${total}</div><div class="ptny-stat-label">Total Log</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent3);">${users}</div><div class="ptny-stat-label">Pengguna</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--accent2);">${todayCount}</div><div class="ptny-stat-label">Hari Ini</div></div><div class="ptny-stat-card"><div class="ptny-stat-num" style="color:var(--yellow);">${logins}</div><div class="ptny-stat-label">Login</div></div>`;
+}
+function applyHistoryFilter(){
+  const search=(document.getElementById('hist-search')?.value||'').toLowerCase();
+  const dateFrom=document.getElementById('hist-date-from')?.value||'';
+  const dateTo=document.getElementById('hist-date-to')?.value||'';
+  const menu=document.getElementById('hist-menu')?.value||'';
+  let data=[...historyAllData];
+  if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
+  if(menu)data=data.filter(r=>(r.menu||'')===menu);
+  if(dateFrom)data=data.filter(r=>{const d=histDateISO(r);return d&&d>=dateFrom;});
+  if(dateTo)data=data.filter(r=>{const d=histDateISO(r);return d&&d<=dateTo;});
+  data.sort((a,b)=>new Date(b.timestamp_iso||b.timestamp||0)-new Date(a.timestamp_iso||a.timestamp||0));
+  historyFilteredData=data;
+  const cnt=document.getElementById('hist-count');if(cnt)cnt.textContent=data.length+' log';
+  historyCurrentPage=1;renderHistoryPage();
+}
+function renderHistoryPage(){
+  const total=historyFilteredData.length,totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(historyCurrentPage>totalPages)historyCurrentPage=1;
+  const start=(historyCurrentPage-1)*PER_PAGE;
+  renderHistoryList(historyFilteredData.slice(start,start+PER_PAGE));
+  renderPagination('hist-pagination',historyCurrentPage,totalPages,p=>{historyCurrentPage=p;renderHistoryPage();document.getElementById('hist-list')?.scrollIntoView({behavior:'smooth'});});
+}
+function renderHistoryList(data){
+  const el=document.getElementById('hist-list');if(!el)return;
+  if(!data.length){el.innerHTML='<div class="empty-state"><div class="icon">📭</div><p>Tidak ada history yang cocok.</p></div>';return;}
+  el.innerHTML=data.map(r=>{
+    const nama=esc(r.username||'-'),level=esc(r.level||'-'),menu=esc(r.menu||'-'),aksi=esc(r.aksi||'-'),detail=esc(r.detail||'');
+    const tgl=esc(r.tanggal||histDateISO(r)||''),wkt=esc(r.waktu||''),ip=esc(r.ip||'-');
+    return `<div class="ptny-card" style="border-left:4px solid var(--accent);">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <span style="font-weight:700;font-size:.88rem;color:var(--accent);">👤 ${nama}</span>
+        <span class="level-badge level-user">${level}</span>
+        <span style="font-size:.7rem;color:var(--text3);">🕐 ${tgl} ${wkt}</span>
+      </div>
+      <div style="font-size:.82rem;color:var(--text);margin-bottom:3px;"><b>${menu}</b> · ${aksi}</div>
+      ${detail?`<div style="font-size:.75rem;color:var(--text2);background:var(--surface2);border-radius:7px;padding:7px 9px;">${detail}</div>`:''}
+      <div style="font-size:.62rem;color:var(--text3);margin-top:5px;">🌐 IP: ${ip}</div>
+    </div>`;
+  }).join('');
+}
 // ══════════════════════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS
 // ══════════════════════════════════════════════════════════════════
