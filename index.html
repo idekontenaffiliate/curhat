@@ -1,11 +1,11 @@
-<!-- v4.23 | Buku Harian Rohani | Patch dari v4.22 -->
-<!-- Perubahan: Hapus tombol FS di modal Alkitab, fix tutup/A-/A+ fullscreen, font selector, filter hapus -->
+<!-- v4.25 | Buku Harian Rohani | Patch dari v4.24 -->
+<!-- Perubahan: History log ke Google Sheets, tombol Kembali/FS pindah ke atas, update Apps Script Gelisah -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.23</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>Buku Harian Rohani v4.25</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ═══════════════════════════════ THEMES ═══════════════════════════════ */
@@ -381,7 +381,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.23 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -421,11 +421,11 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 <!-- DETAIL MODAL -->
 <div id="detail-modal" class="modal-overlay">
-  <div class="modal-panel" id="detail-body"></div>
-  <div class="modal-close-bar">
+  <div class="modal-close-bar" style="border-bottom:1px solid var(--border);border-top:none;border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0;">
     <button class="modal-close-btn" onclick="closeDetail()">← Kembali</button>
     <button class="modal-close-btn" id="detail-fs-btn" onclick="openDetailFullscreen()" style="background:var(--accent);color:#fff;border-color:var(--accent);">⛶ Fullscreen</button>
   </div>
+  <div class="modal-panel" id="detail-body"></div>
 </div>
 
 <!-- IMAGE VIEWER -->
@@ -453,7 +453,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 <div id="dash-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🏠 Beranda</div><div class="fs-controls"><button class="fs-btn" onclick="closeFS(\'dash-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="dash-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'doa-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'gel-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
-<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><select id="alk-fs-font-family" style="font-size:.68rem;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;max-width:110px;" onchange="changeAlkFSFont(this.value)"><option value="\'Nunito\',sans-serif">Nunito</option><option value="\'Lora\',serif">Lora</option><option value="\'Georgia\',serif">Georgia</option><option value="\'Times New Roman\',serif">Times New Roman</option><option value="\'Courier New\',monospace">Courier New</option><option value="\'JetBrains Mono\',monospace">JetBrains Mono</option><option value="\'Roboto\',sans-serif">Roboto</option><option value="Arial,sans-serif">Arial</option></select><button class="fs-btn" id="alk-fs-close-btn" style="background:rgba(248,113,113,.2);border-color:rgba(248,113,113,.4);color:var(--red);">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
+<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS(\'alk-fullscreen\')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:\'Nunito\',sans-serif;white-space:normal;"></div></div>
 <!-- JEMAAT POPUP -->
 
 <div id="jemaat-popup-overlay"><div id="jemaat-popup"><div id="jemaat-popup-body"></div></div></div>
@@ -469,22 +469,20 @@ const URLS = {
   Awal:         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSplYP8o_2Nfu8H3TLlrodFzARIM2fjpTMZq6mbF2bL9cDer_ktFOGPClbqAwLhDJVeq_F7SI_AYVnP/pub?output=csv",
   Doa:          "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUP9PHhlxDoXbccBBp_Br6VhVpAGwJbg-0ltcsSNbqMKaolpI97LIckaSp706PYcdJIII0I73Ebo8n/pub?output=csv",
   Gelisah:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8BQMI5Xyx5KpatFPzJffYa6HtZSDKq3bZ3M4xUvO1g3x_zW_X2wnvLDR5nA13dYeVNBAG9JcRApaU/pub?output=csv",
-  Alkitab:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRf98rImoY_F16e0_sIPxTXRhDVQ2nvRTY6uqr83BHY0cro90GcFTYTU4tq73Z0Kd5dxzkN5IJ8w-FB/pub?output=csv",
+  Alkitab:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuzb1kU_nRifBhB32ANIJmjsXbXWVciIw-iJqP14GakkZVipQfAhyfURG7EMRprHZcu2aBg7XJzdnF/pub?output=csv",
   Pertanyaan:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNlkzeC1qTvHxfCcut_PKzEYGqYruH1ns9FbmF2Kuju3K0FodjsOcvIwzk6MAvuzJZewjwASu_wRlZ/pub?output=csv",
   Jemaat:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSI_5dVogArMM6hfMUrTpsXCVj-7rGmD2aqklSRufNHUHN_JzOYOgZ2Qz1TZszE7kH9XTaSa1kOv6N2/pub?output=csv",
   Pengumuman:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRviVem3s9xJ8LP8joSs2s2lTDHl307foO_HKgCC1KthOxOJ5as3FxnODXxTsoVZN1dAYx71mcbubA_/pub?output=csv",
-  History:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRviVem3s9xJ8LP8joSs2s2lTDHl307foO_HKgCC1KthOxOJ5as3FxnODXxTsoVZN1dAYx71mcbubA_/pub?output=csv",
-                };
+};
 
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
-const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbywU3BwLOxZdC0IgDkEGPNVEZceLvNVzf8ZE-XxtocP9rVU59m2LAEvphPyZiD7wztutg/exec";
+const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbziIKGUYKMMO8L4xrTYtMbPcoGisS_GS-CAkjwez-F2iyXDbj5naL3IvZpXfn8X5OtuOw/exec";
 const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycbwaVo4xcxrikcu2NPA569JAdhgch9M4uaEnBayMFjEboadDerZ-4diuXPke0o7uctlaAg/exec";
-const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbz1xasGD0U_Aqp2udHB9DwjecQE2ZjBooXEJoH5-7bzgE_q5PDciewJN9f4LYXX-OUo3Q/exec";
+const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbzU2_q3mb9osFYvySX4o2tKDDm-YiDlAoTNdhps50JFdsYliIOk2XvAkX8coMeJEQdoMA/exec";
 const APPS_SCRIPT_PERTANYAAN   = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 const APPS_SCRIPT_JEMAAT       = "https://script.google.com/macros/s/AKfycbwHrBsYjYcZ_lwqqp8zvgTQwazzHDTlsNA1cvuuKSldsinW24uRDel0sHAM2dlJV7104g/exec";
-const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbwSk-aSnxIL5cazFQBeu4FGsJkV0XEYXY88QdHeA1dCs-h6WVfsLJjwuEsE3nQdaUvm/exec";
-const APPS_SCRIPT_HISTORY   = "https://script.google.com/macros/s/AKfycbwSk-aSnxIL5cazFQBeu4FGsJkV0XEYXY88QdHeA1dCs-h6WVfsLJjwuEsE3nQdaUvm/exec";
-
+const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
+const APPS_SCRIPT_HISTORY      = "https://script.google.com/macros/s/AKfycbzMEAtlcksTw2OBHegULuKwdfudF22ByKkgNnBnKIjqELpOhuS4fnLLS6CpMPyF59SJ-A/exec";
 
 // ══════════════════════════════════════════════════════════════════
 // LEVEL SYSTEM
@@ -520,9 +518,10 @@ function canSeeEntry(r){
 // ══════════════════════════════════════════════════════════════════
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escHtml(s){ return esc(s); }
+function escAppScript(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function toast(msg,dur=2600){ const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),dur); }
 function closeDetail(){ document.getElementById('detail-modal').style.display='none'; }
-function showDetail(html,hideFS=false){ document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block';const fsBtn=document.getElementById('detail-fs-btn');if(fsBtn)fsBtn.style.display=hideFS?'none':''; }
+function showDetail(html){ document.getElementById('detail-body').innerHTML=html;document.getElementById('detail-modal').style.display='block'; }
 function getTodayStr(){ const n=new Date(),p=x=>String(x).padStart(2,'0');return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`; }
 function formatDate(s){ if(!s)return '-';const d=new Date(s);if(isNaN(d.getTime()))return s;const dy=['Min','Sen','Sel','Rab','Kam','Jum','Sab'],mo=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];return `${dy[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`; }
 function resetForm(ids){ ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
@@ -583,23 +582,10 @@ function changeFSFont(key,d){
     if(lbl)lbl.textContent=fsFontSizes[key]+'px';
   }
 }
-['doa','gel'].forEach(key=>{
+['doa','gel','alk'].forEach(key=>{
   document.getElementById(key+'-fs-a-minus')?.addEventListener('click',()=>changeFSFont(key,-1));
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
 });
-// ALK fullscreen — listener dipasang setelah DOM siap
-(function initAlkFSListeners(){
-  const minus=document.getElementById('alk-fs-a-minus');
-  const plus=document.getElementById('alk-fs-a-plus');
-  const closeBtn=document.getElementById('alk-fs-close-btn');
-  if(minus)minus.addEventListener('click',()=>changeFSFont('alk',-1));
-  if(plus)plus.addEventListener('click',()=>changeFSFont('alk',1));
-  if(closeBtn)closeBtn.addEventListener('click',()=>closeFS('alk-fullscreen'));
-})();
-function changeAlkFSFont(fontFamily){
-  const el=document.getElementById('alk-fs-content');
-  if(el)el.style.fontFamily=fontFamily;
-}
 function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
 function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
@@ -632,6 +618,51 @@ let currentUser=null,cache={},isDemoMode=false;
 const PER_PAGE=10;
 let pageState={Doa:1,Gelisah:1,Alkitab:1,Pertanyaan:1};
 let announcements=[],announcementsLoaded=false;
+
+// ══════════════════════════════════════════════════════════════════
+// HISTORY LOG
+// ══════════════════════════════════════════════════════════════════
+async function logHistory(menu, aksi, detail) {
+  const entry = {
+    username  : currentUser?.username  || 'anon',
+    level     : currentUser?.level     || currentUser?.tipe || '-',
+    no_efataid: currentUser?.no_EfataID || currentUser?.no_Efataid || currentUser?.No_EfataID || '-',
+    menu      : menu  || '-',
+    aksi      : aksi  || '-',
+    detail    : detail || '',
+    waktu     : new Date().toLocaleString('id-ID'),
+    timestamp : new Date().toISOString(),
+    ip        : '-',
+  };
+  // Ambil IP (async, tidak blocking)
+  try {
+    const ipResp = await fetch('https://api.ipify.org?format=json');
+    const ipData = await ipResp.json();
+    entry.ip = ipData.ip || '-';
+  } catch(e) { /* ignore */ }
+  // Simpan lokal
+  try {
+    const localLog = JSON.parse(localStorage.getItem('activity_log') || '[]');
+    localLog.push(entry);
+    if (localLog.length > 1000) localLog.splice(0, localLog.length - 1000);
+    localStorage.setItem('activity_log', JSON.stringify(localLog));
+  } catch(e) {}
+  // Kirim ke Google Sheets (fire and forget)
+  if (APPS_SCRIPT_HISTORY && !APPS_SCRIPT_HISTORY.includes('GANTI')) {
+    const params = new URLSearchParams({
+      action    : 'tambah',
+      username  : entry.username,
+      level     : entry.level,
+      no_efataid: entry.no_efataid,
+      menu      : entry.menu,
+      aksi      : entry.aksi,
+      detail    : entry.detail,
+      ip        : entry.ip,
+      user_agent: navigator.userAgent.slice(0, 150),
+    });
+    fetch(APPS_SCRIPT_HISTORY + '?' + params.toString()).catch(() => {});
+  }
+}
 const DEMO={
   Doa:[
     {no_urut:1,tanggal:'2025-01-10',user:'admin',permintaan:'Doa untuk kesehatan keluarga.',terang:'Yesaya 41:10',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh.',link_image:'',keterangan_image:'',share_type:'all'},
@@ -709,9 +740,11 @@ function masukApp(username,level,tipe){
   setLoginStatus('');
   setupNav();loadPage('dashboard');
   loadAnnouncements();
+  logHistory('login', 'masuk aplikasi', `level: ${level||'-'}, mode: ${isDemoMode?'demo':'live'}`);
 }
 function doLogout(){
   if(!confirm('Yakin ingin keluar?'))return;
+  logHistory('login', 'keluar aplikasi', `logout manual`);
   currentUser=null;cache={};isDemoMode=false;announcements=[];
   document.getElementById('main-app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
@@ -818,8 +851,10 @@ function setupNav(){
 }
 function loadPage(id){
   const pages={dashboard:renderDashboard,doa:()=>renderModule('Doa'),gelisah:()=>renderModule('Gelisah'),alkitab:()=>renderModule('Alkitab'),pertanyaan:renderPertanyaan,hasil:renderHasilPertanyaan,panduan:renderPanduan,jemaat:renderJemaat,laporan:renderLaporan,pengumuman:renderPengumumanAdmin};
+  const menuLabels={dashboard:'🏠 Beranda',doa:'🙏 Catatan Doa',gelisah:'💭 Kegelisahan',alkitab:'📖 Alkitab',pertanyaan:'❓ Pertanyaan',hasil:'📋 Hasil',panduan:'⚙️ Panduan',jemaat:'👥 Jemaat',laporan:'📊 Laporan',pengumuman:'📢 Pengumuman'};
   pages[id]?.();
   document.querySelectorAll('nav button').forEach(b=>{if(b.dataset.id===id)b.classList.add('active');});
+  if(currentUser) logHistory(menuLabels[id]||id, 'buka menu', `menu: ${id}`);
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1009,7 +1044,7 @@ function renderModule(mod){
         <span class="section-count" id="${ml}-count">—</span>
         <button class="btn" onclick="refreshModule('${mod}')">🔄</button>
         <button class="pdf-btn" onclick="generateModulePDF('${mod}')">📄 PDF</button>
-        ${mod!=='Alkitab'?`<button class="btn-fs" onclick="openModuleFullscreen('${mod}')">⛶</button>`:''}
+        <button class="btn-fs" onclick="openModuleFullscreen('${mod}')">⛶</button>
       </div>
     </div>
     <div class="filter-bar">
@@ -1022,7 +1057,6 @@ function renderModule(mod){
       ${mod==='Alkitab'?`<select class="filter-input" id="alk-tema-f" style="max-width:130px;" onchange="filterModule('Alkitab')"><option value="">Semua Tema</option><option>Iman</option><option>Kasih</option><option>Pengharapan</option><option>Berkat</option><option>Kekuatan</option><option>Hikmat</option><option>Pertobatan</option><option>Penyembahan</option><option>Lainnya</option></select>`:''}
       <select class="filter-input" id="${ml}-share-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua Visibilitas</option><option value="all">🌐 Publik</option><option value="admin">🔐 Admin</option><option value="private">🔒 Pribadi</option></select>
       <select class="filter-input" id="${ml}-img-filter" style="max-width:130px;" onchange="filterModule('${mod}')"><option value="">Semua</option><option value="has_img">🖼️ Ada Gambar</option><option value="no_img">📋 Tanpa Gambar</option></select>
-      <select class="filter-input" id="${ml}-deleted-filter" style="max-width:145px;" onchange="filterModule('${mod}')"><option value="">Aktif saja</option><option value="include_deleted">📋 Semua termasuk dihapus</option><option value="only_deleted">🗑 Hanya yang dihapus</option></select>
       <button class="btn-clear" onclick="clearFilter('${mod}')">✕ Reset</button>
     </div>
     <div id="${ml}-active-filters" style="margin-bottom:8px;"></div>
@@ -1032,7 +1066,7 @@ function renderModule(mod){
 }
 function clearFilter(mod){
   const ml=mod.toLowerCase();
-  [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`${ml}-img-filter`,`${ml}-share-filter`,`${ml}-deleted-filter`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  [`${ml}-search`,`${ml}-date-from`,`${ml}-date-to`,`${ml}-answered`,`${ml}-img-filter`,`${ml}-share-filter`,'gel-kat','alk-tema-f'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   filterModule(mod);
 }
 async function loadAndRenderList(mod){ await loadCache(mod);filterModule(mod); }
@@ -1045,14 +1079,9 @@ function filterModule(mod){
   const answered=document.getElementById(`${ml}-answered`)?.value||'';
   const imgFilter=document.getElementById(`${ml}-img-filter`)?.value||'';
   const shareFilter=document.getElementById(`${ml}-share-filter`)?.value||'';
-  const deletedFilter=document.getElementById(`${ml}-deleted-filter`)?.value||'';
   const gelKat=document.getElementById('gel-kat')?.value||'';
   const alkTema=document.getElementById('alk-tema-f')?.value||'';
   let data=filterByShareAndOwnership([...(cache[mod]||[])]);
-  // Filter deleted: default = aktif saja (exclude deleted=y)
-  if(deletedFilter==='only_deleted') data=data.filter(r=>(r.deleted||'').toLowerCase()==='y');
-  else if(deletedFilter==='include_deleted') { /* tampilkan semua */ }
-  else data=data.filter(r=>(r.deleted||'').toLowerCase()!=='y'); // default: aktif saja
   if(search)data=data.filter(r=>JSON.stringify(r).toLowerCase().includes(search));
   if(dateFrom)data=data.filter(r=>r.tanggal&&r.tanggal>=dateFrom);
   if(dateTo)data=data.filter(r=>r.tanggal&&r.tanggal<=dateTo);
@@ -1116,6 +1145,7 @@ function buildDoaCard(r){
   </div>`;
 }
 function openDoaDetail(r){
+  logHistory('🙏 Catatan Doa', 'lihat detail doa', `#${r.no_urut||'-'} tgl: ${r.tanggal||'-'}, ${(r.permintaan||'').slice(0,50)}`);
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const txt=`📖 CATATAN DOA #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal: ${formatDate(r.tanggal)}\n📊 Status: ${r.status||'-'}\n\n🙏 PERMINTAAN DOA:\n${r.permintaan||'-'}\n\n✨ TERANG:\n${r.terang||'-'}\n\n📅 Tgl Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan: ${r.catatan_jawaban||'-'}`;
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
@@ -1156,7 +1186,7 @@ async function saveDoaEdit(r){
   const idx=(cache.Doa||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
   if(idx>=0)Object.assign(cache.Doa[idx],updates);
   toast('⏳ Menyimpan...');
-  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_DOA,{action:'update_doa',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}catch(e){toast('✅ Tersimpan lokal');}}
+  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_DOA,{action:'update_doa',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');logHistory('🙏 Catatan Doa','edit doa',`#${r.no_urut||'-'} tgl: ${r.tanggal||'-'}`);}catch(e){toast('✅ Tersimpan lokal');}}
   else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Doa');
 }
@@ -1173,6 +1203,7 @@ async function submitDoa(){
   try{
     await postToAS(APPS_SCRIPT_DOA,{action:'tambah',sheet:'Doa',...newEntry});
     toast('✅ Catatan doa tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
+    logHistory('🙏 Catatan Doa', 'tambah doa', `tgl: ${newEntry.tanggal}, permintaan: ${(newEntry.permintaan||'').slice(0,50)}`);
     resetForm(['doa-permintaan','doa-terang','doa-tgl-jwb','doa-catatan-jwb','doa-link-image','doa-ket-image']);
     document.getElementById('doa-tgl').value=getTodayStr();setShareMode('doa-form','');
     setTimeout(async()=>{delete cache.Doa;await loadCache('Doa');filterModule('Doa');if(msg)msg.textContent='';},5000);
@@ -1211,6 +1242,7 @@ function buildGelisahCard(r){
   </div>`;
 }
 function openGelisahDetail(r){
+  logHistory('💭 Kegelisahan', 'lihat detail gelisah', `#${r.no_urut||'-'} tgl: ${r.tanggal||'-'}, kat: ${r.kategori||'-'}`);
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const txt=`💭 CATATAN KEGELISAHAN #${r.no_urut||'-'}\n${'─'.repeat(35)}\n📅 Tanggal: ${formatDate(r.tanggal)}\n🏷 Kategori: ${r.kategori||'-'}\n📊 Status: ${r.status||'-'}\n\n💭 ISI:\n${r.masalah||'-'}\n\n✨ TERANG:\n${r.terang||'-'}\n\n📅 Jawaban: ${formatDate(r.tanggal_jawaban)||'-'}\n📝 Catatan: ${r.catatan_jawaban||'-'}`;
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
@@ -1251,7 +1283,7 @@ async function saveGelisahEdit(r){
   const idx=(cache.Gelisah||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
   if(idx>=0)Object.assign(cache.Gelisah[idx],updates);
   toast('⏳ Menyimpan...');
-  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_GELISAH,{action:'update_gelisah',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');}catch(e){toast('✅ Tersimpan lokal');}}
+  if(!isDemoMode){try{await postToAS(APPS_SCRIPT_GELISAH,{action:'update_gelisah',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',...updates});toast('✅ Perubahan tersimpan!');logHistory('💭 Kegelisahan','edit gelisah',`#${r.no_urut||'-'} tgl: ${r.tanggal||'-'}`);}catch(e){toast('✅ Tersimpan lokal');}}
   else{toast('✅ Tersimpan (demo)');}
   closeDetail();filterModule('Gelisah');
 }
@@ -1268,6 +1300,7 @@ async function submitGelisah(){
   try{
     await postToAS(APPS_SCRIPT_GELISAH,{action:'tambah',sheet:'Gelisah',...newEntry});
     toast('✅ Tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
+    logHistory('💭 Kegelisahan', 'tambah gelisah', `tgl: ${newEntry.tanggal}, kat: ${newEntry.kategori}, masalah: ${(newEntry.masalah||'').slice(0,50)}`);
     resetForm(['gel-masalah','gel-terang','gel-tgl-jwb','gel-catatan-jwb','gel-link-image','gel-ket-image']);
     document.getElementById('gel-tgl').value=getTodayStr();setShareMode('gel-form','');
     setTimeout(async()=>{delete cache.Gelisah;await loadCache('Gelisah');filterModule('Gelisah');if(msg)msg.textContent='';},5000);
@@ -1306,6 +1339,7 @@ function buildAlkitabCard(r){
 }
 
 function openAlkitabDetail(r){
+  logHistory('📖 Alkitab', 'lihat detail alkitab', `#${r.no_urut||'-'} ref: ${r.nama_alkitab||'-'}`);
   const imgUrl=fmtImg(getRecordImage(r));const imgCap=getRecordImageCaption(r);
   const canEditThis=canEditAnswers()||r.user?.toLowerCase()===(currentUser?.username||'').toLowerCase();
   showDetail(`
@@ -1322,9 +1356,8 @@ function openAlkitabDetail(r){
       <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
       <button class="txt-btn" onclick="downloadAlkitabTxt(${JSON.stringify(r).replace(/"/g,'&quot;')})">⬇️ .txt</button>
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
-      ${canEditThis?`<button class="btn" style="background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.4);color:var(--red);" onclick="markAlkitabDeleted(${JSON.stringify(r).replace(/"/g,'&quot;')})">🗑 Hapus</button>`:''}
     </div>
-    <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`,true);
+    <div id="alk-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
 
 function openAlkitabFullscreen(r){
@@ -1335,34 +1368,15 @@ function openAlkitabFullscreen(r){
     {label:'Tgl Terjawab',val:r.tanggal_jawaban?formatDate(r.tanggal_jawaban):''},{label:'📝 Catatan Jawaban',val:r.catatan_jawaban},
   ];
   const html=sections.filter(s=>(s.val||'').trim()).map(s=>`<div style="margin-bottom:16px;"><div style="font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${s.label}</div><div style="${s.style||'line-height:1.8;color:var(--text);'}">${esc(s.val)}</div></div>`).join('');
-  const fsTitle=document.getElementById('alk-fs-content');
-  if(fsTitle){fsTitle.innerHTML=html;fsTitle.style.fontSize=fsFontSizes.alk+'px';}
-  const lbl=document.getElementById('alk-fs-font-label');
-  if(lbl)lbl.textContent=fsFontSizes.alk+'px';
-  openFS('alk-fullscreen');
+  document.getElementById('fs-title').textContent=r.nama_alkitab||'Catatan Alkitab';
+  const c=document.getElementById('fs-content');
+  c.innerHTML=html;c.style.fontSize=fsFontSizes.main+'px';c.style.whiteSpace='normal';
+  c.dataset.isHtml='1';
+  openFS('fullscreen-overlay');
 }
 
 // ══════════════════════════════════════════════════════════════════
-// [NEW v4.21] HAPUS ALKITAB — soft delete, hanya tandai deleted=true
-// Data TIDAK benar-benar dihapus dari spreadsheet, hanya diberi tanda
-// Kolom 'deleted' di sheet diisi 'y', lalu tidak ditampilkan di list
-// ══════════════════════════════════════════════════════════════════
-async function markAlkitabDeleted(r){
-  if(!confirm(`Tandai catatan "${r.nama_alkitab||'ini'}" sebagai dihapus?\n\n⚠️ Data tidak benar-benar dihapus dari spreadsheet,\nhanya ditandai dan tidak akan muncul di daftar.`)) return;
-  const idx=(cache.Alkitab||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
-  if(idx>=0) cache.Alkitab[idx].deleted='y';
-  toast('⏳ Menandai...');
-  if(!isDemoMode){
-    try{
-      await postToAS(APPS_SCRIPT_ALKITAB,{action:'update_alkitab',user:currentUser?.username||'',no_urut:r.no_urut||'',tanggal:r.tanggal||'',deleted:'y'});
-      toast('🗑 Catatan ditandai terhapus');
-    }catch(e){toast('🗑 Ditandai lokal (tidak tersimpan ke server)');}
-  }else{toast('🗑 Ditandai (demo)');}
-  closeDetail();
-  filterModule('Alkitab');
-}
-
-
+// [FIX v4.19] toggleAlkitabEditForm
 // FIX 1: tombol Simpan pakai &quot; bukan '"' 
 // FIX 2: scrollIntoView otomatis saat form dibuka
 // ══════════════════════════════════════════════════════════════════
@@ -1439,6 +1453,7 @@ async function submitAlkitab(){
   try{
     await postToAS(APPS_SCRIPT_ALKITAB,{action:'tambah',sheet:'Alkitab',...newEntry});
     toast('✅ Tersimpan!');if(msg){msg.textContent='✅ Tersimpan!';msg.style.color='var(--accent3)';}
+    logHistory('📖 Alkitab', 'tambah alkitab', `tgl: ${newEntry.tanggal}, ref: ${newEntry.nama_alkitab}, tema: ${newEntry.tema}`);
     resetForm(['alk-ayat','alk-terang','alk-catatan','alk-tgl-jwb','alk-catatan-jwb','alk-nama','alk-link-image','alk-ket-image']);
     document.getElementById('alk-tgl').value=getTodayStr();setShareMode('alk-form','');
     setTimeout(async()=>{delete cache.Alkitab;await loadCache('Alkitab');filterModule('Alkitab');if(msg)msg.textContent='';},5000);
@@ -1565,7 +1580,8 @@ async function submitPertanyaan(){
   const waktu=`${pp(now.getDate())}/${pp(now.getMonth()+1)}/${now.getFullYear()} ${pp(now.getHours())}:${pp(now.getMinutes())}`;
   try{
     await postToAS(APPS_SCRIPT_PERTANYAAN,{action:'tambah_pertanyaan',nama,topik,urgensi,pertanyaan:isi,waktu,username:currentUser?.username||nama,isi_jawaban:'',keputusan:'',status:'Pending'});
-    toast('✅ Pertanyaan berhasil dikirim!');if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
+    toast('✅ Pertanyaan berhasil dikirim!');logHistory('❓ Pertanyaan','tambah pertanyaan',`topik: ${topik}, urgensi: ${urgensi}, ${isi.slice(0,60)}`);
+    if(msg){msg.textContent='✅ Pertanyaan terkirim!';msg.style.color='var(--accent3)';}
     const isiEl=document.getElementById('ptny-isi');if(isiEl){isiEl.value='';document.getElementById('ptny-char').textContent='0 karakter';}
     setTimeout(()=>{loadPertanyaanList();if(msg)msg.textContent='';},2000);
   }catch(e){toast('⚠️ Gagal mengirim pertanyaan');if(msg){msg.textContent='⚠️ Gagal kirim';msg.style.color='var(--yellow)';}}
@@ -2085,29 +2101,214 @@ async function saveJemaatEdit(idx){
 function renderPanduan(){
   document.getElementById('app-content').innerHTML=`
     <div class="info-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06);">
-      ⚙️ <b>Panduan &amp; Konfigurasi v4.0</b><br><br>
+      ⚙️ <b>Panduan &amp; Konfigurasi v4.21</b><br><br>
       📋 <b>Kolom baru wajib di Sheet Doa/Gelisah/Alkitab:</b><br>
       &nbsp;&nbsp;• <code>user</code> — username penulis<br>
       &nbsp;&nbsp;• <code>link_image</code> — link Google Drive gambar<br>
       &nbsp;&nbsp;• <code>keterangan_image</code> — deskripsi gambar<br>
       &nbsp;&nbsp;• <code>share_type</code> — nilai: <b>kosong</b> (pribadi) | <b>all</b> (publik) | <b>admin</b> (admin saja)<br><br>
-      📋 <b>Sheet Pengumuman baru:</b> gid=500000000 — kolom: <code>judul | isi | waktu | author | target</code><br><br>
+      📋 <b>Sheet Pengumuman baru:</b> kolom: <code>judul | isi | waktu | author | target | tanggal_awal | tanggal_akhir</code><br>
       📊 <b>Menu Laporan</b> hanya tampil untuk Administrator.<br>
-      📢 <b>Menu Pengumuman</b> hanya tampil untuk Administrator.
+      📢 <b>Menu Pengumuman</b> hanya tampil untuk Administrator.<br>
+      📝 <b>History Log</b> — semua aksi user dicatat ke Google Sheets (perlu Apps Script History baru).
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;">
       <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;">📋 Apps Script yang Perlu Diupdate</div>
       <div style="font-size:.78rem;color:var(--text2);line-height:2.2;">
         <b style="color:var(--accent);">DOA — Action baru:</b><br>
         &nbsp;&nbsp;• <code>tambah</code> — tambah baris baru (termasuk kolom share_type)<br>
-        &nbsp;&nbsp;• <code>update_doa</code> — update row berdasarkan no_urut + tanggal + user, update kolom: catatan_jawaban, tanggal_jawaban, status, link_image, keterangan_image, share_type<br><br>
-        <b style="color:var(--accent2);">GELISAH — sama seperti DOA</b> (update_gelisah)<br>
+        &nbsp;&nbsp;• <code>update_doa</code> — update row berdasarkan no_urut + tanggal + user<br><br>
+        <b style="color:var(--accent2);">GELISAH — Action baru (v4.21):</b><br>
+        &nbsp;&nbsp;• <code>tambah</code> — Sheet Gelisah, kolom: <code>no_urut | tanggal | user | masalah | terang | kategori | tanggal_jawaban | status | catatan_jawaban | link_image | keterangan_image | share_type</code><br>
+        &nbsp;&nbsp;• <code>update_gelisah</code> — update row berdasarkan no_urut + tanggal + user<br>
+        &nbsp;&nbsp;• <code>get_gelisah</code> — GET all data Gelisah<br><br>
         <b style="color:var(--accent3);">ALKITAB — sama seperti DOA</b> (update_alkitab)<br><br>
         <b style="color:var(--yellow);">PENGUMUMAN — Action baru:</b><br>
         &nbsp;&nbsp;• <code>tambah_pengumuman</code> — tambah baris di Sheet Pengumuman<br>
         &nbsp;&nbsp;• <code>get_pengumuman</code> — GET request, kembalikan JSON array<br><br>
+        <b style="color:#34d399;">HISTORY — Apps Script BARU (spreadsheet terpisah):</b><br>
+        &nbsp;&nbsp;• Sheet: <code>History</code> — kolom: <code>id | username | level | menu | aksi | detail | ip | tanggal | waktu | timestamp_iso | user_agent | no_efataid</code><br>
+        &nbsp;&nbsp;• <code>tambah</code> — catat aktivitas user (GET request, fire-and-forget)<br>
+        &nbsp;&nbsp;• Deploy sebagai Web App → Anyone (tanpa autentikasi)<br>
+        &nbsp;&nbsp;• Ganti nilai <code>APPS_SCRIPT_HISTORY</code> di kode frontend<br><br>
         <b style="color:var(--red);">LAPORAN</b> — Tidak membutuhkan Apps Script baru, dibaca langsung dari CSV.
       </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid rgba(52,211,153,.3);border-radius:var(--radius);padding:14px;margin-bottom:10px;">
+      <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;color:var(--accent3);">📝 Apps Script: GELISAH (Update v4.21)</div>
+      <pre style="font-size:.62rem;color:var(--accent2);background:var(--surface2);padding:12px;border-radius:10px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;">${escAppScript(`// ═══ APPS SCRIPT: GELISAH v4.21 ═══
+// Sheet: Gelisah | Kolom: no_urut | tanggal | user | masalah | terang
+//        kategori | tanggal_jawaban | status | catatan_jawaban
+//        link_image | keterangan_image | share_type
+
+const SHEET_NAME = 'Gelisah';
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000);
+    const p = e.parameter || {};
+    const action = p.action || 'tambah';
+    let result;
+    if (action === 'tambah') result = tambahGelisah(p);
+    else if (action === 'update_gelisah') result = updateGelisah(p);
+    else result = { status: 'error', message: 'Unknown action' };
+    return jsonOut(result);
+  } catch(err) {
+    return jsonOut({ status: 'error', message: err.message });
+  } finally { lock.releaseLock(); }
+}
+
+function doGet(e) {
+  const action = (e.parameter.action || 'get_gelisah');
+  if (action === 'get_gelisah') return jsonOut(getGelisah(e.parameter));
+  return jsonOut({ status: 'ok', message: 'Gelisah API v4.21' });
+}
+
+function getSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    const headers = ['no_urut','tanggal','user','masalah','terang','kategori',
+      'tanggal_jawaban','status','catatan_jawaban','link_image','keterangan_image','share_type'];
+    sheet.getRange(1,1,1,headers.length).setValues([headers]);
+    sheet.getRange(1,1,1,headers.length).setBackground('#1a3a6e').setFontColor('#fff').setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function tambahGelisah(p) {
+  const sheet = getSheet();
+  const row = [
+    p.no_urut || (sheet.getLastRow()),
+    p.tanggal || '', p.user || '',
+    p.masalah || '', p.terang || '',
+    p.kategori || '', p.tanggal_jawaban || '',
+    p.status || 'Gelisah', p.catatan_jawaban || '',
+    p.link_image || '', p.keterangan_image || '',
+    p.share_type || ''
+  ];
+  sheet.appendRow(row);
+  SpreadsheetApp.flush();
+  return { status: 'ok' };
+}
+
+function updateGelisah(p) {
+  const sheet = getSheet();
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0].map(h => String(h).trim().toLowerCase().replace(/\\s+/g,'_'));
+  const iNo = headers.indexOf('no_urut'), iTgl = headers.indexOf('tanggal'), iUser = headers.indexOf('user');
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][iNo]||'') == String(p.no_urut||'') &&
+        String(data[i][iTgl]||'') == String(p.tanggal||'') &&
+        String(data[i][iUser]||'').toLowerCase() == String(p.user||'').toLowerCase()) {
+      const fields = ['catatan_jawaban','tanggal_jawaban','status','link_image','keterangan_image','share_type'];
+      fields.forEach(f => {
+        const idx = headers.indexOf(f);
+        if (idx >= 0 && p[f] !== undefined) sheet.getRange(i+1, idx+1).setValue(p[f]);
+      });
+      SpreadsheetApp.flush();
+      return { status: 'ok', updated: true };
+    }
+  }
+  return { status: 'ok', updated: false, message: 'Row not found' };
+}
+
+function getGelisah(p) {
+  const sheet = getSheet();
+  const data = sheet.getDataRange().getValues();
+  if (data.length < 2) return { status: 'ok', data: [] };
+  const headers = data[0].map(h => String(h).trim().toLowerCase().replace(/\\s+/g,'_'));
+  const rows = data.slice(1).map(row => {
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = String(row[i]||'').trim(); });
+    return obj;
+  }).filter(r => r.masalah || r.tanggal);
+  return { status: 'ok', data: rows };
+}
+
+function jsonOut(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}`)}</pre>
+    </div>
+    <div style="background:var(--surface);border:1px solid rgba(124,158,240,.3);border-radius:var(--radius);padding:14px;margin-bottom:10px;">
+      <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;color:var(--accent);">📝 Apps Script: HISTORY LOG (Spreadsheet Baru)</div>
+      <pre style="font-size:.62rem;color:var(--accent);background:var(--surface2);padding:12px;border-radius:10px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;">${escAppScript(`// ═══ APPS SCRIPT: HISTORY LOG ═══
+// Buat spreadsheet BARU, Sheet: "History"
+// Deploy: Web App → Execute as Me → Anyone
+
+const HISTORY_SHEET = 'History';
+
+function doGet(e) {
+  const action = e.parameter.action || '';
+  try {
+    if (action === 'tambah') return jsonRes(tambahHistory(e.parameter));
+    if (action === 'get_history') return jsonRes(getHistory(e.parameter));
+    return jsonRes({ status: 'ok', message: 'History API ready' });
+  } catch(err) { return jsonRes({ status: 'error', message: err.message }); }
+}
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000);
+    const p = e.parameter || {};
+    const action = p.action || 'tambah';
+    if (action === 'tambah') return jsonRes(tambahHistory(p));
+    if (action === 'get_history') return jsonRes(getHistory(p));
+    return jsonRes({ status: 'error', message: 'Unknown action' });
+  } catch(err) { return jsonRes({ status: 'error', message: err.message });
+  } finally { lock.releaseLock(); }
+}
+
+function getHistorySheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(HISTORY_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(HISTORY_SHEET);
+    const headers = ['id','username','level','menu','aksi','detail','ip',
+      'tanggal','waktu','timestamp_iso','user_agent','no_efataid'];
+    sheet.getRange(1,1,1,headers.length).setValues([headers]);
+    sheet.getRange(1,1,1,headers.length).setBackground('#1a3a6e').setFontColor('#fff').setFontWeight('bold');
+    sheet.setFrozenRows(1);
+    [160,120,140,120,140,200,120,100,100,160,200,120].forEach((w,i)=>sheet.setColumnWidth(i+1,w));
+  }
+  return sheet;
+}
+
+function tambahHistory(p) {
+  const sheet = getHistorySheet();
+  const now = new Date(), pad = x => String(x).padStart(2,'0');
+  const tanggal = pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear();
+  const waktu = pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  const id = 'H_'+now.getTime()+'_'+Math.floor(Math.random()*9999);
+  sheet.appendRow([id, p.username||'-', p.level||'-', p.menu||'-', p.aksi||'-',
+    p.detail||'', p.ip||'-', tanggal, waktu, now.toISOString(),
+    p.user_agent||'-', p.no_efataid||'-']);
+  return { status: 'ok', id };
+}
+
+function getHistory(p) {
+  const sheet = getHistorySheet();
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return { status: 'ok', data: [], total: 0 };
+  const headers = data[0];
+  let rows = data.slice(1).map(row => {
+    const obj = {}; headers.forEach((h,i) => obj[h] = row[i]); return obj;
+  }).filter(r => r.id && r.username);
+  if (p.username) rows = rows.filter(r => r.username === p.username);
+  rows.sort((a,b) => new Date(b.timestamp_iso||0) - new Date(a.timestamp_iso||0));
+  rows = rows.slice(0, parseInt(p.limit||'500'));
+  return { status: 'ok', data: rows, total: rows.length };
+}
+
+function jsonRes(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}`)}</pre>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;">
       <div style="font-family:'Lora',serif;font-weight:700;margin-bottom:10px;">🔗 URL Apps Script</div>
@@ -2117,7 +2318,8 @@ function renderPanduan(){
         <b>Gelisah:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_GELISAH}</code><br>
         <b>Alkitab:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent3);">${APPS_SCRIPT_ALKITAB}</code><br>
         <b>Pertanyaan:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent2);">${APPS_SCRIPT_PERTANYAAN}</code><br>
-        <b>Jemaat:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent2);">${APPS_SCRIPT_JEMAAT}</code>
+        <b>Jemaat:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent2);">${APPS_SCRIPT_JEMAAT}</code><br>
+        <b style="color:var(--accent);">History:</b><br><code style="font-size:.58rem;word-break:break-all;color:var(--accent);">${APPS_SCRIPT_HISTORY}</code>
       </div>
     </div>`;
 }
