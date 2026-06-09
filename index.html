@@ -1,10 +1,10 @@
-<!-- v4.25 | Buku Harian Rohani | Patch dari v4.24 -->
+<!-- v4.25 E | Buku Harian Rohani | Patch dari v4.24 -->
 <!-- Perubahan: History log ke Google Sheets, tombol Kembali/FS pindah ke atas, update Apps Script Gelisah -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.25 C</title>
+<title>Buku Harian Rohani v4.25 E</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -176,8 +176,9 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 
 /* ═══════════════════════════════ DETAIL MODAL ═══════════════════════════════ */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:800;overflow-y:auto;}
-.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 600px;}
-.modal-close-bar{position:fixed;bottom:0;left:0;width:100%;padding:12px 14px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:7px;z-index:810;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+.modal-panel{background:var(--surface);border-top:1px solid var(--border);min-height:100vh;padding:16px 14px 80px;}
+  
+.modal-close-bar{position:sticky;top:0;left:0;width:100%;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;gap:7px;z-index:810;}
 .modal-close-btn{flex:1;padding:11px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:\'Nunito\',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;}
 .detail-field{background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border);margin-bottom:8px;}
 .detail-label{font-size:.63rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
@@ -381,7 +382,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25 C · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25 E · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -588,9 +589,16 @@ function openImgViewerWithNames(urls,names,idx){ openImgViewer(urls[idx],names[i
 // FULLSCREEN
 // ══════════════════════════════════════════════════════════════════
 let fsFontSizes={main:16,doa:15,gel:15,alk:15};
-function openFS(id){ const el=document.getElementById(id);if(!el)return;el.style.display='flex';el.requestFullscreen?.().catch(()=>{}); }
-function closeFS(id){ const el=document.getElementById(id);if(el)el.style.display='none';if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{}); }
-function openDetailFullscreen(){ openFS('fullscreen-overlay'); }
+function openFS(id){ const el=document.getElementById(id);if(!el)return;el.style.display='flex'; }
+function closeFS(id){ const el=document.getElementById(id);if(el)el.style.display='none'; }
+function openDetailFullscreen(){
+  const body=document.getElementById('detail-body');
+  const c=document.getElementById('fs-content');
+  c.innerHTML=body?body.innerHTML:'';
+  c.dataset.isHtml='1';c.style.whiteSpace='normal';c.style.fontSize=fsFontSizes.main+'px';
+  document.getElementById('fs-title').textContent='Detail';
+  openFS('fullscreen-overlay');
+}  
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
 document.getElementById('fs-a-plus').addEventListener('click',()=>changeFSFont('main',1));
 function changeFSFont(key,d){
@@ -1185,22 +1193,24 @@ function openDoaDetail(r){
     </div>
     <div id="doa-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
+
 function toggleDoaEditForm(r){
   const el=document.getElementById('doa-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
   el.style.display='block';
   const st=r.share_type||'';
-  el.innerHTML=`<div class="edit-section"><div class="edit-section-title">✏️ Edit Catatan Doa</div>
+  el.innerHTML=`<div class="edit-section">
+    <div style="display:flex;gap:7px;margin-bottom:10px;"><button class="btn accent3" onclick="saveDoaEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('doa-edit-form').style.display='none'" style="padding:10px;">✕ Batal</button></div>
+    <div class="edit-section-title">✏️ Edit Catatan Doa</div>
     <label class="edit-label">Catatan Jawaban Doa</label><textarea class="edit-textarea" id="doa-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
     <label class="edit-label">Tanggal Jawaban</label><input class="edit-input" type="date" id="doa-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
     <label class="edit-label">Status</label><select class="edit-input" id="doa-edit-status"><option ${r.status==='Berdoa'?'selected':''}>Berdoa</option><option ${r.status==='Terjawab'?'selected':''}>Terjawab</option><option ${r.status==='Proses'?'selected':''}>Proses</option></select>
     <label class="edit-label">🖼️ Link Gambar</label><input class="edit-input" type="url" id="doa-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}" placeholder="https://drive.google.com/file/d/...">
     <label class="edit-label">Keterangan Gambar</label><input class="edit-input" type="text" id="doa-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}">
     <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label><select class="edit-input" id="doa-edit-share-type"><option value="" ${!st?'selected':''}>🔒 Pribadi</option><option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option><option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option></select>
-    <div style="display:flex;gap:7px;margin-top:4px;"><button class="btn accent3" onclick="saveDoaEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('doa-edit-form').style.display='none'" style="padding:10px;">✕</button></div>
   </div>`;
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
-}
+}  
 async function saveDoaEdit(r){
   const updates={catatan_jawaban:document.getElementById('doa-edit-catatan-jwb')?.value.trim()||'',tanggal_jawaban:document.getElementById('doa-edit-tgl-jwb')?.value||'',status:document.getElementById('doa-edit-status')?.value||'Berdoa',link_image:document.getElementById('doa-edit-link-image')?.value.trim()||'',keterangan_image:document.getElementById('doa-edit-ket-image')?.value.trim()||'',share_type:document.getElementById('doa-edit-share-type')?.value||''};
   const idx=(cache.Doa||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
@@ -1282,22 +1292,24 @@ function openGelisahDetail(r){
     </div>
     <div id="gel-edit-form" style="display:none;margin-top:12px;"></div>`);
 }
+
 function toggleGelisahEditForm(r){
   const el=document.getElementById('gel-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
   el.style.display='block';
   const st=r.share_type||'';
-  el.innerHTML=`<div class="edit-section"><div class="edit-section-title">✏️ Edit Catatan Kegelisahan</div>
+  el.innerHTML=`<div class="edit-section">
+    <div style="display:flex;gap:7px;margin-bottom:10px;"><button class="btn accent3" onclick="saveGelisahEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('gel-edit-form').style.display='none'" style="padding:10px;">✕ Batal</button></div>
+    <div class="edit-section-title">✏️ Edit Catatan Kegelisahan</div>
     <label class="edit-label">Catatan Penyelesaian</label><textarea class="edit-textarea" id="gel-edit-catatan-jwb">${escHtml(r.catatan_jawaban||'')}</textarea>
     <label class="edit-label">Tanggal Jawaban</label><input class="edit-input" type="date" id="gel-edit-tgl-jwb" value="${escHtml(r.tanggal_jawaban||'')}">
     <label class="edit-label">Status</label><select class="edit-input" id="gel-edit-status"><option ${r.status==='Gelisah'?'selected':''}>Gelisah</option><option ${r.status==='Proses'?'selected':''}>Proses</option><option ${r.status==='Damai'?'selected':''}>Damai</option></select>
     <label class="edit-label">🖼️ Link Gambar</label><input class="edit-input" type="url" id="gel-edit-link-image" value="${escHtml(r.link_image||r['link image']||'')}">
     <label class="edit-label">Keterangan Gambar</label><input class="edit-input" type="text" id="gel-edit-ket-image" value="${escHtml(r.keterangan_image||r['keterangan image']||'')}">
     <label class="edit-label" style="margin-top:4px;">👁️ Visibilitas</label><select class="edit-input" id="gel-edit-share-type"><option value="" ${!st?'selected':''}>🔒 Pribadi</option><option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option><option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option></select>
-    <div style="display:flex;gap:7px;margin-top:4px;"><button class="btn accent3" onclick="saveGelisahEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('gel-edit-form').style.display='none'" style="padding:10px;">✕</button></div>
   </div>`;
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
-}
+}  
 async function saveGelisahEdit(r){
   const updates={catatan_jawaban:document.getElementById('gel-edit-catatan-jwb')?.value.trim()||'',tanggal_jawaban:document.getElementById('gel-edit-tgl-jwb')?.value||'',status:document.getElementById('gel-edit-status')?.value||'Gelisah',link_image:document.getElementById('gel-edit-link-image')?.value.trim()||'',keterangan_image:document.getElementById('gel-edit-ket-image')?.value.trim()||'',share_type:document.getElementById('gel-edit-share-type')?.value||''};
   const idx=(cache.Gelisah||[]).findIndex(d=>d.no_urut==r.no_urut&&d.tanggal==r.tanggal);
@@ -1400,12 +1412,14 @@ function openAlkitabFullscreen(r){
 // FIX 1: tombol Simpan pakai &quot; bukan '"' 
 // FIX 2: scrollIntoView otomatis saat form dibuka
 // ══════════════════════════════════════════════════════════════════
+
 function toggleAlkitabEditForm(r){
   const el=document.getElementById('alk-edit-form');
   if(el.style.display!=='none'){el.style.display='none';return;}
   el.style.display='block';
   const st=r.share_type||'';
   el.innerHTML=`<div class="edit-section">
+    <div style="display:flex;gap:7px;margin-bottom:10px;"><button class="btn accent3" onclick="saveAlkitabEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button><button class="btn" onclick="document.getElementById('alk-edit-form').style.display='none'" style="padding:10px;">✕ Batal</button></div>
     <div class="edit-section-title">✏️ Edit Catatan Alkitab</div>
     <label class="edit-label">📖 Referensi Alkitab</label>
     <input class="edit-input" type="text" id="alk-edit-nama" value="${escHtml(r.nama_alkitab||'')}" placeholder="cth: Yohanes 3:16...">
@@ -1429,15 +1443,9 @@ function toggleAlkitabEditForm(r){
       <option value="all" ${st==='all'?'selected':''}>🌐 Share for All</option>
       <option value="admin" ${st==='admin'?'selected':''}>🔐 Share for Admin</option>
     </select>
-    <div style="display:flex;gap:7px;margin-top:4px;">
-      <button class="btn accent3" onclick="saveAlkitabEdit(${JSON.stringify(r).replace(/"/g,'&quot;')})" style="flex:1;padding:10px;">💾 Simpan</button>
-      <button class="btn" onclick="document.getElementById('alk-edit-form').style.display='none'" style="padding:10px;">✕</button>
-    </div>
   </div>`;
-  // FIX v4.19: scroll ke form edit agar semua field terlihat, tidak tertutup tombol fixed
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
-
 async function saveAlkitabEdit(r){
   const updates={
     nama_alkitab:document.getElementById('alk-edit-nama')?.value.trim()||r.nama_alkitab||'',
