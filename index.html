@@ -1,10 +1,10 @@
-<!-- v4.22 | Buku Harian Rohani | Patch dari v4.21 -->
+<!-- v4.23 | Buku Harian Rohani | Patch dari v4.22 -->
 <!-- Perubahan: Hapus tombol FS di modal Alkitab, fix tutup/A-/A+ fullscreen, font selector, filter hapus -->
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.22</title>
+<title>Buku Harian Rohani v4.23</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -381,7 +381,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.22 · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.23 · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -469,19 +469,21 @@ const URLS = {
   Awal:         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSplYP8o_2Nfu8H3TLlrodFzARIM2fjpTMZq6mbF2bL9cDer_ktFOGPClbqAwLhDJVeq_F7SI_AYVnP/pub?output=csv",
   Doa:          "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUP9PHhlxDoXbccBBp_Br6VhVpAGwJbg-0ltcsSNbqMKaolpI97LIckaSp706PYcdJIII0I73Ebo8n/pub?output=csv",
   Gelisah:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8BQMI5Xyx5KpatFPzJffYa6HtZSDKq3bZ3M4xUvO1g3x_zW_X2wnvLDR5nA13dYeVNBAG9JcRApaU/pub?output=csv",
-  Alkitab:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuzb1kU_nRifBhB32ANIJmjsXbXWVciIw-iJqP14GakkZVipQfAhyfURG7EMRprHZcu2aBg7XJzdnF/pub?output=csv",
+  Alkitab:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRf98rImoY_F16e0_sIPxTXRhDVQ2nvRTY6uqr83BHY0cro90GcFTYTU4tq73Z0Kd5dxzkN5IJ8w-FB/pub?output=csv",
   Pertanyaan:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNlkzeC1qTvHxfCcut_PKzEYGqYruH1ns9FbmF2Kuju3K0FodjsOcvIwzk6MAvuzJZewjwASu_wRlZ/pub?output=csv",
   Jemaat:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSI_5dVogArMM6hfMUrTpsXCVj-7rGmD2aqklSRufNHUHN_JzOYOgZ2Qz1TZszE7kH9XTaSa1kOv6N2/pub?output=csv",
   Pengumuman:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRviVem3s9xJ8LP8joSs2s2lTDHl307foO_HKgCC1KthOxOJ5as3FxnODXxTsoVZN1dAYx71mcbubA_/pub?output=csv",
+  History:      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRviVem3s9xJ8LP8joSs2s2lTDHl307foO_HKgCC1KthOxOJ5as3FxnODXxTsoVZN1dAYx71mcbubA_/pub?output=csv",
                 };
 
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
 const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbywU3BwLOxZdC0IgDkEGPNVEZceLvNVzf8ZE-XxtocP9rVU59m2LAEvphPyZiD7wztutg/exec";
 const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycbwaVo4xcxrikcu2NPA569JAdhgch9M4uaEnBayMFjEboadDerZ-4diuXPke0o7uctlaAg/exec";
-const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbzH0z6FWzWp9Sn0MV2s33uZwzm4Kiz7cVgAa62j-jgtZ8XnlXYjrJIIG5yWJVFNuGr-ig/exec";
+const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbz1xasGD0U_Aqp2udHB9DwjecQE2ZjBooXEJoH5-7bzgE_q5PDciewJN9f4LYXX-OUo3Q/exec";
 const APPS_SCRIPT_PERTANYAAN   = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 const APPS_SCRIPT_JEMAAT       = "https://script.google.com/macros/s/AKfycbwHrBsYjYcZ_lwqqp8zvgTQwazzHDTlsNA1cvuuKSldsinW24uRDel0sHAM2dlJV7104g/exec";
 const APPS_SCRIPT_PENGUMUMAN   = "https://script.google.com/macros/s/AKfycbwSk-aSnxIL5cazFQBeu4FGsJkV0XEYXY88QdHeA1dCs-h6WVfsLJjwuEsE3nQdaUvm/exec";
+const APPS_SCRIPT_HISTORY   = "https://script.google.com/macros/s/AKfycbwSk-aSnxIL5cazFQBeu4FGsJkV0XEYXY88QdHeA1dCs-h6WVfsLJjwuEsE3nQdaUvm/exec";
 
 
 // ══════════════════════════════════════════════════════════════════
