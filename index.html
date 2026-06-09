@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Buku Harian Rohani v4.25A</title>
+<title>Buku Harian Rohani v4.25 C</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -381,7 +381,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
     <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
-    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25A · Buku Harian Rohani @2026</div>
+    <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.25 C · Buku Harian Rohani @2026</div>
   </div>
 </div>
 
@@ -477,7 +477,7 @@ const URLS = {
 
 const APPS_SCRIPT_AWAL         = "https://script.google.com/macros/s/AKfycbxU9W7H9ccO8cUIDSU9d6tchHe8KA58TkVbmRdtTgDz4E2fyLwX2ERJ5vTBJPVJPx4p/exec";
 const APPS_SCRIPT_DOA          = "https://script.google.com/macros/s/AKfycbziIKGUYKMMO8L4xrTYtMbPcoGisS_GS-CAkjwez-F2iyXDbj5naL3IvZpXfn8X5OtuOw/exec";
-const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycbwaVo4xcxrikcu2NPA569JAdhgch9M4uaEnBayMFjEboadDerZ-4diuXPke0o7uctlaAg/exec";
+const APPS_SCRIPT_GELISAH      = "https://script.google.com/macros/s/AKfycby_KreBlXBoL4e-3IItEjHZrCa68JkRkNKdloW5PxUKoQ8dhFcBaEciOwzrPAlY-hQD-w/exec";
 const APPS_SCRIPT_ALKITAB      = "https://script.google.com/macros/s/AKfycbz1xasGD0U_Aqp2udHB9DwjecQE2ZjBooXEJoH5-7bzgE_q5PDciewJN9f4LYXX-OUo3Q/exec";
 const APPS_SCRIPT_PERTANYAAN   = "https://script.google.com/macros/s/AKfycbxB6CqOupHfzXLJaj2FBn-N4bZs1dq0lXdM0IMHBRCR_ueJ2VYuOuz-PgZZCcQBEvns/exec";
 const APPS_SCRIPT_JEMAAT       = "https://script.google.com/macros/s/AKfycbwHrBsYjYcZ_lwqqp8zvgTQwazzHDTlsNA1cvuuKSldsinW24uRDel0sHAM2dlJV7104g/exec";
@@ -506,6 +506,7 @@ function getLevelBadge(){
 }
 
 function canSeeEntry(r){
+  if((r.deleted||'').toString().trim().toLowerCase()==='y')return false;
   const st=(r.share_type||'').trim().toLowerCase();
   if(!st||st==='private'){ if(canViewAllEntries())return true; return !r.user||r.user.toLowerCase()===(currentUser?.username||'').toLowerCase(); }
   if(st==='all')return true;
@@ -534,15 +535,34 @@ function fmtImg(url){
   if(url.includes('id=')){try{const id=new URL(url).searchParams.get('id');if(id)return `https://lh3.googleusercontent.com/d/${id}`;}catch(e){}}
   return url;
 }
+// [FIX v4.26] Parser CSV sadar kutip & newline.
+// Bug lama: split('\n') memecah teks SEBELUM cek kutip, sehingga field textarea
+// (ayat/terang/catatan) yang berisi Enter terbaca jadi beberapa baris/ID.
 function parseCSV(txt){
-  const lines=txt.trim().split('\n');if(lines.length<2)return[];
-  const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase().replace(/\s+/g,'_'));
-  return lines.slice(1).map(line=>{
-    const cols=[];let cur='',inQ=false;
-    for(let c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else cur+=c;}
-    cols.push(cur.trim());
+  if(!txt)return[];
+  txt=txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const rows=[];
+  let cur='',row=[],inQ=false;
+  for(let i=0;i<txt.length;i++){
+    const c=txt[i];
+    if(inQ){
+      if(c==='"'){
+        if(txt[i+1]==='"'){cur+='"';i++;}   // "" => satu kutip literal
+        else inQ=false;
+      }else cur+=c;                          // termasuk newline di dalam field
+    }else{
+      if(c==='"')inQ=true;
+      else if(c===','){row.push(cur);cur='';}
+      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
+      else cur+=c;
+    }
+  }
+  if(cur!==''||row.length){row.push(cur);rows.push(row);}
+  if(rows.length<2)return[];
+  const headers=rows[0].map(h=>h.trim().toLowerCase().replace(/\s+/g,'_'));
+  return rows.slice(1).map(cols=>{
     const obj={};
-    headers.forEach((h,i)=>{obj[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();});
+    headers.forEach((h,i)=>{obj[h]=(cols[i]||'').trim();});
     return obj;
   }).filter(r=>Object.values(r).some(v=>v));
 }
