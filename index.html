@@ -1959,7 +1959,7 @@ function avatarFallbackSvg(gender){
 // JEMAAT
 // ══════════════════════════════════════════════════════════════════
 function renderJemaat(){
-  if(isDemoMode||(!isAdminUser()&&!isLevelGembala())){ document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>'+(isDemoMode?'Menu Jemaat tidak tersedia di mode Demo.':'Akses terbatas.')+'</p></div>'; return; }
+  if(isDemoMode){ document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Menu Jemaat tidak tersedia di mode Demo.</p></div>'; return; }
   jemaatFilterIbadah=[];jemaatFilterPelayanan=[];jemaatFilterKelas=[];jemaatFilterGugus=[];jemaatFilterKTM=[];jemaatFilterKTMTahir=[];
   jemaatFilterIbadahMode='OR';jemaatFilterPelayananMode='OR';jemaatFilterKelasMode='OR';jemaatFilterGugusMode='OR';
   document.getElementById('app-content').innerHTML=`
@@ -2169,9 +2169,19 @@ function copyJemaatFilter(){
 function openJemaatPopup(j,foto,idx){
   if(!j)return;
   // Helper: ambil nilai dari berbagai variasi key (spasi vs underscore, kapital vs tidak)
+  
   function jv(k){
-    const variants=[k, k.toLowerCase(), k.replace(/ /g,'_'), k.toLowerCase().replace(/ /g,'_'), k.replace(/_/g,' ')];
-    for(const v of variants){ if(j[v]!==undefined&&j[v]!=='')return j[v]; }
+    // coba exact dulu
+    if(j[k]!==undefined&&j[k]!=='')return j[k];
+    // normalisasi: lowercase, spasi↔underscore
+    const kl=k.toLowerCase();
+    for(const key of Object.keys(j)){
+      const kn=key.toLowerCase().replace(/ /g,'_').replace(/_/g,' ');
+      const kk=kl.replace(/ /g,'_').replace(/_/g,' ');
+      if(key.toLowerCase()===kl||kn===kk){
+        if(j[key]!==undefined&&j[key]!=='')return j[key];
+      }
+    }
     return '';
   }
   const gender=jv('gender')||jv('Gender')||'';
@@ -2184,7 +2194,10 @@ function openJemaatPopup(j,foto,idx){
   const gembalaCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Rata-rata Hadir','Keterangan'];
   const visibleCols=isAdminUser()?allCols:gembalaCols;
   const gembalaEditable=['Nama Lengkap','Nama Panggilan','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Keterangan'];
-  const editableCols=isLevelAdmin()||isLevelGemDistr()?visibleCols:isLevelGembala()?gembalaEditable:[];
+  const userCols=['Nama Lengkap','Nama Panggilan','Gender','pelayanan','ibadah yang diikuti'];
+  const visibleCols=isAdminUser()?allCols:isLevelGembala()?gembalaCols:userCols;
+  const editableCols=isLevelAdmin()||isLevelGemDistr()?allCols:isLevelGembala()?gembalaEditable:[];
+  
   const fieldLabels={'no_EfataID':'No EfataID','Nama Lengkap':'Nama Lengkap','Nama Panggilan':'Nama Panggilan','Usia':'Usia','Gender':'Gender','Tanggal Baptis':'Tgl Baptis','pelayanan':'Pelayanan','ibadah yang diikuti':'Ibadah','KTM':'KTM','KTM Tahir':'KTM Tahir','Kamar Hotel':'Kamar','tipe Kamar':'Tipe Kamar','Rata-rata Hadir':'Rata-rata Hadir','Keterangan':'Keterangan'};
   
   const gridHtml=visibleCols.map(key=>{
