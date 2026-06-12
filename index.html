@@ -2165,41 +2165,32 @@ function copyJemaatFilter(){
   navigator.clipboard.writeText(result).then(()=>toast('✅ Data filter disalin!'));
 }
 
-
 function openJemaatPopup(j,foto,idx){
   if(!j)return;
-  // Helper: ambil nilai dari berbagai variasi key (spasi vs underscore, kapital vs tidak)
-  function jv(k){
-    const variants=[k, k.toLowerCase(), k.replace(/ /g,'_'), k.toLowerCase().replace(/ /g,'_'), k.replace(/_/g,' ')];
-    for(const v of variants){ if(j[v]!==undefined&&j[v]!=='')return j[v]; }
-    return '';
-  }
-  const gender=jv('gender')||jv('Gender')||'';
-  const namaL=jv('Nama Lengkap')||jv('nama_lengkap')||'-';
-  const namaP=jv('Nama Panggilan')||jv('nama_panggilan')||'';
-  const usia=jv('usia')||jv('Usia')||'';
-  const fotoUrl=foto||fmtImg(jv('link_foto')||jv('Link Foto')||'')||getSmartAvatar(gender,usia,idx);
+  const gender=j.gender||j.Gender||'';
+  const namaL=j['Nama Lengkap']||j['nama_lengkap']||'-';
+  const namaP=j['Nama Panggilan']||j['nama_panggilan']||'';
+  const usia=j['usia']||j['Usia']||'';
+  const fotoUrl=foto||fmtImg(j['Link Foto']||j['link_foto']||'')||getSmartAvatar(gender,usia,idx);
   
   const allCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','KTM','KTM Tahir','Kamar Hotel','tipe Kamar','Rata-rata Hadir','Keterangan'];
   const gembalaCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Rata-rata Hadir','Keterangan'];
-  const visibleCols=isAdminUser()?allCols:gembalaCols;
+  const visibleCols=(isAdminUser())?allCols:gembalaCols;
   const gembalaEditable=['Nama Lengkap','Nama Panggilan','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Keterangan'];
+  const gembalaReadOnly=['no_EfataID','Gender'];
   const editableCols=isLevelAdmin()||isLevelGemDistr()?visibleCols:isLevelGembala()?gembalaEditable:[];
-  const fieldLabels={'no_EfataID':'No EfataID','Nama Lengkap':'Nama Lengkap','Nama Panggilan':'Nama Panggilan','Usia':'Usia','Gender':'Gender','Tanggal Baptis':'Tgl Baptis','pelayanan':'Pelayanan','ibadah yang diikuti':'Ibadah','KTM':'KTM','KTM Tahir':'KTM Tahir','Kamar Hotel':'Kamar','tipe Kamar':'Tipe Kamar','Rata-rata Hadir':'Rata-rata Hadir','Keterangan':'Keterangan'};
+  const fieldLabels={'no_EfataID':'No EfataID','Nama Lengkap':'Nama Lengkap','nama_lengkap':'Nama Lengkap','Nama Panggilan':'Nama Panggilan','nama_panggilan':'Nama Panggilan','Usia':'Usia','Gender':'Gender','gender':'Gender','Tanggal Baptis':'Tgl Baptis','pelayanan':'Pelayanan','ibadah yang diikuti':'Ibadah','KTM':'KTM','KTM Tahir':'KTM Tahir','Kamar Hotel':'Kamar','tipe Kamar':'Tipe Kamar','Rata-rata Hadir':'Rata-rata Hadir','Keterangan':'Keterangan'};
   
   const gridHtml=visibleCols.map(key=>{
     const label=fieldLabels[key]||key;
-    const val=jv(key)||'-';  // <-- pakai jv() bukan lookup langsung
+    const val=j[key]||j[key.toLowerCase()]||'-';
     const editable=editableCols.includes(key);
-    const isFullWidth=['pelayanan','ibadah yang diikuti','Keterangan','Nama Lengkap'].includes(key);
+    const isFullWidth=['pelayanan','ibadah yang diikuti','Keterangan','Nama Lengkap','nama_lengkap'].includes(key);
     return `<div class="jp-field${isFullWidth?' full':''}">
       <div class="jp-field-label">${escHtml(label)}</div>
-      ${editable
-        ?`<input class="jp-edit-input" id="jp-edit-${key.replace(/ /g,'_')}" value="${escHtml(val==='-'?'':val)}" placeholder="${escHtml(label)}...">`
-        :`<div class="jp-field-value">${escHtml(val)}</div>`}
+      ${editable?`<input class="jp-edit-input" id="jp-edit-${escHtml(key.replace(/ /g,'_'))}" value="${escHtml(String(val)==='-'?'':String(val))}" placeholder="${escHtml(label)}...">`:`<div class="jp-field-value">${escHtml(String(val))}</div>`}
     </div>`;
   }).join('');
-
   document.getElementById('jemaat-popup-body').innerHTML=`
     <div class="jp-header" style="position:relative;">
       <button class="jp-close" onclick="closeJemaatPopup()">✕</button>
@@ -2215,14 +2206,14 @@ function openJemaatPopup(j,foto,idx){
       <div class="jp-grid">${gridHtml}</div>
       ${(isLevelAdmin()||isLevelGemDistr()||isLevelGembala())?`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;">
         <div style="font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:6px;">🔗 Link Foto/QR Efata</div>
-        <input class="jp-edit-input" id="jp-edit-link_efata" value="${escHtml(jv('link_efata')||jv('Link Efata')||jv('Link_efata')||'')}" placeholder="Paste link Google Drive...">
-        <input class="jp-edit-input" id="jp-edit-link_foto" value="${escHtml(jv('link_foto')||jv('Link Foto')||'')}" placeholder="Link foto wajah..." style="margin-top:6px;">
+        <input class="jp-edit-input" id="jp-edit-link_efata" value="${escHtml(j['link_efata']||j['Link_efata']||j['Link Efata']||'')}" placeholder="Paste link Google Drive...">
+        <input class="jp-edit-input" id="jp-edit-link_foto" value="${escHtml(j['link_foto']||j['Link Foto']||'')}" placeholder="Link foto wajah..." style="margin-top:6px;">
       </div>`:''}
       ${editableCols.length?`<button class="jp-save-btn" onclick="saveJemaatEdit(${idx})">💾 Simpan Perubahan</button>`:''}
-      <button class="jp-copy-btn" onclick="copyText('Nama: ${escHtml(namaL)}\nPanggilan: ${escHtml(namaP)}\nGender: ${gender}\nPelayanan: ${escHtml(jv(\'pelayanan\')||\'- \')}')">📋 Copy Info</button>
+      <button class="jp-copy-btn" onclick="copyText('Nama: ${escHtml(namaL)}\nPanggilan: ${escHtml(namaP)}\nGender: ${gender}\nPelayanan: ${escHtml(j['pelayanan']||'-')}')">📋 Copy Info</button>
     </div>`;
   document.getElementById('jemaat-popup-overlay').classList.add('open');
-}  
+}
 function closeJemaatPopup(){ document.getElementById('jemaat-popup-overlay').classList.remove('open'); }
 
 async function saveJemaatEdit(idx){
