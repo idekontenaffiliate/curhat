@@ -1938,46 +1938,18 @@ function getSmartAvatar(gender,usia,idx){
   const raw=parseInt(usia);
   const age=(isNaN(raw)||raw<=0)?20:raw;
   const isFemale=g.includes('wanita')||g.includes('perempu')||g.includes('female')||g.includes('f');
-  // Choose DiceBear style based on age group
-  if(age<=12){
-    // Children: use adventurer style
-    const seed=isFemale?`girl_${idx}_${age}`:`boy_${idx}_${age}`;
-    return `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(seed)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
-  }
-  if(age<=20){
-    // Teens: use avataaars with youthful look
-    if(isFemale){
-      const tops=['longHairStraight','longHairCurly','longHairBob','longHairMiaWallace'];
-      const top=tops[idx%tops.length];
-      return `https://api.dicebear.com/7.x/avataaars/svg?seed=teen_f_${idx}&top=${top}&facialHairProbability=0&clotheType=blazerShirt`;
-    } else {
-      const tops=['shortHairShortFlat','shortHairShortCurly','shortHairTheCaesar','shortHairShortWaved'];
-      const top=tops[idx%tops.length];
-      return `https://api.dicebear.com/7.x/avataaars/svg?seed=teen_m_${idx}&top=${top}&facialHairProbability=0`;
-    }
-  }
-  if(age>=55){
-    // Elderly
-    if(isFemale){
-      const tops=['longHairCurvy','longHairBob','longHairStraight2'];
-      const top=tops[idx%tops.length];
-      return `https://api.dicebear.com/7.x/avataaars/svg?seed=elder_f_${idx}&top=${top}&facialHairProbability=0&clotheType=collarSweater`;
-    } else {
-      const tops=['shortHairShortFlat','shortHairSides','shortHairShortWaved'];
-      const top=tops[idx%tops.length];
-      return `https://api.dicebear.com/7.x/avataaars/svg?seed=elder_m_${idx}&top=${top}&facialHairType=beardLight`;
-    }
-  }
-  // Adults
-  if(isFemale){
-    const tops=['longHairStraight','longHairCurly','longHairBob','longHairMiaWallace','longHairCurvy','longHairStraight2'];
-    const top=tops[idx%tops.length];
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=adult_f_${idx}&top=${top}&facialHairProbability=0`;
-  } else {
-    const tops=['shortHairShortFlat','shortHairShortCurly','shortHairTheCaesar','shortHairShortWaved','shortHairDreads01'];
-    const top=tops[idx%tops.length];
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=adult_m_${idx}&top=${top}`;
-  }
+  const gTag=isFemale?'f':'m';
+  if(age<=12) return `https://api.dicebear.com/7.x/adventurer/svg?seed=${gTag}child${idx}`;
+  if(age<=24) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${gTag}muda${idx}`;
+  if(age>=55) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${gTag}senior${idx}`;
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${gTag}dewasa${idx}`;
+}
+
+function avatarFallbackSvg(gender){
+  const isFemale=(gender||'').toLowerCase().includes('wanita');
+  const color=isFemale?'%2334d399':'%237c9ef0';
+  const icon=isFemale?'W':'M';
+  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='40' fill='"+color+"'/%3E%3Ctext x='40' y='52' text-anchor='middle' font-size='32' font-family='sans-serif' fill='white'%3E"+icon+"%3C/text%3E%3C/svg%3E";
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -2135,7 +2107,7 @@ function renderJemaatResult(data){
       const foto=fmtImg(j['link_foto']||j['Link Foto']||'')||getSmartAvatar(gender,usia,idx);
       const gColor=gender==='Pria'?'var(--accent)':'var(--accent3)';
       const card=document.createElement('div');card.style.cssText='background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 10px;text-align:center;cursor:pointer;transition:border-color .2s;';
-      card.innerHTML=`<img src="${foto}" style="width:68px;height:68px;border-radius:50%;object-fit:cover;margin:0 auto 9px;border:2px solid ${gColor};display:block;" loading="lazy" onerror="this.src=getSmartAvatar('${gender}','${usia}',${idx})"><div style="font-weight:700;font-size:.83rem;">${escHtml(namaP)}</div><div style="font-size:.7rem;color:${gColor};margin-top:2px;">${gender}</div>`;
+      card.innerHTML=`<img src="${foto}" style="width:68px;height:68px;border-radius:50%;object-fit:cover;margin:0 auto 9px;border:2px solid ${gColor};display:block;" loading="lazy" onerror="this.onerror=null;this.src=avatarFallbackSvg('${gender}')">
       card.onclick=()=>openJemaatPopup(j,foto,idx);grid.appendChild(card);
     });
   } else if(jemaatViewMode==='detail'){
@@ -2148,7 +2120,7 @@ function renderJemaatResult(data){
       const usia=j['usia']||j['Usia']||'';
       const foto=fmtImg(j['link_foto']||j['Link Foto']||'')||getSmartAvatar(gender,usia,idx);
       const div=document.createElement('div');div.style.cssText='display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;gap:12px;';
-      div.innerHTML=`<img src="${foto}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;" loading="lazy" onerror="this.src=getSmartAvatar('${gender}','${usia}',${idx})"><div style="flex:1;overflow:hidden;"><div style="font-weight:700;font-size:.88rem;">${escHtml(namaL)}</div><div style="font-size:.72rem;color:var(--text3);margin-top:2px;">${escHtml(namaP)} · ${gender}</div><div style="font-size:.7rem;color:var(--text3);">${escHtml(j['pelayanan']||'-')}</div></div><span style="color:var(--text3);">›</span>`;
+      div.innerHTML=`<img src="${foto}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;" loading="lazy" onerror="this.onerror=null;this.src=avatarFallbackSvg('${gender}')">
       div.onclick=()=>openJemaatPopup(j,foto,idx);list.appendChild(div);
     });
   } else {
@@ -2214,7 +2186,7 @@ function openJemaatPopup(j,foto,idx){
     <div class="jp-header" style="position:relative;">
       <button class="jp-close" onclick="closeJemaatPopup()">✕</button>
       <div class="jp-avatar-wrap" onclick="openImgViewer('${escHtml(fotoUrl)}','${escHtml(namaL)}','')">
-        <img src="${fotoUrl}" class="jp-avatar" onerror="this.src=getSmartAvatar('${escHtml(gender)}','${escHtml(usia)}',${idx})">
+        <img src="${fotoUrl}" class="jp-avatar" onerror="this.onerror=null;this.src=avatarFallbackSvg('${escHtml(gender)}')">
         <div class="jp-avatar-zoom-hint">🔍</div>
       </div>
       <div class="jp-name">${escHtml(namaL)}</div>
