@@ -2192,7 +2192,6 @@ function openJemaatPopup(j,foto,idx){
   
   const allCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','KTM','KTM Tahir','Kamar Hotel','tipe Kamar','Rata-rata Hadir','Keterangan'];
   const gembalaCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Rata-rata Hadir','Keterangan'];
-  const visibleCols=isAdminUser()?allCols:gembalaCols;
   const gembalaEditable=['Nama Lengkap','Nama Panggilan','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Keterangan'];
   const userCols=['Nama Lengkap','Nama Panggilan','Gender','pelayanan','ibadah yang diikuti'];
   const visibleCols=isAdminUser()?allCols:isLevelGembala()?gembalaCols:userCols;
