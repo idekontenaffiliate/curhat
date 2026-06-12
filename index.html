@@ -1935,7 +1935,8 @@ async function updateTanggalPengumuman(idx){
 // ══════════════════════════════════════════════════════════════════
 function getSmartAvatar(gender,usia,idx){
   const g=(gender||'').toLowerCase();
-  const age=parseInt(usia)||30;
+  const raw=parseInt(usia);
+  const age=(isNaN(raw)||raw<=0)?20:raw;
   const isFemale=g.includes('wanita')||g.includes('perempu')||g.includes('female')||g.includes('f');
   // Choose DiceBear style based on age group
   if(age<=12){
