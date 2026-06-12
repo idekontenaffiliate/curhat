@@ -458,7 +458,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="fs-toolbar">
     <div class="fs-title" id="fs-title">Detail</div>
     <div class="fs-controls">
-      <select class="fs-btn" onchange="setFSFontFamily('fs-content',this.value)" title="Jenis font"><option value="'Lora',serif">Lora</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select>
+      <select class="fs-btn" onchange="setFSFontFamily('fs-content',this.value)" title="Jenis font"><option value="'Lora',serif">Lora</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="fs-a-minus">A−</button>
       <button class="fs-btn" id="fs-a-minus">A−</button>
       <span id="fs-font-label" style="font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">16px</span>
       <button class="fs-btn" id="fs-a-plus">A+</button>
@@ -2192,8 +2192,8 @@ function openJemaatPopup(j,foto,idx){
   
   const allCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','KTM','KTM Tahir','Kamar Hotel','tipe Kamar','Rata-rata Hadir','Keterangan'];
   const gembalaCols=['no_EfataID','Nama Lengkap','Nama Panggilan','Gender','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Rata-rata Hadir','Keterangan'];
+  const visibleCols=isAdminUser()?allCols:gembalaCols;
   const gembalaEditable=['Nama Lengkap','Nama Panggilan','Usia','Tanggal Baptis','pelayanan','ibadah yang diikuti','Keterangan'];
-  
   const userCols=['Nama Lengkap','Nama Panggilan','Gender','pelayanan','ibadah yang diikuti'];
   const visibleCols=isAdminUser()?allCols:isLevelGembala()?gembalaCols:userCols;
   const editableCols=isLevelAdmin()||isLevelGemDistr()?allCols:isLevelGembala()?gembalaEditable:[];
