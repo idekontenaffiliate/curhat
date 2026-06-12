@@ -2286,7 +2286,9 @@ function getRandomKataKata(){
   return pick;
 }
 
+
 function renderKataKata(){
+  if(isDemoMode){document.getElementById('app-content').innerHTML='<div class="empty-state"><div class="icon">🔒</div><p>Menu Kata-kata Hari Ini tidak tersedia di mode Demo.</p></div>';return;}
   const content=document.getElementById('app-content');
   content.innerHTML=`
     <div class="info-box" style="border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.06);">
@@ -2304,10 +2306,11 @@ function renderKataKata(){
       <button class="kk-action-btn" onclick="openKKFullscreen()">⛶ Fullscreen</button>
       <button class="kk-action-btn" onclick="copyKK()">📋 Copy</button>
     </div>
-    <div style="margin-top:14px;" id="kk-loading"></div>`;
+    <div style="margin-top:14px;" id="kk-loading"></div>
+    <div class="card" id="kk-komposisi" style="display:none;margin-top:14px;"></div>`;
   renderKKChips();
   initKataKata();
-}
+}  
 
 function renderKKChips(){
   const container=document.getElementById('kk-chips');if(!container)return;
@@ -2331,17 +2334,35 @@ async function initKataKata(){
     await loadKataKataData();
     if(loading)loading.innerHTML='';
     if(kkAllData.length){
-      // Count per category
       const cats={};
       kkAllData.forEach(r=>{const k=(r.kategori||r.category||'lainnya').trim().toLowerCase();cats[k]=(cats[k]||0)+1;});
       const catInfo=Object.entries(cats).map(([k,v])=>`${k}: ${v}`).join(' · ');
       if(loading)loading.innerHTML=`<div style="text-align:center;font-size:.72rem;color:var(--text3);">📊 ${kkAllData.length} kata-kata dimuat (${catInfo})</div>`;
+      renderKKKomposisi();
     }else{
       if(loading)loading.innerHTML=`<div class="empty-state"><div class="icon">📭</div><p>Tidak ada data kata-kata.</p></div>`;
     }
+  } else {
+    renderKKKomposisi();
   }
 }
 
+function renderKKKomposisi(){
+  const box=document.getElementById('kk-komposisi');if(!box)return;
+  const total=kkAllData.length;
+  if(!total){box.style.display='none';return;}
+  box.style.display='block';
+  box.innerHTML=`
+    <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📚 Tentang Konten</div>
+    <div style="font-size:.85rem;color:var(--text2);line-height:1.9;">
+      Komposisi <b style="color:var(--accent);font-family:'JetBrains Mono',monospace;">${total}</b> konten ini mencakup:<br><br>
+      🙏 <b>Rohani Kristen:</b> Witness Lee, Watchman Nee, Philip Mantofa, dan ilustrasi Kristen.<br>
+      💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Estu Kurnia Iman, Likas Cahyadi, Ronny Irawan, Tahir, dll.<br>
+      😂 <b>Humor &amp; Kehidupan:</b> Desta Mahendra, Raditya Dika, Agak Laen, dan cerita jenaka.<br>
+      🏆 <b>Kepemimpinan &amp; Inspirasi Dunia:</b> Steve Jobs, B.J. Habibie, Joko Widodo, Nelson Mandela, dan tokoh lainnya.<br><br>
+      <span style="color:var(--text3);font-size:.82rem;">Kumpulan ini cocok dijadikan konten <b>${total}</b> hari (1 hari 1 kutipan) untuk WhatsApp, Instagram, TikTok, renungan, pembinaan karakter, maupun materi komunitas.</span>
+    </div>`;
+}
 async function doRandomKataKata(){
   if(!kkAllData.length)await loadKataKataData();
   const pick=getRandomKataKata();
