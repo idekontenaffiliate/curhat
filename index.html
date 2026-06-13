@@ -662,7 +662,7 @@ function changeFSFont(key,d){
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
 });
 function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
-function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';openFS(key+'-fullscreen'); }
+function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';c.style.zoom=(fsFontSizes[key]/15).toFixed(2);c.style.fontSize='';const lbl=document.getElementById(key+'-fs-font-label');if(lbl)lbl.textContent=Math.round((fsFontSizes[key]/15)*100)+'%';openFS(key+'-fullscreen'); }
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
 
 // CLOCK
@@ -2872,69 +2872,136 @@ getLevelBadge = function(){
   return _origGetLevelBadge();
 };
 
-// ── 8. Kata-kata Hari Ini: Tambah filter Admin (tanggal 13/06/2026) ──
-KK_KATEGORI_OPTIONS.push('admin');
-let kkAdminFilterActive = false;
+// ── 8. Kata-kata Hari Ini: Field "Pilihan Admin" berupa tanggal ──
+// Hapus 'admin' dari kategori chips (jika ada dari patch sebelumnya)
+const adminIdx = KK_KATEGORI_OPTIONS.indexOf('admin');
+if (adminIdx >= 0) KK_KATEGORI_OPTIONS.splice(adminIdx, 1);
 
-const _origRenderKKChips = renderKKChips;
-renderKKChips = function(){
-  const container = document.getElementById('kk-chips');
-  if (!container) return;
-  container.innerHTML = KK_KATEGORI_OPTIONS.map(k => {
-    if (k === 'admin') {
-      const isActive = kkAdminFilterActive;
-      return `<div class="kk-chip${isActive ? ' active' : ''}" onclick="toggleKKAdmin()" style="${isActive ? 'background:var(--red);border-color:var(--red);color:#fff;' : 'border-color:var(--red);color:var(--red);'}">👑 Admin</div>`;
-    }
-    const isActive = kkActiveKategori.includes(k);
-    return `<div class="kk-chip${isActive ? ' active' : ''}" onclick="toggleKKKategori('${k}')">${esc(k)}</div>`;
-  }).join('');
+// Override renderKataKata: tambahkan field tanggal Admin
+const _origRenderKataKata2 = renderKataKata;
+renderKataKata = function(){
+  // Panggil versi sebelumnya (yang sudah di-patch untuk demo)
+  _origRenderKataKata2();
+
+  // Tambah field Admin setelah chips
+  const chipsCard = document.getElementById('kk-chips')?.closest('.card');
+  if (chipsCard && !document.getElementById('kk-admin-field')) {
+    const adminHtml = document.createElement('div');
+    adminHtml.id = 'kk-admin-field';
+    adminHtml.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:10px;';
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2,'0');
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const yyyy = today.getFullYear();
+    adminHtml.innerHTML = `
+      <div style="font-family:'Lora',serif;font-weight:700;font-size:.88rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;">👑 Pilihan Admin</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="text" id="kk-admin-date" class="form-input" placeholder="dd/mm/yyyy (kosongkan = semua)" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:.85rem;">
+        <button class="btn accent" onclick="setAdminToday()" style="white-space:nowrap;font-size:.75rem;">📅 Hari Ini</button>
+        <button class="btn" onclick="clearAdminDate()" style="white-space:nowrap;font-size:.75rem;">✕</button>
+      </div>
+      <div style="font-size:.65rem;color:var(--text3);margin-top:6px;">Isi tanggal → klik Acak → hanya tampil kata-kata tanggal tsb + info tanggal &amp; kategori</div>`;
+    chipsCard.after(adminHtml);
+  }
 };
 
-function toggleKKAdmin(){
-  kkAdminFilterActive = !kkAdminFilterActive;
-  if (kkAdminFilterActive) {
-    // Matikan kategori lain saat Admin aktif
-    kkActiveKategori = [];
-  }
-  renderKKChips();
+function setAdminToday(){
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2,'0');
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  const el = document.getElementById('kk-admin-date');
+  if (el) el.value = dd+'/'+mm+'/'+yyyy;
+}
+function clearAdminDate(){
+  const el = document.getElementById('kk-admin-date');
+  if (el) el.value = '';
 }
 
-// Override toggleKKKategori untuk matikan Admin saat kategori lain dipilih
-const _origToggleKKKategori = toggleKKKategori;
-toggleKKKategori = function(kat){
-  kkAdminFilterActive = false; // matikan admin filter
-  _origToggleKKKategori(kat);
+// Override doRandomKataKata: handle filter Admin by date
+const _origDoRandomKataKata = doRandomKataKata;
+doRandomKataKata = async function(){
+  if (!kkAllData.length) await loadKataKataData();
+
+  const adminDateEl = document.getElementById('kk-admin-date');
+  const adminDate = (adminDateEl?.value || '').trim();
+  const display = document.getElementById('kk-display');
+  if (!display) return;
+
+  // ★ Jika ada tanggal Admin → filter by date
+  if (adminDate) {
+    // Normalize tanggal input (dd/mm/yyyy → cek berbagai format)
+    const parts = adminDate.split(/[\/\-\.]/);
+    let matchDates = [adminDate];
+    if (parts.length === 3) {
+      const [a,b,c] = parts;
+      // Support dd/mm/yyyy dan yyyy-mm-dd
+      if (a.length === 4) {
+        matchDates.push(`${c}/${b}/${a}`, `${a}-${b}-${c}`, `${c}-${b}-${a}`);
+      } else {
+        matchDates.push(`${c}-${b}-${a}`, `${a}-${b}-${c}`, `${a}/${b}/${c}`);
+      }
+    }
+
+    const pool = kkAllData.filter(r => {
+      const tgl = (r.tanggal || r.date || r.tgl || '').trim();
+      return matchDates.some(m => tgl === m);
+    });
+
+    if (!pool.length) {
+      toast('⚠️ Tidak ada kata-kata untuk tanggal: ' + adminDate);
+      return;
+    }
+
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    const isi = (pick.isinya || pick.isi || pick.konten || pick.content || '').trim();
+    const kat = (pick.kategori || pick.category || '').trim();
+    const no = (pick.no || pick.nomor || '').trim();
+    const tgl = (pick.tanggal || pick.date || pick.tgl || '').trim();
+    kkCurrentText = isi; kkCurrentKategori = kat;
+
+    // Tampilkan dengan tanggal dan kategori
+    display.innerHTML = `
+      <div class="kk-text">"${esc(isi)}"</div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+        <span class="kk-kategori-badge" style="background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3);">📅 ${esc(tgl)}</span>
+        <span class="kk-kategori-badge">${esc(kat)}${no ? ' · #'+esc(no) : ''}</span>
+      </div>`;
+    logHistory('✨ Kata Hari Ini','random admin',`tanggal: ${tgl}, kategori: ${kat}, no: ${no}`);
+    return;
+  }
+
+  // Tidak ada tanggal Admin → jalankan versi asli (random kategori biasa)
+  return _origDoRandomKataKata();
 };
 
-// Override getRandomKataKata untuk handle filter Admin
-const _origGetRandomKataKata = getRandomKataKata;
-getRandomKataKata = function(){
-  if (!kkAllData.length) return null;
-
-  let pool = kkAllData;
-
-  // ★ Filter Admin: tanggal = 13/06/2026
-  if (kkAdminFilterActive) {
-    pool = kkAllData.filter(r => {
-      const tgl = (r.tanggal || r.date || r.tgl || '').trim();
-      return tgl === '13/06/2026' || tgl === '2026-06-13' || tgl === '13-06-2026';
-    });
-    if (!pool.length) {
-      toast('⚠️ Tidak ada kata-kata Admin untuk tanggal ini');
-      return null;
+// ── 9. Fix A+/A-: Gunakan zoom untuk module fullscreen (doa, gel, alk) ──
+const _origChangeFSFont = changeFSFont;
+changeFSFont = function(key, d){
+  fsFontSizes[key] = Math.max(1, fsFontSizes[key] + d);
+  const map = {
+    main: ['fs-content','fs-font-label'],
+    doa:  ['doa-fs-content','doa-fs-font-label'],
+    gel:  ['gel-fs-content','gel-fs-font-label'],
+    alk:  ['alk-fs-content','alk-fs-font-label'],
+    kk:   ['kk-fs-content','kk-fs-font-label']
+  };
+  if (map[key]) {
+    const el = document.getElementById(map[key][0]);
+    const lbl = document.getElementById(map[key][1]);
+    if (el) {
+      if (['doa','gel','alk'].includes(key)) {
+        // Zoom untuk module fullscreen → skala semua elemen termasuk child
+        const zoomLevel = fsFontSizes[key] / 15;
+        el.style.zoom = zoomLevel;
+        el.style.fontSize = '';  // hapus fontSize, biarkan zoom yang bekerja
+        if (lbl) lbl.textContent = Math.round(zoomLevel * 100) + '%';
+      } else {
+        el.style.fontSize = fsFontSizes[key] + 'px';
+        if (lbl) lbl.textContent = fsFontSizes[key] + 'px';
+      }
     }
-    return pool[Math.floor(Math.random() * pool.length)];
   }
-
-  // Filter kategori biasa
-  if (kkActiveKategori.length) {
-    pool = kkAllData.filter(r => {
-      const kat = (r.kategori || r.category || '').trim().toLowerCase();
-      return kkActiveKategori.some(k => kat.includes(k.toLowerCase()));
-    });
-  }
-  if (!pool.length) pool = kkAllData;
-  return pool[Math.floor(Math.random() * pool.length)];
 };
 
 console.log('✅ Patch v4.30 loaded: akundemo / pastibisamasuk');
