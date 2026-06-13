@@ -2719,7 +2719,127 @@ document.addEventListener('keydown',e=>{
     if(document.getElementById('announce-overlay').classList.contains('open'))closeAnnounce();
   }
 });
+// ═══════════════════════════════════════════════════════════════
+// PATCH untuk Buku Harian Rohani v4.30
+// Rubah akun demo admin/admin → akundemo/pastibisamasuk
+// Tambahkan SEBELUM </script> terakhir di file HTML
+// ═══════════════════════════════════════════════════════════════
 
+// ── 1. Override DEMO_USERS: hapus admin, tambah akundemo ──
+delete DEMO_USERS['admin'];
+DEMO_USERS['akundemo'] = { password: 'pastibisamasuk', level: 'Demo' };
+
+// ── 2. Override getMenus(): batasi menu untuk level Demo ──
+const _origGetMenus = getMenus;
+getMenus = function(){
+  const ALL_MENUS = [
+    {id:'dashboard',label:'🏠 Beranda'},
+    {id:'doa',label:'🙏 Catatan Doa'},
+    {id:'gelisah',label:'💭 Kegelisahan'},
+    {id:'alkitab',label:'📖 Alkitab'},
+    {id:'katakata',label:'✨ Kata Hari Ini'},
+    {id:'pertanyaan',label:'❓ Pertanyaan'},
+    {id:'jemaat',label:'👥 Jemaat'},
+    {id:'hasil',label:'📋 Hasil'},
+    {id:'laporan',label:'📊 Laporan'},
+    {id:'pengumuman',label:'📢 Pengumuman'},
+    {id:'history',label:'🕘 History'},
+    {id:'panduan',label:'⚙️ Panduan'},
+  ];
+
+  // ★ Jika level Demo → hanya menu tertentu
+  if (getUserLevel() === 'Demo') {
+    const demoMenuIds = ['dashboard','doa','gelisah','alkitab','katakata','pertanyaan','pengumuman'];
+    return ALL_MENUS.filter(m => demoMenuIds.includes(m.id));
+  }
+
+  // Selebihnya pakai logika asli
+  return _origGetMenus();
+};
+
+// ── 3. Override renderPengumumanAdmin: demo user bisa lihat tapi read-only ──
+const _origRenderPengumumanAdmin = renderPengumumanAdmin;
+renderPengumumanAdmin = async function(){
+  // Jika level Demo → tampilkan versi read-only
+  if (getUserLevel() === 'Demo') {
+    const content = document.getElementById('app-content');
+    content.innerHTML = `
+      <div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:10px 14px;font-size:.78rem;color:var(--yellow);text-align:center;margin-bottom:12px;">
+        ℹ️ Ini adalah versi demo. Anda hanya bisa melihat pengumuman.
+      </div>
+      <div class="section-header">
+        <span class="section-title">📢 Pengumuman</span>
+        <span class="section-count" id="demo-ann-count">—</span>
+      </div>
+      <div id="demo-ann-list"><div class="loading-state"><div class="spinner"></div><br>Memuat pengumuman...</div></div>`;
+
+    // Load pengumuman
+    let annData = [];
+    if (isDemoMode) {
+      annData = JSON.parse(JSON.stringify(DEMO.Pengumuman || []));
+    } else {
+      try {
+        const r = await fetch(URLS.Pengumuman + '&t=' + Date.now());
+        annData = parseCSV(await r.text()).filter(r => (r.judul || r.title || '').trim());
+      } catch(e) { annData = []; }
+    }
+
+    const today = getTodayStr();
+    const listEl = document.getElementById('demo-ann-list');
+    const countEl = document.getElementById('demo-ann-count');
+
+    // Filter yang aktif
+    const visible = annData.filter(a => {
+      const ta = (a.tanggal_awal || '').trim();
+      const tb = (a.tanggal_akhir || '').trim();
+      if (ta && today < ta) return false;
+      if (tb && today > tb) return false;
+      return true;
+    });
+
+    if (countEl) countEl.textContent = visible.length + ' pengumuman';
+
+    if (!visible.length) {
+      listEl.innerHTML = '<div class="empty-state"><div class="icon">📢</div><p>Tidak ada pengumuman aktif saat ini.</p></div>';
+      return;
+    }
+
+    listEl.innerHTML = visible.map(a => `
+      <div class="announce-list-item">
+        <div class="announce-list-header">
+          <div class="announce-list-title">📢 ${esc(a.judul || a.title || 'Pengumuman')}</div>
+          <span style="font-size:.65rem;background:rgba(52,211,153,.2);color:var(--accent3);padding:2px 8px;border-radius:6px;font-weight:700;">🟢 Aktif</span>
+        </div>
+        <div class="announce-list-body">${esc(a.isi || a.body || a.konten || '')}</div>
+        <div class="announce-list-meta">
+          🕐 ${esc(a.waktu || '')} · 👤 ${esc(a.author || 'Admin')}
+          ${a.tanggal_awal || a.tanggal_akhir ? ` · 📅 ${esc(a.tanggal_awal || '?')} s/d ${esc(a.tanggal_akhir || '?')}` : ''}
+        </div>
+      </div>`).join('');
+
+    return;
+  }
+
+  // Bukan Demo → jalankan fungsi asli (admin bisa buat/edit)
+  return _origRenderPengumumanAdmin();
+};
+
+// ── 4. Override renderKataKata: izinkan demo user melihat ──
+const _origRenderKataKata = renderKataKata;
+renderKataKata = function(){
+  // Hapus blokir isDemoMode untuk level Demo
+  if (isDemoMode && getUserLevel() === 'Demo') {
+    // Jalankan versi asli tapi skip pengecekan isDemoMode
+    const origIsDemoMode = isDemoMode;
+    isDemoMode = false; // temporarily disable
+    _origRenderKataKata();
+    isDemoMode = origIsDemoMode; // restore
+    return;
+  }
+  _origRenderKataKata();
+};
+
+console.log('✅ Patch v4.30 loaded: akundemo / pastibisamasuk');
 </script>
 </body>
 </html>
