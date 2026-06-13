@@ -642,8 +642,11 @@ function openDetailFullscreen(){
   const body=document.getElementById('detail-body');
   const c=document.getElementById('fs-content');
   c.innerHTML=body?body.innerHTML:'';
-  c.dataset.isHtml='1';c.style.whiteSpace='normal';c.style.fontSize=fsFontSizes.main+'px';
+  c.dataset.isHtml='1';c.style.whiteSpace='normal';
+  const zoomVal=fsFontSizes.main/16;
+  c.style.zoom=zoomVal;c.style.fontSize='';
   document.getElementById('fs-title').textContent='Detail';
+  const lbl=document.getElementById('fs-font-label');if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
   openFS('fullscreen-overlay');
 }  
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
@@ -653,8 +656,18 @@ function changeFSFont(key,d){
   const map={main:['fs-content','fs-font-label'],doa:['doa-fs-content','doa-fs-font-label'],gel:['gel-fs-content','gel-fs-font-label'],alk:['alk-fs-content','alk-fs-font-label'],kk:['kk-fs-content','kk-fs-font-label']};
   if(map[key]){
     const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);
-    if(el){ el.style.fontSize=fsFontSizes[key]+'px'; }
-    if(lbl)lbl.textContent=fsFontSizes[key]+'px';
+    if(el){
+      if(['doa','gel','alk','main'].includes(key)){
+        const baseline=key==='main'?16:15;
+        const zoomVal=fsFontSizes[key]/baseline;
+        el.style.zoom=zoomVal;
+        el.style.fontSize='';
+        if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
+      } else {
+        el.style.fontSize=fsFontSizes[key]+'px';
+        if(lbl)lbl.textContent=fsFontSizes[key]+'px';
+      }
+    }
   }
 }
 ['doa','gel','alk','kk'].forEach(key=>{
@@ -2340,8 +2353,8 @@ function renderKKKomposisi(){
     <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📚 Tentang Konten</div>
     <div style="font-size:.85rem;color:var(--text2);line-height:1.9;">
       Komposisi <b style="color:var(--accent);font-family:'JetBrains Mono',monospace;">${total}</b> konten ini mencakup:<br><br>
-      🙏 <b>Rohani Kristen:</b> Witness Lee, Watchman Nee, Philip Mantofa, dan ilustrasi Kristen.<br>
-      💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Estu Kurnia Iman, Likas Cahyadi, Ronny Irawan, Tahir, dll.<br>
+       🙏 <b>Rohani Kristen:</b> Witness Lee, Watchman Nee, Salomon Liu, Estu Kurnia Iman, Ronny Irawan, ilustrasi Kristen, dan tokoh tokoh Kristen lainnya.<br>
+      💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Tahir, dll.<br>
       😂 <b>Humor &amp; Kehidupan:</b> Desta Mahendra, Raditya Dika, Agak Laen, dan cerita jenaka.<br>
       🏆 <b>Kepemimpinan &amp; Inspirasi Dunia:</b> Steve Jobs, B.J. Habibie, Joko Widodo, Nelson Mandela, dan tokoh lainnya.<br><br>
       <span style="color:var(--text3);font-size:.82rem;">Kumpulan ini cocok dijadikan konten <b>${total}</b> hari (1 hari 1 kutipan) untuk WhatsApp, Instagram, TikTok, renungan, pembinaan karakter, maupun materi komunitas.</span>
@@ -2889,18 +2902,15 @@ renderKataKata = function(){
     const adminHtml = document.createElement('div');
     adminHtml.id = 'kk-admin-field';
     adminHtml.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:10px;';
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2,'0');
-    const mm = String(today.getMonth()+1).padStart(2,'0');
-    const yyyy = today.getFullYear();
     adminHtml.innerHTML = `
       <div style="font-family:'Lora',serif;font-weight:700;font-size:.88rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;">👑 Pilihan Admin</div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <input type="text" id="kk-admin-date" class="form-input" placeholder="dd/mm/yyyy (kosongkan = semua)" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:.85rem;">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="text" id="kk-admin-date" class="form-input" placeholder="dd/mm/yyyy (kosongkan = semua)" style="flex:1;min-width:160px;font-family:'JetBrains Mono',monospace;font-size:.85rem;">
         <button class="btn accent" onclick="setAdminToday()" style="white-space:nowrap;font-size:.75rem;">📅 Hari Ini</button>
+        <button class="btn" onclick="setAdminAll()" style="white-space:nowrap;font-size:.75rem;border-color:var(--accent2);color:var(--accent2);">👑 Admin</button>
         <button class="btn" onclick="clearAdminDate()" style="white-space:nowrap;font-size:.75rem;">✕</button>
       </div>
-      <div style="font-size:.65rem;color:var(--text3);margin-top:6px;">Isi tanggal → klik Acak → hanya tampil kata-kata tanggal tsb + info tanggal &amp; kategori</div>`;
+      <div style="font-size:.65rem;color:var(--text3);margin-top:6px;">📅 Hari Ini = filter tanggal hari ini · 👑 Admin = tampilkan semua yang punya pilihan admin · ✕ = reset</div>`;
     chipsCard.after(adminHtml);
   }
 };
@@ -2913,43 +2923,75 @@ function setAdminToday(){
   const el = document.getElementById('kk-admin-date');
   if (el) el.value = dd+'/'+mm+'/'+yyyy;
 }
+function setAdminAll(){
+  const el = document.getElementById('kk-admin-date');
+  if (el) el.value = '*';  // wildcard = tampilkan semua yang punya pilihan_admin
+}
 function clearAdminDate(){
   const el = document.getElementById('kk-admin-date');
   if (el) el.value = '';
 }
 
-// Override doRandomKataKata: handle filter Admin by date
+// Helper: extract date-only from pilihan_admin value (strip time component)
+function extractDateOnly(val){
+  if (!val) return '';
+  val = val.trim();
+  // Strip time: "13/06/2026 08:30:00" → "13/06/2026"
+  // Also handle "2026-06-13T08:30" or "13/06/2026 08.30"
+  return val.split(/[\sT]/)[0].trim();
+}
+
+// Helper: normalize date to dd/mm/yyyy for comparison
+function normalizeDateStr(d){
+  if (!d) return '';
+  d = d.trim();
+  // Already dd/mm/yyyy
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(d)) return d;
+  // yyyy-mm-dd → dd/mm/yyyy
+  if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+    const [y,m,dd] = d.split('-');
+    return dd+'/'+m+'/'+y;
+  }
+  // dd-mm-yyyy → dd/mm/yyyy
+  if (/^\d{1,2}-\d{1,2}-\d{4}$/.test(d)) return d.replace(/-/g,'/');
+  return d;
+}
+
+// Override doRandomKataKata: handle filter Admin by pilihan_admin field
 const _origDoRandomKataKata = doRandomKataKata;
 doRandomKataKata = async function(){
   if (!kkAllData.length) await loadKataKataData();
 
   const adminDateEl = document.getElementById('kk-admin-date');
-  const adminDate = (adminDateEl?.value || '').trim();
+  const adminInput = (adminDateEl?.value || '').trim();
   const display = document.getElementById('kk-display');
   if (!display) return;
 
-  // ★ Jika ada tanggal Admin → filter by date
-  if (adminDate) {
-    // Normalize tanggal input (dd/mm/yyyy → cek berbagai format)
-    const parts = adminDate.split(/[\/\-\.]/);
-    let matchDates = [adminDate];
-    if (parts.length === 3) {
-      const [a,b,c] = parts;
-      // Support dd/mm/yyyy dan yyyy-mm-dd
-      if (a.length === 4) {
-        matchDates.push(`${c}/${b}/${a}`, `${a}-${b}-${c}`, `${c}-${b}-${a}`);
-      } else {
-        matchDates.push(`${c}-${b}-${a}`, `${a}-${b}-${c}`, `${a}/${b}/${c}`);
-      }
+  // ★ Jika field admin terisi → filter berdasarkan kolom "pilihan_admin"
+  if (adminInput) {
+    let pool;
+
+    if (adminInput === '*') {
+      // Tombol "Admin": tampilkan semua yang punya nilai di kolom pilihan_admin
+      pool = kkAllData.filter(r => {
+        const pa = (r.pilihan_admin || r['pilihan admin'] || '').trim();
+        return pa !== '';
+      });
+    } else {
+      // Filter by tanggal spesifik (hanya bandingkan tanggal, abaikan jam)
+      const inputNorm = normalizeDateStr(adminInput);
+      pool = kkAllData.filter(r => {
+        const pa = (r.pilihan_admin || r['pilihan admin'] || '').trim();
+        if (!pa) return false;
+        const dateOnly = extractDateOnly(pa);
+        const dataNorm = normalizeDateStr(dateOnly);
+        return dataNorm === inputNorm;
+      });
     }
 
-    const pool = kkAllData.filter(r => {
-      const tgl = (r.tanggal || r.date || r.tgl || '').trim();
-      return matchDates.some(m => tgl === m);
-    });
-
     if (!pool.length) {
-      toast('⚠️ Tidak ada kata-kata untuk tanggal: ' + adminDate);
+      toast('⚠️ Tidak ada kata-kata untuk pilihan admin: ' + adminInput);
+      display.innerHTML = `<div style="color:var(--text3);font-style:italic;text-align:center;">Tidak ditemukan data dengan pilihan admin "${esc(adminInput)}".<br>Pastikan kolom "pilihan admin" di spreadsheet terisi.</div>`;
       return;
     }
 
@@ -2957,51 +2999,23 @@ doRandomKataKata = async function(){
     const isi = (pick.isinya || pick.isi || pick.konten || pick.content || '').trim();
     const kat = (pick.kategori || pick.category || '').trim();
     const no = (pick.no || pick.nomor || '').trim();
-    const tgl = (pick.tanggal || pick.date || pick.tgl || '').trim();
+    const pa = (pick.pilihan_admin || pick['pilihan admin'] || '').trim();
+    const tglOnly = extractDateOnly(pa);
     kkCurrentText = isi; kkCurrentKategori = kat;
 
     // Tampilkan dengan tanggal dan kategori
     display.innerHTML = `
       <div class="kk-text">"${esc(isi)}"</div>
       <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
-        <span class="kk-kategori-badge" style="background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3);">📅 ${esc(tgl)}</span>
+        <span class="kk-kategori-badge" style="background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3);">📅 ${esc(tglOnly)}</span>
         <span class="kk-kategori-badge">${esc(kat)}${no ? ' · #'+esc(no) : ''}</span>
       </div>`;
-    logHistory('✨ Kata Hari Ini','random admin',`tanggal: ${tgl}, kategori: ${kat}, no: ${no}`);
+    logHistory('✨ Kata Hari Ini','random admin',`pilihan_admin: ${pa}, kategori: ${kat}, no: ${no}`);
     return;
   }
 
-  // Tidak ada tanggal Admin → jalankan versi asli (random kategori biasa)
+  // Tidak ada input Admin → jalankan versi asli (random kategori biasa)
   return _origDoRandomKataKata();
-};
-
-// ── 9. Fix A+/A-: Gunakan zoom untuk module fullscreen (doa, gel, alk) ──
-const _origChangeFSFont = changeFSFont;
-changeFSFont = function(key, d){
-  fsFontSizes[key] = Math.max(1, fsFontSizes[key] + d);
-  const map = {
-    main: ['fs-content','fs-font-label'],
-    doa:  ['doa-fs-content','doa-fs-font-label'],
-    gel:  ['gel-fs-content','gel-fs-font-label'],
-    alk:  ['alk-fs-content','alk-fs-font-label'],
-    kk:   ['kk-fs-content','kk-fs-font-label']
-  };
-  if (map[key]) {
-    const el = document.getElementById(map[key][0]);
-    const lbl = document.getElementById(map[key][1]);
-    if (el) {
-      if (['doa','gel','alk'].includes(key)) {
-        // Zoom untuk module fullscreen → skala semua elemen termasuk child
-        const zoomLevel = fsFontSizes[key] / 15;
-        el.style.zoom = zoomLevel;
-        el.style.fontSize = '';  // hapus fontSize, biarkan zoom yang bekerja
-        if (lbl) lbl.textContent = Math.round(zoomLevel * 100) + '%';
-      } else {
-        el.style.fontSize = fsFontSizes[key] + 'px';
-        if (lbl) lbl.textContent = fsFontSizes[key] + 'px';
-      }
-    }
-  }
 };
 
 console.log('✅ Patch v4.30 loaded: akundemo / pastibisamasuk');
