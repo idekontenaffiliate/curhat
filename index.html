@@ -203,7 +203,11 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .fs-title{font-family:\'Lora\',serif;font-size:.9rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .fs-controls{display:flex;gap:4px;align-items:center;}
 .fs-btn{padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:\'Nunito\',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;}
-.fs-content{flex:1;overflow-y:auto;padding:24px 20px;font-family:\'Lora\',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;}
+.fs-content{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px 20px;font-family:\'Lora\',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;position:relative;}
+.fs-scroll-wrap{position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:8px;z-index:10;}
+.fs-scroll-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .2s,transform .1s;box-shadow:0 2px 12px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent;user-select:none;}
+.fs-scroll-btn:hover{opacity:.9;}
+.fs-scroll-btn:active{transform:scale(.88);opacity:1;}
 
 /* ═══════════════════════════════ EDIT FORM ═══════════════════════════════ */
 .edit-section{background:rgba(124,158,240,.06);border:1px solid rgba(124,158,240,.25);border-radius:10px;padding:12px;margin-bottom:10px;}
@@ -634,19 +638,53 @@ function openImgViewerWithNames(urls,names,idx){ openImgViewer(urls[idx],names[i
 // FULLSCREEN
 // ══════════════════════════════════════════════════════════════════
 let fsFontSizes={main:16,doa:15,gel:15,alk:15,kk:22};
-function openFS(id){ const el=document.getElementById(id);if(!el)return;el.style.display='flex'; }
+
+// ── Scroll helpers ──
+function fsScrollUp(contentId){ const el=document.getElementById(contentId);if(el)el.scrollBy({top:-300,behavior:'smooth'}); }
+function fsScrollDown(contentId){ const el=document.getElementById(contentId);if(el)el.scrollBy({top:300,behavior:'smooth'}); }
+function fsScrollTop(contentId){ const el=document.getElementById(contentId);if(el)el.scrollTo({top:0,behavior:'smooth'}); }
+function fsScrollBottom(contentId){ const el=document.getElementById(contentId);if(el)el.scrollTo({top:el.scrollHeight,behavior:'smooth'}); }
+
+function openFS(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.style.display='flex';
+  // Inject scroll buttons if not exist
+  if(!el.querySelector('.fs-scroll-wrap')){
+    const contentEl=el.querySelector('.fs-content');
+    if(contentEl){
+      const cid=contentEl.id;
+      const scrollDiv=document.createElement('div');
+      scrollDiv.className='fs-scroll-wrap';
+      scrollDiv.innerHTML=`
+        <button class="fs-scroll-btn" onclick="fsScrollTop('${cid}')" title="Ke atas">⇈</button>
+        <button class="fs-scroll-btn" onclick="fsScrollUp('${cid}')" title="Scroll naik">▲</button>
+        <button class="fs-scroll-btn" onclick="fsScrollDown('${cid}')" title="Scroll turun">▼</button>
+        <button class="fs-scroll-btn" onclick="fsScrollBottom('${cid}')" title="Ke bawah">⇊</button>`;
+      el.appendChild(scrollDiv);
+    }
+  }
+}
 function closeFS(id){ const el=document.getElementById(id);if(el){el.style.display='none';} if(document.fullscreenElement){try{document.exitFullscreen();}catch(e){}} }
 function setFSFontFamily(id,val){const el=document.getElementById(id);if(el)el.style.fontFamily=val;}
-function setFSFontWeight(id,val){const el=document.getElementById(id);if(el)el.style.fontWeight=val;}  
+function setFSFontWeight(id,val){const el=document.getElementById(id);if(el)el.style.fontWeight=val;}
+
+// ── Apply zoom with width compensation ──
+function applyFSZoom(el,zoomVal,lbl){
+  el.style.zoom=zoomVal;
+  el.style.width=(100/zoomVal)+'%';
+  el.style.fontSize='';
+  if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
+}
+
 function openDetailFullscreen(){
   const body=document.getElementById('detail-body');
   const c=document.getElementById('fs-content');
   c.innerHTML=body?body.innerHTML:'';
   c.dataset.isHtml='1';c.style.whiteSpace='normal';
   const zoomVal=fsFontSizes.main/16;
-  c.style.zoom=zoomVal;c.style.fontSize='';
+  const lbl=document.getElementById('fs-font-label');
+  applyFSZoom(c,zoomVal,lbl);
   document.getElementById('fs-title').textContent='Detail';
-  const lbl=document.getElementById('fs-font-label');if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
   openFS('fullscreen-overlay');
 }  
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
@@ -660,9 +698,7 @@ function changeFSFont(key,d){
       if(['doa','gel','alk','main'].includes(key)){
         const baseline=key==='main'?16:15;
         const zoomVal=fsFontSizes[key]/baseline;
-        el.style.zoom=zoomVal;
-        el.style.fontSize='';
-        if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
+        applyFSZoom(el,zoomVal,lbl);
       } else {
         el.style.fontSize=fsFontSizes[key]+'px';
         if(lbl)lbl.textContent=fsFontSizes[key]+'px';
@@ -675,7 +711,7 @@ function changeFSFont(key,d){
   document.getElementById(key+'-fs-a-plus')?.addEventListener('click',()=>changeFSFont(key,1));
 });
 function openEntryFullscreen(title,text){ document.getElementById('fs-title').textContent=title;const c=document.getElementById('fs-content');c.textContent=text;c.dataset.isHtml='0';c.style.fontSize=fsFontSizes.main+'px';openFS('fullscreen-overlay'); }
-function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';c.style.zoom=(fsFontSizes[key]/15).toFixed(2);c.style.fontSize='';const lbl=document.getElementById(key+'-fs-font-label');if(lbl)lbl.textContent=Math.round((fsFontSizes[key]/15)*100)+'%';openFS(key+'-fullscreen'); }
+function openModuleFullscreen(mod){ const map={Doa:'doa',Gelisah:'gel',Alkitab:'alk'};const key=map[mod];if(!key)return;const src=document.getElementById(mod.toLowerCase()+'-list')?.innerHTML||'<p style="color:var(--text3)">Tidak ada data.</p>';const c=document.getElementById(key+'-fs-content');c.innerHTML=src;c.dataset.isHtml='1';const zoomVal=fsFontSizes[key]/15;const lbl=document.getElementById(key+'-fs-font-label');applyFSZoom(c,zoomVal,lbl);openFS(key+'-fullscreen'); }
 function openDashFullscreen(){ const src=document.getElementById('app-content')?.innerHTML||'';document.getElementById('dash-fs-content').innerHTML=src;openFS('dash-fullscreen'); }
 
 // CLOCK
