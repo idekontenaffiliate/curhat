@@ -906,7 +906,7 @@ const TOPIK_OPTIONS=['Iman & Doktrin','Kehidupan Rohani','Alkitab','Doa','Pelaya
 const URGENSI_OPTIONS=['Low','Medium','High','Critical','Intermesso'];
 let ptnyAllData=[],ptnyFilteredData=[],ptnyCurrentPage=1;
 let hpCurrentPage=1,hpFilteredData=[];
-let kkAllData=[],kkActiveKategori=['lucu','penguat iman','cerita jenaka','ayat peneguhan','ayat penguat','firman'],kkCurrentText='',kkCurrentKategori='';
+let kkAllData=[],kkActiveKategori=['lucu','penguat iman','cerita jenaka','ayat peneguhan','ayat penguat','firman','karakter','jpkokyn'],kkCurrentText='',kkCurrentKategori='';
 
 // ══════════════════════════════════════════════════════════════════
 // AUTH
@@ -2381,7 +2381,7 @@ async function saveJemaatEdit(idx){
 // ══════════════════════════════════════════════════════════════════
 // KATA-KATA HARI INI
 // ══════════════════════════════════════════════════════════════════
-const KK_KATEGORI_OPTIONS=['lucu','penguat iman','cerita jenaka','ayat peneguhan','ayat penguat','firman'];
+const KK_KATEGORI_OPTIONS=['lucu','penguat iman','cerita jenaka','ayat peneguhan','ayat penguat','firman','karakter','JPKOKYN'];
 
 async function loadKataKataData(){
   if(kkAllData.length)return;
@@ -2421,15 +2421,15 @@ function renderKataKata(){
       <div style="font-family:'Lora',serif;font-weight:700;font-size:.95rem;margin-bottom:12px;">🏷️ Pilih Kategori</div>
       <div class="kk-filter-chips" id="kk-chips"></div>
     </div>
-    <div class="kk-display-card" id="kk-display">
-      <div style="color:var(--text3);font-style:italic;">Klik tombol "🎲 Acak!" untuk memulai...</div>
-    </div>
     <div class="kk-btn-row">
       <button class="kk-action-btn primary" onclick="doRandomKataKata()">🎲 Acak!</button>
       <button class="kk-action-btn" onclick="openKKFullscreen()">⛶ Fullscreen</button>
       <button class="kk-action-btn" onclick="copyKK()">📋 Copy</button>
     </div>
     <div style="margin-top:14px;" id="kk-loading"></div>
+    <div class="kk-display-card" id="kk-display">
+      <div style="color:var(--text3);font-style:italic;">Klik tombol "🎲 Acak!" untuk memulai...</div>
+    </div>
     <div class="card" id="kk-komposisi" style="display:none;margin-top:14px;"></div>`;
   renderKKChips();
   initKataKata();
@@ -2483,6 +2483,8 @@ function renderKKKomposisi(){
       💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Tahir, dll.<br>
       😂 <b>Humor &amp; Kehidupan:</b> Desta Mahendra, Raditya Dika, Agak Laen, dan cerita jenaka.<br>
       🏆 <b>Kepemimpinan &amp; Inspirasi Dunia:</b> Steve Jobs, B.J. Habibie, Joko Widodo, Nelson Mandela, dan tokoh lainnya.<br><br>
+      🏆 <b>Karakter &amp; dari 30 karakter</b>.<br><br>
+      🏆 <b>JPKOKYN &amp; dari jalan kehidupan orang Kristen yang normal</b>.<br><br>
       <span style="color:var(--text3);font-size:.82rem;">Kumpulan ini cocok dijadikan konten <b>${total}</b> hari (1 hari 1 kutipan) untuk WhatsApp, Instagram, TikTok, renungan, pembinaan karakter, maupun materi komunitas.</span>
     </div>`;
 }
