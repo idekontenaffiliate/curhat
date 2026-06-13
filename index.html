@@ -458,19 +458,19 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
   <div class="fs-toolbar">
     <div class="fs-title" id="fs-title">Detail</div>
     <div class="fs-controls">
-      <select class="fs-btn" onchange="setFSFontFamily('fs-content',this.value)" title="Jenis font"><option value="'Lora',serif">Lora</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="fs-a-minus">A−</button>
-      <button class="fs-btn" id="fs-a-minus">A−</button>
+      <select class="fs-btn" onchange="setFSFontFamily('fs-content',this.value)" title="Jenis font"><option value="'Lora',serif">Lora</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select>
+      <button class="fs-btn" id="fs-a-minus" onclick="changeFSFont('main',-1)">A−</button>
       <span id="fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">16px</span>
-      <button class="fs-btn" id="fs-a-plus">A+</button>
+      <button class="fs-btn" id="fs-a-plus" onclick="changeFSFont('main',1)">A+</button>
       <button class="fs-btn" onclick="closeFS('fullscreen-overlay')">✕ Tutup</button>
     </div>
   </div>
   <div class="fs-content" id="fs-content"></div>
 </div>
 <div id="dash-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🏠 Beranda</div><div class="fs-controls"><button class="fs-btn" onclick="closeFS('dash-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="dash-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
-<div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('doa-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('doa-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="doa-fs-a-minus">A−</button><span id="doa-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS('doa-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
-<div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('gel-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('gel-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="gel-fs-a-minus">A−</button><span id="gel-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS('gel-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
-<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('alk-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('alk-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="alk-fs-a-minus">A−</button><span id="alk-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus">A+</button><button class="fs-btn" onclick="closeFS('alk-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
+<div id="doa-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">🙏 Catatan Doa</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('doa-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('doa-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="doa-fs-a-minus" onclick="changeFSFont('doa',-1)">A−</button><span id="doa-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="doa-fs-a-plus" onclick="changeFSFont('doa',1)">A+</button><button class="fs-btn" onclick="closeFS('doa-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="doa-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
+<div id="gel-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">💭 Kegelisahan</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('gel-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('gel-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="gel-fs-a-minus" onclick="changeFSFont('gel',-1)">A−</button><span id="gel-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="gel-fs-a-plus" onclick="changeFSFont('gel',1)">A+</button><button class="fs-btn" onclick="closeFS('gel-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="gel-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
+<div id="alk-fullscreen" class="fs-overlay"><div class="fs-toolbar"><div class="fs-title">📖 Alkitab</div><div class="fs-controls"><select class="fs-btn" onchange="setFSFontFamily('alk-fs-content',this.value)" title="Jenis font"><option value="'Nunito',sans-serif">Nunito</option><option value="'Roboto',sans-serif">Roboto</option><option value="'Arial Black',sans-serif">Arial Black</option><option value="'Courier New',monospace">Courier New</option><option value="Verdana,sans-serif">Verdana</option></select><select class="fs-btn" onchange="setFSFontWeight('alk-fs-content',this.value)" title="Ketebalan"><option value="300">Tipis</option><option value="400" selected>Normal</option><option value="600">Sedang</option><option value="800">Tebal</option></select><button class="fs-btn" id="alk-fs-a-minus" onclick="changeFSFont('alk',-1)">A−</button><span id="alk-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">15px</span><button class="fs-btn" id="alk-fs-a-plus" onclick="changeFSFont('alk',1)">A+</button><button class="fs-btn" onclick="closeFS('alk-fullscreen')">✕ Tutup</button></div></div><div class="fs-content" id="alk-fs-content" style="font-family:'Nunito',sans-serif;white-space:normal;"></div></div>
 <!-- JEMAAT POPUP -->
 
 <div id="jemaat-popup-overlay"><div id="jemaat-popup"><div id="jemaat-popup-body"></div></div></div>
@@ -493,9 +493,9 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
         <option value="600" selected>Sedang</option>
         <option value="800">Tebal</option>
       </select>
-      <button class="fs-btn" id="kk-fs-a-minus">A−</button>
+      <button class="fs-btn" id="kk-fs-a-minus" onclick="changeFSFont('kk',-1)">A−</button>
       <span id="kk-fs-font-label" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border);">22px</span>
-      <button class="fs-btn" id="kk-fs-a-plus">A+</button>
+      <button class="fs-btn" id="kk-fs-a-plus" onclick="changeFSFont('kk',1)">A+</button>
       <button class="fs-btn" onclick="closeFS('kk-fullscreen')">✕ Tutup</button>
     </div>
   </div>
@@ -649,7 +649,7 @@ function openDetailFullscreen(){
 document.getElementById('fs-a-minus').addEventListener('click',()=>changeFSFont('main',-1));
 document.getElementById('fs-a-plus').addEventListener('click',()=>changeFSFont('main',1));
 function changeFSFont(key,d){
-  fsFontSizes[key]=Math.max(10,Math.min(40,fsFontSizes[key]+d));
+  fsFontSizes[key]=Math.max(1,fsFontSizes[key]+d);
   const map={main:['fs-content','fs-font-label'],doa:['doa-fs-content','doa-fs-font-label'],gel:['gel-fs-content','gel-fs-font-label'],alk:['alk-fs-content','alk-fs-font-label'],kk:['kk-fs-content','kk-fs-font-label']};
   if(map[key]){
     const el=document.getElementById(map[key][0]),lbl=document.getElementById(map[key][1]);
@@ -1248,7 +1248,7 @@ function openDoaDetail(r){
     ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Doa #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('Doa #${esc(String(r.no_urut||'-'))}',${JSON.stringify(txt)})">⛶ FS</button>
+      <button class="btn" onclick="openDetailFullscreen()">⛶ FS</button>
       <button class="pdf-btn" onclick="generateDoaPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleDoaEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
     </div>
@@ -1347,7 +1347,7 @@ function openGelisahDetail(r){
     ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','Gelisah #${r.no_urut||''}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn accent" onclick="copyText(${JSON.stringify(txt)})">📋 Copy</button>
-      <button class="btn" onclick="openEntryFullscreen('Gelisah #${esc(String(r.no_urut||'-'))}',${JSON.stringify(txt)})">⛶ FS</button>
+      <button class="btn" onclick="openDetailFullscreen()">⛶ FS</button>
       <button class="pdf-btn" onclick="generateGelisahPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleGelisahEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
     </div>
@@ -1445,7 +1445,7 @@ function openAlkitabDetail(r){
     ${r.catatan_jawaban?`<div class="detail-field"><div class="detail-label">📝 Catatan Jawaban</div><div class="detail-value">${esc(r.catatan_jawaban)}</div></div>`:''}
     ${imgUrl?`<div class="detail-field"><div class="detail-label">🖼️ Gambar${imgCap?' — '+esc(imgCap):''}</div><img src="${escHtml(imgUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-top:6px;" onclick="openImgViewer('${escHtml(getRecordImage(r))}','${escHtml(r.nama_alkitab||'Alkitab')}','${escHtml(imgCap)}')" onerror="this.style.display='none'"></div>`:''}
     <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn accent" onclick="openAlkitabFullscreen(${JSON.stringify(r).replace(/"/g,'&quot;')})">⛶ FS</button>
+      <button class="btn accent" onclick="openDetailFullscreen()">⛶ FS</button>
       <button class="pdf-btn" onclick="generateAlkitabPDF(${JSON.stringify(r).replace(/"/g,'&quot;')})">📄 PDF</button>
       <button class="txt-btn" onclick="downloadAlkitabTxt(${JSON.stringify(r).replace(/"/g,'&quot;')})">⬇️ .txt</button>
       ${canEditThis?`<button class="btn btn-edit-toggle" onclick="toggleAlkitabEditForm(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️ Edit</button>`:''}
@@ -2340,8 +2340,8 @@ function renderKKKomposisi(){
     <div style="font-family:'Lora',serif;font-weight:700;font-size:1rem;margin-bottom:10px;">📚 Tentang Konten</div>
     <div style="font-size:.85rem;color:var(--text2);line-height:1.9;">
       Komposisi <b style="color:var(--accent);font-family:'JetBrains Mono',monospace;">${total}</b> konten ini mencakup:<br><br>
-       🙏 <b>Rohani Kristen:</b> Witness Lee, Watchman Nee, Salomon Liu, Estu Kurnia Iman, Ronny Irawan, ilustrasi Kristen, dan tokoh tokoh Kristen lainnya.<br>
-      💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Tahir, dll.<br>
+      🙏 <b>Rohani Kristen:</b> Witness Lee, Watchman Nee, Philip Mantofa, dan ilustrasi Kristen.<br>
+      💪 <b>Motivasi &amp; Pengembangan Diri:</b> Deddy Corbuzier, Denny Sumargo, Estu Kurnia Iman, Likas Cahyadi, Ronny Irawan, Tahir, dll.<br>
       😂 <b>Humor &amp; Kehidupan:</b> Desta Mahendra, Raditya Dika, Agak Laen, dan cerita jenaka.<br>
       🏆 <b>Kepemimpinan &amp; Inspirasi Dunia:</b> Steve Jobs, B.J. Habibie, Joko Widodo, Nelson Mandela, dan tokoh lainnya.<br><br>
       <span style="color:var(--text3);font-size:.82rem;">Kumpulan ini cocok dijadikan konten <b>${total}</b> hari (1 hari 1 kutipan) untuk WhatsApp, Instagram, TikTok, renungan, pembinaan karakter, maupun materi komunitas.</span>
@@ -2870,6 +2870,71 @@ getLevelBadge = function(){
     return '<span class="level-badge level-user">🎯 Demo</span>';
   }
   return _origGetLevelBadge();
+};
+
+// ── 8. Kata-kata Hari Ini: Tambah filter Admin (tanggal 13/06/2026) ──
+KK_KATEGORI_OPTIONS.push('admin');
+let kkAdminFilterActive = false;
+
+const _origRenderKKChips = renderKKChips;
+renderKKChips = function(){
+  const container = document.getElementById('kk-chips');
+  if (!container) return;
+  container.innerHTML = KK_KATEGORI_OPTIONS.map(k => {
+    if (k === 'admin') {
+      const isActive = kkAdminFilterActive;
+      return `<div class="kk-chip${isActive ? ' active' : ''}" onclick="toggleKKAdmin()" style="${isActive ? 'background:var(--red);border-color:var(--red);color:#fff;' : 'border-color:var(--red);color:var(--red);'}">👑 Admin</div>`;
+    }
+    const isActive = kkActiveKategori.includes(k);
+    return `<div class="kk-chip${isActive ? ' active' : ''}" onclick="toggleKKKategori('${k}')">${esc(k)}</div>`;
+  }).join('');
+};
+
+function toggleKKAdmin(){
+  kkAdminFilterActive = !kkAdminFilterActive;
+  if (kkAdminFilterActive) {
+    // Matikan kategori lain saat Admin aktif
+    kkActiveKategori = [];
+  }
+  renderKKChips();
+}
+
+// Override toggleKKKategori untuk matikan Admin saat kategori lain dipilih
+const _origToggleKKKategori = toggleKKKategori;
+toggleKKKategori = function(kat){
+  kkAdminFilterActive = false; // matikan admin filter
+  _origToggleKKKategori(kat);
+};
+
+// Override getRandomKataKata untuk handle filter Admin
+const _origGetRandomKataKata = getRandomKataKata;
+getRandomKataKata = function(){
+  if (!kkAllData.length) return null;
+
+  let pool = kkAllData;
+
+  // ★ Filter Admin: tanggal = 13/06/2026
+  if (kkAdminFilterActive) {
+    pool = kkAllData.filter(r => {
+      const tgl = (r.tanggal || r.date || r.tgl || '').trim();
+      return tgl === '13/06/2026' || tgl === '2026-06-13' || tgl === '13-06-2026';
+    });
+    if (!pool.length) {
+      toast('⚠️ Tidak ada kata-kata Admin untuk tanggal ini');
+      return null;
+    }
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  // Filter kategori biasa
+  if (kkActiveKategori.length) {
+    pool = kkAllData.filter(r => {
+      const kat = (r.kategori || r.category || '').trim().toLowerCase();
+      return kkActiveKategori.some(k => kat.includes(k.toLowerCase()));
+    });
+  }
+  if (!pool.length) pool = kkAllData;
+  return pool[Math.floor(Math.random() * pool.length)];
 };
 
 console.log('✅ Patch v4.30 loaded: akundemo / pastibisamasuk');
