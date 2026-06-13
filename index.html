@@ -505,7 +505,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
       <button class="fs-btn" onclick="closeFS('kk-fullscreen')">✕ Tutup</button>
     </div>
   </div>
-  <div class="fs-content" id="kk-fs-content" style="font-family:'Lora',serif;white-space:normal;display:flex;align-items:center;justify-content:center;text-align:center;font-style:italic;font-size:22px;padding:40px 30px;line-height:2;"></div>
+  <div class="fs-content" id="kk-fs-content" style="font-family:'Lora',serif;white-space:normal;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;font-style:italic;font-size:22px;padding:40px 30px;line-height:2;"></div>
 </div>
 <div id="toast"></div>
 
@@ -703,8 +703,14 @@ function setFSFontWeight(id,val){const el=document.getElementById(id);if(el)el.s
 
 // ── Apply zoom with width compensation ──
 function applyFSZoom(el,zoomVal,lbl){
-  el.style.zoom=zoomVal;
-  el.style.width=(100/zoomVal)+'%';
+  if(Math.abs(zoomVal-1)<0.01){
+    // At default zoom: clear zoom and width, let flex stretch naturally
+    el.style.zoom='';
+    el.style.width='';
+  } else {
+    el.style.zoom=zoomVal;
+    el.style.width=(100/zoomVal)+'%';
+  }
   el.style.fontSize='';
   if(lbl)lbl.textContent=Math.round(zoomVal*100)+'%';
 }
@@ -2452,8 +2458,9 @@ function copyKK(){
 function openKKFullscreen(){
   if(!kkCurrentText){toast('⚠️ Klik Acak dulu!');return;}
   const c=document.getElementById('kk-fs-content');
-  c.innerHTML=`<div style="max-width:90%;">"${esc(kkCurrentText)}"<br><br><span style="font-size:.6em;opacity:.5;font-style:normal;">— ${esc(kkCurrentKategori)}</span></div>`;
+  c.innerHTML=`<div style="max-width:90%;margin:auto 0;padding:20px 0;">"${esc(kkCurrentText)}"<br><br><span style="font-size:.6em;opacity:.5;font-style:normal;">— ${esc(kkCurrentKategori)}</span></div>`;
   c.style.fontSize=fsFontSizes.kk+'px';
+  c.scrollTo({top:0});
   document.getElementById('kk-fs-title').textContent='✨ '+kkCurrentKategori;
   openFS('kk-fullscreen');
 }
