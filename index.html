@@ -203,11 +203,13 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
 .fs-title{font-family:\'Lora\',serif;font-size:.9rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .fs-controls{display:flex;gap:4px;align-items:center;}
 .fs-btn{padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:\'Nunito\',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;}
-.fs-content{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px 20px;font-family:\'Lora\',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;position:relative;}
-.fs-scroll-wrap{position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:8px;z-index:10;}
-.fs-scroll-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .2s,transform .1s;box-shadow:0 2px 12px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent;user-select:none;}
-.fs-scroll-btn:hover{opacity:.9;}
-.fs-scroll-btn:active{transform:scale(.88);opacity:1;}
+.fs-content{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px 20px;font-family:\'Lora\',serif;line-height:1.9;white-space:pre-wrap;word-wrap:break-word;color:var(--text);font-size:16px;}
+.fs-scroll-wrap{position:fixed;right:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;z-index:10000;padding:3px;border-radius:20px 0 0 20px;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);transition:right .3s ease,opacity .3s ease,padding .3s ease;opacity:.3;right:-2px;}
+.fs-scroll-wrap:hover,.fs-scroll-wrap.active{right:0;opacity:1;padding:5px;background:rgba(0,0,0,.5);}
+.fs-scroll-btn{width:34px;height:34px;border-radius:50%;border:none;background:var(--surface);color:var(--text);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:0 1px 6px rgba(0,0,0,.3);-webkit-tap-highlight-color:transparent;user-select:none;opacity:.7;}
+.fs-scroll-wrap:hover .fs-scroll-btn,.fs-scroll-wrap.active .fs-scroll-btn{opacity:1;width:38px;height:38px;font-size:1rem;}
+.fs-scroll-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1);}
+.fs-scroll-btn:active{transform:scale(.9);}
 
 /* ═══════════════════════════════ EDIT FORM ═══════════════════════════════ */
 .edit-section{background:rgba(124,158,240,.06);border:1px solid rgba(124,158,240,.25);border-radius:10px;padding:12px;margin-bottom:10px;}
@@ -638,33 +640,64 @@ function openImgViewerWithNames(urls,names,idx){ openImgViewer(urls[idx],names[i
 // FULLSCREEN
 // ══════════════════════════════════════════════════════════════════
 let fsFontSizes={main:16,doa:15,gel:15,alk:15,kk:22};
+let _fsScrollTimer=null, _fsActiveOverlay=null;
 
 // ── Scroll helpers ──
-function fsScrollUp(contentId){ const el=document.getElementById(contentId);if(el)el.scrollBy({top:-300,behavior:'smooth'}); }
-function fsScrollDown(contentId){ const el=document.getElementById(contentId);if(el)el.scrollBy({top:300,behavior:'smooth'}); }
-function fsScrollTop(contentId){ const el=document.getElementById(contentId);if(el)el.scrollTo({top:0,behavior:'smooth'}); }
-function fsScrollBottom(contentId){ const el=document.getElementById(contentId);if(el)el.scrollTo({top:el.scrollHeight,behavior:'smooth'}); }
+function fsGetContentEl(overlayId){
+  const ov=document.getElementById(overlayId);
+  return ov?ov.querySelector('.fs-content'):null;
+}
+function fsScrollUp(overlayId){ const el=fsGetContentEl(overlayId);if(el)el.scrollBy({top:-300,behavior:'smooth'});fsFlashScroll(overlayId); }
+function fsScrollDown(overlayId){ const el=fsGetContentEl(overlayId);if(el)el.scrollBy({top:300,behavior:'smooth'});fsFlashScroll(overlayId); }
+function fsScrollTop(overlayId){ const el=fsGetContentEl(overlayId);if(el)el.scrollTo({top:0,behavior:'smooth'});fsFlashScroll(overlayId); }
+function fsScrollBottom(overlayId){ const el=fsGetContentEl(overlayId);if(el)el.scrollTo({top:el.scrollHeight,behavior:'smooth'});fsFlashScroll(overlayId); }
+
+// Auto-collapse: flash active then hide after 2s
+function fsFlashScroll(overlayId){
+  const ov=document.getElementById(overlayId);
+  const wrap=ov?.querySelector('.fs-scroll-wrap');
+  if(!wrap)return;
+  wrap.classList.add('active');
+  clearTimeout(_fsScrollTimer);
+  _fsScrollTimer=setTimeout(()=>wrap.classList.remove('active'),2000);
+}
 
 function openFS(id){
   const el=document.getElementById(id);if(!el)return;
   el.style.display='flex';
+  _fsActiveOverlay=id;
   // Inject scroll buttons if not exist
   if(!el.querySelector('.fs-scroll-wrap')){
-    const contentEl=el.querySelector('.fs-content');
-    if(contentEl){
-      const cid=contentEl.id;
-      const scrollDiv=document.createElement('div');
-      scrollDiv.className='fs-scroll-wrap';
-      scrollDiv.innerHTML=`
-        <button class="fs-scroll-btn" onclick="fsScrollTop('${cid}')" title="Ke atas">⇈</button>
-        <button class="fs-scroll-btn" onclick="fsScrollUp('${cid}')" title="Scroll naik">▲</button>
-        <button class="fs-scroll-btn" onclick="fsScrollDown('${cid}')" title="Scroll turun">▼</button>
-        <button class="fs-scroll-btn" onclick="fsScrollBottom('${cid}')" title="Ke bawah">⇊</button>`;
-      el.appendChild(scrollDiv);
-    }
+    const scrollDiv=document.createElement('div');
+    scrollDiv.className='fs-scroll-wrap';
+    scrollDiv.innerHTML=`
+      <button class="fs-scroll-btn" onclick="fsScrollTop('${id}')" title="Ke paling atas">⇈</button>
+      <button class="fs-scroll-btn" onclick="fsScrollUp('${id}')" title="Scroll naik">▲</button>
+      <button class="fs-scroll-btn" onclick="fsScrollDown('${id}')" title="Scroll turun">▼</button>
+      <button class="fs-scroll-btn" onclick="fsScrollBottom('${id}')" title="Ke paling bawah">⇊</button>`;
+    el.appendChild(scrollDiv);
   }
+  // Flash scroll buttons briefly then auto-collapse
+  fsFlashScroll(id);
 }
-function closeFS(id){ const el=document.getElementById(id);if(el){el.style.display='none';} if(document.fullscreenElement){try{document.exitFullscreen();}catch(e){}} }
+function closeFS(id){
+  const el=document.getElementById(id);
+  if(el){el.style.display='none';const sw=el.querySelector('.fs-scroll-wrap');if(sw)sw.classList.remove('active');}
+  if(_fsActiveOverlay===id)_fsActiveOverlay=null;
+  if(document.fullscreenElement){try{document.exitFullscreen();}catch(e){}}
+}
+
+// ── Keyboard: Arrow Up/Down scroll saat fullscreen aktif ──
+document.addEventListener('keydown',function(e){
+  if(!_fsActiveOverlay)return;
+  if(e.key==='ArrowUp'){e.preventDefault();fsScrollUp(_fsActiveOverlay);}
+  else if(e.key==='ArrowDown'){e.preventDefault();fsScrollDown(_fsActiveOverlay);}
+  else if(e.key==='Home'){e.preventDefault();fsScrollTop(_fsActiveOverlay);}
+  else if(e.key==='End'){e.preventDefault();fsScrollBottom(_fsActiveOverlay);}
+  else if(e.key==='PageUp'){e.preventDefault();const el=fsGetContentEl(_fsActiveOverlay);if(el)el.scrollBy({top:-el.clientHeight*0.8,behavior:'smooth'});fsFlashScroll(_fsActiveOverlay);}
+  else if(e.key==='PageDown'){e.preventDefault();const el=fsGetContentEl(_fsActiveOverlay);if(el)el.scrollBy({top:el.clientHeight*0.8,behavior:'smooth'});fsFlashScroll(_fsActiveOverlay);}
+});
+
 function setFSFontFamily(id,val){const el=document.getElementById(id);if(el)el.style.fontFamily=val;}
 function setFSFontWeight(id,val){const el=document.getElementById(id);if(el)el.style.fontWeight=val;}
 
