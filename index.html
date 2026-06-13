@@ -396,7 +396,7 @@ nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
     <button class="login-btn" id="login-btn" onclick="doLogin()">✦ Masuk</button>
     <div class="login-err" id="login-err">❌ Username atau password salah</div>
     <div class="login-status" id="login-status"></div>
-    <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>admin</b> / <b>admin</b> · penatua / penatua · gembala / gembala</div>
+    <div class="login-hint">💡 Login via sheet <b>Awal</b> (username | password | level)<br>Demo: <b>akundemo</b> / <b>pastibisamasuk</b> · penatua / penatua · gembala / gembala</div>
     <div class="login-footer" style="font-family:\'JetBrains Mono\',monospace;">v4.30 · Buku Harian Rohani @2026</div>
   </div>
 </div>
@@ -740,16 +740,16 @@ async function logHistory(menu, aksi, detail) {
 }
 const DEMO={
   Doa:[
-    {no_urut:1,tanggal:'2025-01-10',user:'admin',permintaan:'Doa untuk kesehatan keluarga.',terang:'Yesaya 41:10',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh.',link_image:'',keterangan_image:'',share_type:'all'},
-    {no_urut:2,tanggal:'2025-02-14',user:'admin',permintaan:'Doa untuk pekerjaan.',terang:'Yeremia 29:11',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:''},
+    {no_urut:1,tanggal:'2025-01-10',user:'akundemo',permintaan:'Doa untuk kesehatan keluarga.',terang:'Yesaya 41:10',tanggal_jawaban:'2025-02-01',status:'Terjawab',catatan_jawaban:'Keluarga sembuh.',link_image:'',keterangan_image:'',share_type:'all'},
+    {no_urut:2,tanggal:'2025-02-14',user:'akundemo',permintaan:'Doa untuk pekerjaan.',terang:'Yeremia 29:11',tanggal_jawaban:'',status:'Berdoa',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:''},
   ],
   Gelisah:[
-    {no_urut:1,tanggal:'2025-01-15',user:'admin',masalah:'Gelisah tentang masa depan.',terang:'Filipi 4:6-7',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai.',link_image:'',keterangan_image:'',share_type:'all'},
-    {no_urut:2,tanggal:'2025-02-20',user:'admin',masalah:'Kecemasan tentang hubungan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:''},
+    {no_urut:1,tanggal:'2025-01-15',user:'akundemo',masalah:'Gelisah tentang masa depan.',terang:'Filipi 4:6-7',tanggal_jawaban:'2025-02-10',status:'Damai',kategori:'Pekerjaan',catatan_jawaban:'Tuhan memberikan damai.',link_image:'',keterangan_image:'',share_type:'all'},
+    {no_urut:2,tanggal:'2025-02-20',user:'akundemo',masalah:'Kecemasan tentang hubungan.',terang:'',tanggal_jawaban:'',status:'Proses',kategori:'Hubungan',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:''},
   ],
   Alkitab:[
-    {no_urut:1,tanggal:'2025-01-05',user:'admin',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku',terang:'Tuhan memimpin hidupku.',catatan:'Percayakan.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:'all'},
-    {no_urut:2,tanggal:'2025-01-20',user:'admin',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah...',terang:'Kasih Allah.',catatan:'Hidup dalam kasih.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Merasakan kasih Tuhan.',link_image:'',keterangan_image:'',share_type:'admin'},
+    {no_urut:1,tanggal:'2025-01-05',user:'akundemo',nama_alkitab:'Mazmur 23',ayat:'Tuhan adalah gembalaku',terang:'Tuhan memimpin hidupku.',catatan:'Percayakan.',tema:'Pengharapan',tanggal_jawaban:'',catatan_jawaban:'',link_image:'',keterangan_image:'',share_type:'all'},
+    {no_urut:2,tanggal:'2025-01-20',user:'akundemo',nama_alkitab:'Yohanes 3:16',ayat:'Karena begitu besar kasih Allah...',terang:'Kasih Allah.',catatan:'Hidup dalam kasih.',tema:'Kasih',tanggal_jawaban:'2025-03-01',catatan_jawaban:'Merasakan kasih Tuhan.',link_image:'',keterangan_image:'',share_type:'all'},
   ],
   Pertanyaan:[],
   Pengumuman:[{judul:'Selamat Datang',isi:'Selamat datang di Buku Harian Rohani v4.30!',waktu:'01/06/2026',author:'Admin',target:'all'}]
@@ -802,7 +802,7 @@ async function doLogin(){
     else{errEl.style.display='block';setLoginStatus('');btn.disabled=false;btn.textContent='✦ Masuk';return;}
   }catch(e){console.warn('CSV login gagal:',e.message);}
   errEl.style.display='block';
-  setLoginStatus('⚠️ Coba: admin/admin','var(--yellow)');
+  setLoginStatus('⚠️ Coba: akundemo/pastibisamasuk','var(--yellow)');
   btn.disabled=false;btn.textContent='✦ Masuk';
 }
 function masukApp(username,level,tipe){
@@ -2722,14 +2722,25 @@ document.addEventListener('keydown',e=>{
 // ═══════════════════════════════════════════════════════════════
 // PATCH untuk Buku Harian Rohani v4.30
 // Rubah akun demo admin/admin → akundemo/pastibisamasuk
-// Tambahkan SEBELUM </script> terakhir di file HTML
+// Level: Demo (akses terbatas)
 // ═══════════════════════════════════════════════════════════════
 
 // ── 1. Override DEMO_USERS: hapus admin, tambah akundemo ──
 delete DEMO_USERS['admin'];
 DEMO_USERS['akundemo'] = { password: 'pastibisamasuk', level: 'Demo' };
 
-// ── 2. Override getMenus(): batasi menu untuk level Demo ──
+// ── 2. Override canSeeEntry: demo user bisa lihat semua data demo ──
+const _origCanSeeEntry = canSeeEntry;
+canSeeEntry = function(r){
+  if (getUserLevel() === 'Demo' && isDemoMode) {
+    // Di mode demo, tampilkan semua entry (kecuali yang dihapus)
+    if ((r.deleted||'').toString().trim().toLowerCase()==='y') return false;
+    return true;
+  }
+  return _origCanSeeEntry(r);
+};
+
+// ── 3. Override getMenus(): batasi menu untuk level Demo ──
 const _origGetMenus = getMenus;
 getMenus = function(){
   const ALL_MENUS = [
@@ -2757,7 +2768,7 @@ getMenus = function(){
   return _origGetMenus();
 };
 
-// ── 3. Override renderPengumumanAdmin: demo user bisa lihat tapi read-only ──
+// ── 4. Override renderPengumumanAdmin: demo user bisa lihat tapi read-only ──
 const _origRenderPengumumanAdmin = renderPengumumanAdmin;
 renderPengumumanAdmin = async function(){
   // Jika level Demo → tampilkan versi read-only
@@ -2824,7 +2835,7 @@ renderPengumumanAdmin = async function(){
   return _origRenderPengumumanAdmin();
 };
 
-// ── 4. Override renderKataKata: izinkan demo user melihat ──
+// ── 5. Override renderKataKata: izinkan demo user melihat ──
 const _origRenderKataKata = renderKataKata;
 renderKataKata = function(){
   // Hapus blokir isDemoMode untuk level Demo
@@ -2837,6 +2848,28 @@ renderKataKata = function(){
     return;
   }
   _origRenderKataKata();
+};
+
+// ── 6. Override renderPertanyaan: izinkan demo user melihat & kirim ──
+const _origRenderPertanyaan = renderPertanyaan;
+renderPertanyaan = function(){
+  if (isDemoMode && getUserLevel() === 'Demo') {
+    const origIsDemoMode = isDemoMode;
+    isDemoMode = false;
+    _origRenderPertanyaan();
+    isDemoMode = origIsDemoMode;
+    return;
+  }
+  _origRenderPertanyaan();
+};
+
+// ── 7. Override getLevelBadge: tambah badge untuk Demo ──
+const _origGetLevelBadge = getLevelBadge;
+getLevelBadge = function(){
+  if (getUserLevel() === 'Demo') {
+    return '<span class="level-badge level-user">🎯 Demo</span>';
+  }
+  return _origGetLevelBadge();
 };
 
 console.log('✅ Patch v4.30 loaded: akundemo / pastibisamasuk');
